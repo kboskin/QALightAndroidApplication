@@ -29,6 +29,6 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
 
-    // library for calligraphic fonts
-    compile 'uk.co.chrisjenx:calligraphy:2.3.0'
+    // library for calendar
+    compile 'com.github.alamkanak:android-week-view:1.2.6'
 }
