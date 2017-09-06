@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.1"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.example.hp.qalightandroidapp"
         minSdkVersion 15
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -24,11 +24,19 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:appcompat-v7:26.0.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:25.3.1'
+    compile 'com.android.support:design:26.0.1'
     testCompile 'junit:junit:4.12'
 
     // library for calendar
     compile 'com.github.alamkanak:android-week-view:1.2.6'
+    // material design edit text component
+    compile 'com.github.HITGIF:TextFieldBoxes:1.1.0'
+   /* // material design font awesome library
+    compile 'com.eqot:font-awesome-android:0.1.0'*/
+
+
+
+
 }
