@@ -14,15 +14,18 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    //CalendarFragment frag2 = new CalendarFragment();
-    FragmentTransaction ft = getFragmentManager().beginTransaction();
+    CalendarFragment frag2;
+    FragmentTransaction ft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //ft.add(R.id.fragment2, frag2);
+        //This is calendar
+        frag2 = new CalendarFragment();
+        ft = getFragmentManager().beginTransaction();
+        ft.add(R.id.fragment2, frag2);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -76,7 +79,6 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
             ft.commit();
         } else if (id == R.id.nav_gallery) {
 
