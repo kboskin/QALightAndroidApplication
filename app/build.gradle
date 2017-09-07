@@ -5,7 +5,7 @@ android {
     buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.example.hp.qalightandroidapp"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -24,21 +24,31 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:26.0.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:26.0.1'
-    testCompile 'junit:junit:4.12'
 
-    // library for calendar
-    compile 'com.github.alamkanak:android-week-view:1.2.6'
-    // material design edit text component
-    compile 'com.github.HITGIF:TextFieldBoxes:1.1.0'
-   /* // material design font awesome library
+
+
+    /* // material design font awesome library
     compile 'com.eqot:font-awesome-android:0.1.0'*/
 
 
 
 
+    compile 'com.android.support:appcompat-v7:26.0.2'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.android.support:design:26.0.2'
+    compile 'com.android.support:support-v4:26.+'
+
+    // library for calendar
+    compile 'com.github.alamkanak:android-week-view:1.2.6'
+
+    // material design edit text component
+    compile 'com.github.HITGIF:TextFieldBoxes:1.1.0'
+
+    // complete button
+    compile 'me.spark:submitbutton:1.0.1'
 
 
+    // sexy button to use in payments or whatever https://android-arsenal.com/details/1/4503
+    // another one for social elements (maybe we will use it) https://android-arsenal.com/details/1/3876
+    testCompile 'junit:junit:4.12'
 }

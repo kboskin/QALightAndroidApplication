@@ -11,10 +11,19 @@
     <string name="hint">Your code</string>
     <string name="wrong_code">It\'s wrong code</string>
     <string name="correct_code">Congratulations!</string>
-    <string name="navigate_to_main_activity">Next steps</string>
+    <string name="navigate_to_main_activity">Confirm</string>
 
     <string name="txt_credits"><a href="http://qalight.com.ua/#two">I\'m not a student</a></string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="calendar">Calendar</string>
+    <string name="materials_and_test"><![CDATA[Materials & test]]></string>
+    <string name="notifications">Notifications</string>
+    <string name="payment">Payment</string>
+    <string name="about_us">About us</string>
+    <string name="exit">Exit</string>
+    <string name="home_task">Home Task</string>
+    <string name="materials">Materials</string>
+    <string name="tests">Tests</string>
 </resources>

@@ -1,12 +1,9 @@
 package com.example.hp.qalightandroidapp;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.graphics.RectF;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +21,7 @@ import java.util.List;
  * Created by root on 05.09.17.
  */
 
-public class CalendarFragment extends Fragment implements WeekView.EventClickListener{
+public class CalendarFragment extends android.support.v4.app.Fragment implements WeekView.EventClickListener{
     WeekView mWeekView;
     Context context;
     @Override
