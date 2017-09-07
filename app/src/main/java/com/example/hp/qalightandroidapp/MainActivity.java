@@ -3,7 +3,6 @@ package com.example.hp.qalightandroidapp;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,7 +14,7 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    CalendarFragment frag2 = new CalendarFragment();
+    //CalendarFragment frag2 = new CalendarFragment();
     FragmentTransaction ft = getFragmentManager().beginTransaction();
 
     @Override
@@ -23,7 +22,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ft.add(R.id.fragment2, frag2);
+        //ft.add(R.id.fragment2, frag2);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
