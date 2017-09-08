@@ -17,9 +17,9 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.example.hp.qalightandroidapp.CalendarFragment;
+import com.example.hp.qalightandroidapp.fragments.calendar.CalendarFragment;
 import com.example.hp.qalightandroidapp.R;
-import com.example.hp.qalightandroidapp.materialsandtests.FixturesTabsFragment;
+import com.example.hp.qalightandroidapp.fragments.materialsandtests.FixturesTabsFragment;
 
 import static com.example.hp.qalightandroidapp.Constants.CHECK_IF_IS_AUTH_PASSED;
 

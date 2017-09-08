@@ -1,4 +1,4 @@
-package com.example.hp.qalightandroidapp;
+package com.example.hp.qalightandroidapp.fragments.calendar;
 
 import android.content.Context;
 import android.graphics.RectF;
@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.example.hp.qalightandroidapp.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;

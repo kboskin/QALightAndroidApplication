@@ -1,4 +1,4 @@
-package com.example.hp.qalightandroidapp.materialsandtests.materials;
+package com.example.hp.qalightandroidapp.fragments.materialsandtests.materials;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

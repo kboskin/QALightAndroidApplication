@@ -1,2 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+        <string name = "app_name"> QALight Android App </string>
+        <string name = "title_activity_splash_screen"> SplashScreenActivity </string>
+        <string name = "title_activity_main"> MainActivity </string>
+
+        <string name = "navigation_drawer_open"> Открыть навигацию </string>
+        <string name = "navigation_drawer_close"> Закрыть навигацию </string>
+
+        <string name = "action_settings"> Настройки </string>
+        <string name = "slogan"> Light up your life! </string>
+        <string name = "hint"> Ваш код </string>
+        <string name = "wrong_code"> Неправильный код </string>
+        <string name = "correct_code"> Поздравляем! </string>
+        <string name = "navigate_to_main_activity"> Подтвердить </string>
+
+        <string name = "txt_credits"> <a href="http://qalight.com.ua/#two"> Я не студент </a> </string>
+
+        <string name = "hello_blank_fragment"> Привет пустой фрагмент </string>
+        <string name = "calendar"> Календарь </string>
+        <string name = "materials_and_test"> Материалы и тесты </string>
+        <string name = "notifications"> Уведомления </string>
+        <string name = "payment"> Оплата </string>
+        <string name = "about_us"> О нас </string>
+        <string name = "exit"> Выйти </string>
+        <string name = "home_task"> Домашняя работа </string>
+        <string name = "materials"> Материалы </string>
+        <string name = "tests"> Тесты </string>
+</resources>

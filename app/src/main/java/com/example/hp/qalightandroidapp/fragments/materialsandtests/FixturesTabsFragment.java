@@ -1,4 +1,4 @@
-package com.example.hp.qalightandroidapp.materialsandtests;
+package com.example.hp.qalightandroidapp.fragments.materialsandtests;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -11,9 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.hp.qalightandroidapp.R;
-import com.example.hp.qalightandroidapp.materialsandtests.hometask.HomeTaskFragment;
-import com.example.hp.qalightandroidapp.materialsandtests.materials.MaterialsFragment;
-import com.example.hp.qalightandroidapp.materialsandtests.tests.TestsFragment;
+import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.HomeTaskFragment;
+import com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.MaterialsFragment;
+import com.example.hp.qalightandroidapp.fragments.materialsandtests.tests.TestsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
