@@ -4,4 +4,20 @@
 <dimen name="activity_horizontal_margin">38.4dp</dimen>
 <dimen name="fab_margin">38.4dp</dimen>
 <dimen name="nav_header_height">456.00003dp</dimen>
+<dimen name="personal_cab_button_width">480.00003dp</dimen>
+<dimen name="image_view_with_logo_width">820.80005dp</dimen>
+<dimen name="calendar_column_padding">19.2dp</dimen>
+<dimen name="image_view_with_logo_height">396.00003dp</dimen>
+<dimen name="login_code_edit_text_height">216.00002dp</dimen>
+<dimen name="txt_credits_widht">883.2dp</dimen>
+<dimen name="image_view_margin_top">204.00002dp</dimen>
+<dimen name="login_code_edit_text_width">600.0dp</dimen>
+<dimen name="personal_cab_button_height">67.200005dp</dimen>
+<dimen name="txt_credits_margin_bottom">24.0dp</dimen>
+<dimen name="calendar_hour_height">144.0dp</dimen>
+<dimen name="calendar_header_row_padding">28.800001dp</dimen>
+<dimen name="calendar_column_gap">19.2dp</dimen>
+<dimen name="personal_cab_button_margin_top">50.4dp</dimen>
+<dimen name="slogan_text_size">52.800003sp</dimen>
+<dimen name="calendar_text_size">28.800001sp</dimen>
 </resources>

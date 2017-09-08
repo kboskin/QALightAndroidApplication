@@ -10,37 +10,39 @@
 
     <ImageView
         android:id="@+id/imageViewWithLogo"
-        android:layout_width="342dp"
-        android:layout_height="165dp"
-        android:layout_marginTop="85dp"
+        android:layout_width="@dimen/image_view_with_logo_width"
+        android:layout_height="@dimen/image_view_with_logo_height"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/image_view_margin_top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.014"
-        app:srcCompat="@drawable/logo_for_registration"
-        android:layout_centerHorizontal="true" />
+        app:srcCompat="@drawable/logo_for_registration" />
 
     <TextView
         android:id="@+id/slogan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageViewWithLogo"
+        android:layout_centerHorizontal="true"
         android:text="@string/slogan"
         android:textColor="@color/colorBlack"
-        android:textSize="22sp"
+        android:textSize="@dimen/slogan_text_size"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="@+id/imageViewWithLogo"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.897"
-        android:layout_alignBottom="@+id/imageViewWithLogo"
-        android:layout_centerHorizontal="true" />
+        app:layout_constraintVertical_bias="0.897" />
 
     <studio.carbonylgroup.textfieldboxes.TextFieldBoxes
         android:id="@+id/loginCodeEditText"
-        android:layout_width="250dp"
-        android:layout_height="90dp"
+        android:layout_width="@dimen/login_code_edit_text_width"
+        android:layout_height="@dimen/login_code_edit_text_height"
+        android:layout_below="@+id/imageViewWithLogo"
+        android:layout_centerHorizontal="true"
         app:enabled="true"
         app:errorColor="@color/colorRed"
         app:helperTextColor="#795548"
@@ -51,53 +53,50 @@
         app:maxCharacters="10"
         app:panelBackgroundColor="#00ffffff"
         app:primaryColor="@color/colorOrange"
-        app:singleLine="true"
-        android:layout_below="@+id/imageViewWithLogo"
-        android:layout_centerHorizontal="true" />
-
+        app:singleLine="true" />
 
 
     <TextView
-        android:layout_width="368dp"
-        android:layout_height="wrap_content"
-        android:text="@string/txt_credits"
         android:id="@+id/txt_credits"
+        android:layout_width="@dimen/txt_credits_widht"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/txt_credits_margin_bottom"
+        android:text="@string/txt_credits"
         android:textAlignment="center"
         android:textColorLink="@color/colorGray"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginCodeEditText"
-        android:layout_marginBottom="10dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        app:layout_constraintTop_toBottomOf="@+id/loginCodeEditText" />
 
     <Button
         android:id="@+id/personalCabButtonOnLogin"
-        android:layout_width="200dp"
-        android:layout_height="28dp"
+        android:layout_width="@dimen/personal_cab_button_width"
+        android:layout_height="@dimen/personal_cab_button_height"
+        android:layout_below="@+id/loginCodeEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/personal_cab_button_margin_top"
         android:background="@color/colorHoloGreen"
         android:text="@string/navigate_to_main_activity"
         android:textColor="@color/colorWhite"
-        android:visibility="gone"
-        android:layout_marginTop="21dp"
-        android:layout_below="@+id/loginCodeEditText"
-        android:layout_centerHorizontal="true" />
+        android:visibility="gone" />
 
     <com.spark.submitbutton.SubmitButton
         android:id="@+id/submit_button"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/loginCodeEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-10dp"
         android:text="@string/navigate_to_main_activity"
         android:textColor="@color/gray"
-        android:layout_marginTop="-10dp"
+        android:visibility="gone"
         app:sub_btn_background="@color/white"
         app:sub_btn_duration="800"
         app:sub_btn_line_color="@color/colorHoloGreen"
         app:sub_btn_ripple_color="@color/colorGreen"
-        app:sub_btn_tick_color="@color/white"
-        android:layout_below="@+id/loginCodeEditText"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone"/>
+        app:sub_btn_tick_color="@color/white" />
 
 
 </RelativeLayout>
