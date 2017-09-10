@@ -23,8 +23,8 @@ import java.util.List;
  */
 
 public class CalendarFragment extends android.support.v4.app.Fragment implements WeekView.EventClickListener{
-    WeekView mWeekView;
-    Context context;
+    private WeekView mWeekView;
+    private Context context;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

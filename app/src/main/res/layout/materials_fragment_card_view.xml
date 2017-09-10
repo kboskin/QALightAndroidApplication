@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_collapseParallaxMultiplier="1.0">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/materials_fragment_card_view_title"
+                android:layout_width="@dimen/materials_fragment_card_view_text_view_title_widht"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|top"
+                android:textAlignment="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/colorBlack"
+                app:layout_constraintHorizontal_bias="0.923"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/materials_fragment_card_view__text_veiew_title_margin_top"
+                android:layout_marginLeft="@dimen/materials_fragment_card_view__text_veiew_title_margin_left"
+                android:layout_marginRight="@dimen/materials_fragment_card_view__text_veiew_title_margin_right"
+                android:layout_marginStart="@dimen/materials_fragment_card_view__text_veiew_title_margin_start"
+                android:layout_marginEnd="@dimen/materials_fragment_card_view__text_veiew_title_margin_end" />
+            <TextView
+                android:id="@+id/materials_fragment_card_view_text_view_date"
+                android:layout_width="@dimen/materials_fragment_card_view_text_view_date_width"
+                android:layout_height="@dimen/materials_fragment_card_view_text_view_date_height"
+                android:layout_marginTop="@dimen/materials_fragment_card_view_text_view_date_margin_top"
+                app:layout_constraintTop_toBottomOf="@+id/materials_fragment_card_view_title"
+                app:layout_constraintLeft_toRightOf="@+id/docsImageView"
+                android:layout_marginLeft="@dimen/materials_fragment_card_view_text_view_date_margin_left"
+                android:layout_marginStart="@dimen/materials_fragment_card_view_text_view_date_margin_left" />
+
+            <ImageView
+                android:layout_width="@dimen/materials_fragment_card_view_docs_image_view_height"
+                android:layout_height="@dimen/materials_fragment_card_view_docs_image_view_width"
+                android:src="@drawable/docs_icon"
+                android:layout_marginLeft="@dimen/materials_fragment_card_view_docs_image_view_margin_left"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/materials_fragment_card_view_docs_image_view_margin_top"
+                android:layout_marginStart="@dimen/materials_fragment_card_view_docs_image_view_margin_start"
+                android:id="@+id/docsImageView" />
+
+            <ImageButton
+                android:id="@+id/materials_fragment_card_view_image_button"
+                android:layout_width="@dimen/materials_fragment_card_view_image_button_width"
+                android:layout_height="@dimen/materials_fragment_card_view_image_button_height"
+                android:src="@drawable/download_image"
+                android:layout_marginTop="@dimen/materials_fragment_card_view_image_button_margin_top"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:background="@color/colorWhite"
+                app:layout_constraintTop_toBottomOf="@+id/materials_fragment_card_view_title"
+                app:layout_constraintLeft_toRightOf="@+id/materials_fragment_card_view_text_view_date"
+                android:layout_marginLeft="@dimen/materials_fragment_card_view_image_button_margin_left"
+                android:layout_marginRight="@dimen/margin_right"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginStart="@dimen/materials_fragment_card_view_image_button_margin_left"
+                android:layout_marginEnd="@dimen/margin_right"
+                app:layout_constraintHorizontal_bias="0.558"
+                android:layout_marginBottom="@dimen/materials_fragment_card_view_image_button_margin_bottom"
+                app:layout_constraintBottom_toTopOf="@+id/imageView2"
+                app:layout_constraintVertical_bias="1.0" />
+            <ImageView
+                android:layout_width="@dimen/material_fragment_card_view_image_view_separator_width"
+                android:layout_height="@dimen/material_fragment_card_view_image_view_separator_height"
+                android:src="@drawable/separator"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="@dimen/material_fragment_card_view_image_view_separator_margin_top"
+                app:layout_constraintTop_toBottomOf="@+id/materials_fragment_card_view_text_view_date"
+                app:layout_constraintHorizontal_bias="0.0"
+                android:id="@+id/imageView2" />
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

@@ -2,6 +2,7 @@ package com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,9 @@ import android.view.ViewGroup;
 import com.example.hp.qalightandroidapp.R;
 
 public class HomeTaskFragment extends Fragment {
+
+    private RecyclerView recyclerView;
+    //private MyCustomAdapter adapter;
 
     public HomeTaskFragment()
     {

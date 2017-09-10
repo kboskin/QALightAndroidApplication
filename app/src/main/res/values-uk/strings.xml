@@ -23,7 +23,7 @@
         <string name = "payment"> Оплата </string>
         <string name = "about_us"> Про нас </string>
         <string name = "exit"> Вийти </string>
-        <string name = "home_task"> Домашня робота </string>
+        <string name = "home_task"> Домашка </string>
         <string name = "materials"> Матеріалы </string>
         <string name = "tests"> Тести </string>
 </resources>
