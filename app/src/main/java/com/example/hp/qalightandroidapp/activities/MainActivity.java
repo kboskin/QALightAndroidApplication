@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import com.example.hp.qalightandroidapp.fragments.calendar.CalendarFragment;
 import com.example.hp.qalightandroidapp.R;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.FixturesTabsFragment;
+import com.example.hp.qalightandroidapp.fragments.motivations.MotivationsFragment;
 
 import static com.example.hp.qalightandroidapp.Constants.CHECK_IF_IS_AUTH_PASSED;
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private FixturesTabsFragment fixturesTabsFragment;
     private CalendarFragment calendarFragment;
+    private MotivationsFragment motivationsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +108,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_payment) {
 
+        } else if (id == R.id.nav_about_us) {
+            motivationsFragment = new MotivationsFragment();
+            replaceWithFragment(motivationsFragment);
         } else if(id == R.id.nav_exit)
         {
             rewriteLogInValueAndBackToLogIn();
