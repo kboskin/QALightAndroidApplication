@@ -37,7 +37,7 @@ public class AdapterRecycleViewMotivation extends RecyclerView.Adapter<AdapterRe
         Picasso.with(holder.itemView.getContext())
                 .load(modalHistoryPersonals.get(position).getFoto())
                 .error(R.drawable.feature_error)
-                .into(holder.personFoto);
+                .into(holder.personPhoto);
         holder.name.setText(modalHistoryPersonals.get(position).getName());
         holder.position.setText(modalHistoryPersonals.get(position).getPosition());
         holder.history.setText(modalHistoryPersonals.get(position).getHistory());
@@ -50,14 +50,14 @@ public class AdapterRecycleViewMotivation extends RecyclerView.Adapter<AdapterRe
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
 
-        CircleImageView personFoto;
+        CircleImageView personPhoto;
         TextView history;
         TextView name;
         TextView position;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            personFoto = itemView.findViewById(R.id.person_image);
+            personPhoto = itemView.findViewById(R.id.person_image);
             history = itemView.findViewById(R.id.history_text);
             name = itemView.findViewById(R.id.person_name);
             position = itemView.findViewById(R.id.person_position);

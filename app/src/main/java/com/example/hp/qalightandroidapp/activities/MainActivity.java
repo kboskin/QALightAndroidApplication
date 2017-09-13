@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         } else if (id == R.id.nav_payment) {
 
-        } else if (id == R.id.nav_about_us) {
+        } else if (id == R.id.nav_motivation) {
             motivationsFragment = new MotivationsFragment();
             replaceWithFragment(motivationsFragment);
         } else if(id == R.id.nav_exit)

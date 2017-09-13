@@ -1,4 +1,4 @@
-package com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.recyclerview;
+package com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.recyclerviewmaterials;
 
 import java.util.Date;
 

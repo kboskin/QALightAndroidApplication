@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.hp.qalightandroidapp.R;
-import com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.recyclerview.ModelMaterials;
-import com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.recyclerview.ModelMaterialsAdapter;
+import com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.recyclerviewmaterials.ModelMaterials;
+import com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.recyclerviewmaterials.ModelMaterialsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

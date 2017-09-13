@@ -1,4 +1,4 @@
-package com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.recyclerview;
+package com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.recyclerviewmaterials;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

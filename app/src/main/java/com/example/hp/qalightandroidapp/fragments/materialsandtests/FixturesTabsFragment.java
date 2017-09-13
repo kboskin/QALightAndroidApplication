@@ -44,6 +44,7 @@ public class FixturesTabsFragment extends Fragment {
 
     }
 
+
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
         // fragments creation, only once, so
