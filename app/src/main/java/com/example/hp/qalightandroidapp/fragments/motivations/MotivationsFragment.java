@@ -28,6 +28,7 @@ public class MotivationsFragment extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     CircleImageView circleImageView;
     List<ModalHistoryPersonal> modalHistoryPersonals = Constants.modalHistoryPersonal;
+    private int positionPrivate;
 
     public MotivationsFragment() {
         // Required empty public constructor
@@ -47,24 +48,25 @@ public class MotivationsFragment extends Fragment {
         adapter = new AdapterRecycleViewMotivation(modalHistoryPersonals, this.getContext());
         recyclerView.setAdapter(adapter);
 
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemMotionEventListener() {
             @Override
-            public void onItemClick(View view, final int position) {
-               view.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View view) {
-                       Intent intent = new Intent(view.getContext(), MotivationsActivity.class);
-                       intent.putExtra("name", modalHistoryPersonals.get(position).getName().toString());
-                       intent.putExtra("position", modalHistoryPersonals.get(position).getPosition().toString());
-                       intent.putExtra("history", modalHistoryPersonals.get(position).getHistory().toString());
-                       intent.putExtra("personFoto", modalHistoryPersonals.get(position).getFoto().toString());
-                       startActivity(intent);
-                   }
-               });
+            public void onItemClick(View view, int position) {
+                positionPrivate = position;
+                view.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(view.getContext(), MotivationsActivity.class);
+                        intent.putExtra("name", modalHistoryPersonals.get(positionPrivate).getName().toString());
+                        intent.putExtra("position", modalHistoryPersonals.get(positionPrivate).getPosition().toString());
+                        intent.putExtra("history", modalHistoryPersonals.get(positionPrivate).getHistory().toString());
+                        intent.putExtra("personFoto", modalHistoryPersonals.get(positionPrivate).getFoto().toString());
+                        startActivity(intent);
+                    }
+                });
             }
 
             @Override
-            public void onLongItemClick(View view, int position) {
+            public void onItemLongClick(View view, int position) {
 
             }
         }));

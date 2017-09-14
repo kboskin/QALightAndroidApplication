@@ -11,52 +11,86 @@ import android.view.View;
  */
 
 public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
-    private OnItemClickListener mListener;
 
-    public interface OnItemClickListener {
-        public void onItemClick(View view, int position);
+    private final GestureDetector mGestureDetector;
+    private final GestureListener mGestureListener;
 
-        public void onLongItemClick(View view, int position);
-    }
+    private final OnItemMotionEventListener mListener;
 
-    GestureDetector mGestureDetector;
-
-    public RecyclerItemClickListener(Context context, final RecyclerView recyclerView, OnItemClickListener listener) {
+    public RecyclerItemClickListener(Context context, OnItemMotionEventListener listener) {
         mListener = listener;
-        mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                return true;
-            }
+        mGestureListener = new GestureListener();
 
-            @Override
-            public void onLongPress(MotionEvent e) {
-
-            }
-
-            @Override
-            public boolean onSingleTapConfirmed(MotionEvent e) {
-                View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                if (child != null && mListener != null) {
-                    mListener.onLongItemClick(child, recyclerView.getChildAdapterPosition(child));
-                }
-                return super.onSingleTapConfirmed(e);
-            }
-        });
+        mGestureDetector = new GestureDetector(context, mGestureListener);
     }
-
-    @Override public void onTouchEvent(RecyclerView view, MotionEvent motionEvent) { }
 
     @Override
-    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-        View childView = rv.findChildViewUnder(e.getX(), e.getY());
-        if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
-            mListener.onItemClick(childView, rv.getChildAdapterPosition(childView));
-            return true;
-        }
+    public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
+
+        mGestureListener.setRecyclerView(view);
+
+        mGestureDetector.onTouchEvent(e);
+
         return false;
     }
 
     @Override
-    public void onRequestDisallowInterceptTouchEvent (boolean disallowIntercept){}
+    public void onTouchEvent(RecyclerView view, MotionEvent motionEvent) {
+    }
+
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+    }
+
+    private class GestureListener extends GestureDetector.SimpleOnGestureListener {
+        private RecyclerView mRecyclerView;
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            View view = findView(e);
+            if (validate(view)) {
+                int position = findPosition(view);
+                mListener.onItemClick(view, position);
+            }
+            return true;
+        }
+
+
+        @Override
+        public void onLongPress(MotionEvent e) {
+            View view = findView(e);
+            if (validate(view)) {
+                int position = findPosition(view);
+                mListener.onItemLongClick(view, position);
+            }
+        }
+
+        private boolean validate(View view) {
+            if (view != null && mListener != null) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        private View findView(MotionEvent e) {
+            View childView = mRecyclerView.findChildViewUnder(e.getX(), e.getY());
+            return childView;
+        }
+
+        private int findPosition(View view) {
+            return mRecyclerView.getChildPosition(view);
+        }
+
+        public void setRecyclerView(RecyclerView mRecyclerView) {
+            this.mRecyclerView = mRecyclerView;
+        }
+    }
+
+    public interface OnItemMotionEventListener {
+        public void onItemClick(View view, int position);
+
+        public void onItemLongClick(View view, int position);
+    }
 }
