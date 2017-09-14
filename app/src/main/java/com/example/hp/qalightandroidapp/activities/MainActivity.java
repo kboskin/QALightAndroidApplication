@@ -107,6 +107,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_notifications) {
 
         } else if (id == R.id.nav_payment) {
+            Intent i = new Intent(MainActivity.this, PaymentActivity.class);
+            startActivity(i);
 
         } else if (id == R.id.nav_motivation) {
             motivationsFragment = new MotivationsFragment();
@@ -135,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         finish();
     }
     private void setStatusBarColor()
-
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
@@ -148,9 +149,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // frgmcont has strong reference because we always replace it exactly
         getSupportFragmentManager().beginTransaction().replace(R.id.frgmCont, fragment).commit();
     }
-    private void setDefaultFragment(Bundle savedInsatnceState)
+    private void setDefaultFragment(Bundle savedInstanceState)
     {
-        if (savedInsatnceState == null)
+        if (savedInstanceState == null)
         {
             calendarFragment = new CalendarFragment();
             replaceWithFragment(calendarFragment);

@@ -61,6 +61,10 @@ dependencies {
 
     // sexy button to use in payments or whatever https://android-arsenal.com/details/1/4503
     // another one for social elements (maybe we will use it) https://android-arsenal.com/details/1/3876
+
+    //paypall
+    compile 'com.paypal.sdk:paypal-android-sdk:2.15.3'
+
     testCompile 'junit:junit:4.12'
 }
 
