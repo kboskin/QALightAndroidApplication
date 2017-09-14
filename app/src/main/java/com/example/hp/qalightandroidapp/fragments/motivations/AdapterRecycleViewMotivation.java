@@ -1,5 +1,8 @@
 package com.example.hp.qalightandroidapp.fragments.motivations;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +22,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class AdapterRecycleViewMotivation extends RecyclerView.Adapter<AdapterRecycleViewMotivation.ViewHolder> {
-    List<ModalHistoryPersonal> modalHistoryPersonals = Constants.modalHistoryPersonal;
+    List<ModalHistoryPersonal> modalHistoryPersonals;
+    private Context context;
+    private int positionPrivate;
 
-/*    public AdapterRecycleViewMotivation(List<ModalHistoryPersonal> modalHistoryPersonals) {
+
+    public AdapterRecycleViewMotivation(List<ModalHistoryPersonal> modalHistoryPersonals, Context context) {
         this.modalHistoryPersonals = modalHistoryPersonals;
-    }*/
+        this.context = context;
+    }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -34,6 +41,8 @@ public class AdapterRecycleViewMotivation extends RecyclerView.Adapter<AdapterRe
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        this.positionPrivate = position;
+
         Picasso.with(holder.itemView.getContext())
                 .load(modalHistoryPersonals.get(position).getFoto())
                 .error(R.drawable.feature_error)
@@ -41,6 +50,7 @@ public class AdapterRecycleViewMotivation extends RecyclerView.Adapter<AdapterRe
         holder.name.setText(modalHistoryPersonals.get(position).getName());
         holder.position.setText(modalHistoryPersonals.get(position).getPosition());
         holder.history.setText(modalHistoryPersonals.get(position).getHistory());
+
     }
 
     @Override
@@ -48,19 +58,21 @@ public class AdapterRecycleViewMotivation extends RecyclerView.Adapter<AdapterRe
         return modalHistoryPersonals.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         CircleImageView personPhoto;
         TextView history;
         TextView name;
         TextView position;
+        View view;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
             personPhoto = itemView.findViewById(R.id.person_image);
             history = itemView.findViewById(R.id.history_text);
             name = itemView.findViewById(R.id.person_name);
             position = itemView.findViewById(R.id.person_position);
+            this.view = itemView;
         }
     }
 }

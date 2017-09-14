@@ -32,6 +32,7 @@
             android:name=".activities.PaymentActivity"
             android:label="@string/title_activity_payment"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
+        <activity android:name=".fragments.motivations.MotivationsActivity"></activity>
     </application>
 
 </manifest>
