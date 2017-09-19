@@ -2,7 +2,6 @@ package com.example.hp.qalightandroidapp;
 
 import com.example.hp.qalightandroidapp.fragments.motivations.ModalHistoryPersonal;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +15,12 @@ public class Constants {
 
     // variable to check if user has logged in
     public static String CHECK_IF_IS_AUTH_PASSED = "IsLoggedIn";
+
+    // variable to configure google qury search
+    public static String GOOGLE_STANDARD_WITH_NO_PARAMS_SEARCH_QUERY = "https://www.google.com/search?q=";
+
+    // QAUrl
+    public static String QALight_URL_To_Connect = "http://app.qalight.com.ua/?id=";
 
     //This List for testing recycleView in fragment motivations
     public static List<ModalHistoryPersonal> modalHistoryPersonal = Arrays.asList(
