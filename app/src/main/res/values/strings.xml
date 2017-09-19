@@ -27,6 +27,7 @@
     <string name="materials">Materials</string>
     <string name="tests">Tests</string>
     <string name="title_activity_payment">PaymentActivity</string>
+    <string name="about_us">About us</string>
     <!--       From this point translate new strings!              -->
 
 </resources>

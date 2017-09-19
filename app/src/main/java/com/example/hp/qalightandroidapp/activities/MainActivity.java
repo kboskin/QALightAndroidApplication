@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.hp.qalightandroidapp.fragments.aboutus.AboutUsFragment;
 import com.example.hp.qalightandroidapp.fragments.calendar.CalendarFragment;
 import com.example.hp.qalightandroidapp.R;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.FixturesTabsFragment;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private FixturesTabsFragment fixturesTabsFragment;
     private CalendarFragment calendarFragment;
     private MotivationsFragment motivationsFragment;
+    private AboutUsFragment aboutUsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +115,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_motivation) {
             motivationsFragment = new MotivationsFragment();
             replaceWithFragment(motivationsFragment);
-        } else if(id == R.id.nav_exit)
+        }
+        else if(id == R.id.nav_aboutus)
+        {
+            aboutUsFragment = new AboutUsFragment();
+            replaceWithFragment(aboutUsFragment);
+        }
+        else if(id == R.id.nav_exit)
         {
             rewriteLogInValueAndBackToLogIn();
         }

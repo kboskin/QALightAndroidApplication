@@ -71,6 +71,8 @@ dependencies {
     //paypall
     compile 'com.paypal.sdk:paypal-android-sdk:2.15.3'
 
+    compile 'com.craftman.cardform:cardform:0.0.2'
+
     testCompile 'junit:junit:4.12'
 }
 
