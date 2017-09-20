@@ -16,5 +16,13 @@
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Custom" parent="android:Theme.DeviceDefault.Light.Dialog">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="DialogSpotColor">@color/colorYellow</item>
+        <item name="DialogSpotCount">4</item>
+    </style>
+
 
 </resources>

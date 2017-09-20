@@ -17,11 +17,14 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.example.hp.qalightandroidapp.R;
 import com.example.hp.qalightandroidapp.fragments.aboutus.AboutUsFragment;
 import com.example.hp.qalightandroidapp.fragments.calendar.CalendarFragment;
-import com.example.hp.qalightandroidapp.R;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.FixturesTabsFragment;
 import com.example.hp.qalightandroidapp.fragments.motivations.MotivationsFragment;
+import com.example.hp.qalightandroidapp.fragments.payment.PaymentFragment;
+import com.judopay.Judo;
+import com.judopay.model.Currency;
 
 import static com.example.hp.qalightandroidapp.Constants.CHECK_IF_IS_AUTH_PASSED;
 
@@ -33,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private CalendarFragment calendarFragment;
     private MotivationsFragment motivationsFragment;
     private AboutUsFragment aboutUsFragment;
+    private PaymentFragment paymentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +113,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_notifications) {
 
         } else if (id == R.id.nav_payment) {
-            Intent i = new Intent(MainActivity.this, PaymentActivity.class);
-            startActivity(i);
+            /*Intent i = new Intent(MainActivity.this, PaymentActivity.class);
+            startActivity(i);*/
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(Judo.JUDO_OPTIONS, new Judo.Builder()
+                    .setApiToken("miDYdMicrvRrdH3X")
+                    .setApiSecret("58035c366cb500fdd3a086abcec4a89e4ce9b4552f5616c25356f8ef59dee907")
+                    .setJudoId("100474-121")
+                    .setEnvironment(Judo.SANDBOX)
+                    .setAmount("2.00")
+                    .setCurrency(Currency.GBP)
+                    //.setConsumerReference("<CONSUMER_REFERENCE>")
+                    .build());
+
+            com.judopay.PaymentFragment fragment = new com.judopay.PaymentFragment();
+            fragment.setArguments(bundle);
+
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.frgmCont, fragment)
+                    .commit();
+
 
         } else if (id == R.id.nav_motivation) {
             motivationsFragment = new MotivationsFragment();
@@ -130,6 +153,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Judo.JUDO_REQUEST) {
+            switch (resultCode) {
+                case Judo.RESULT_SUCCESS:
+                    // handle success
+                    break;
+
+                case Judo.RESULT_DECLINED:
+                    // handle declined
+                    break;
+            }
+        }
     }
     private void rewriteLogInValueAndBackToLogIn()
     {
