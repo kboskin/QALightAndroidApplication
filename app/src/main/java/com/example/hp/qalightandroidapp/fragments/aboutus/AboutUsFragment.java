@@ -45,8 +45,6 @@ public class AboutUsFragment extends Fragment {
                     dialog = null;
                 }
 
-
-
             }
         });
 
