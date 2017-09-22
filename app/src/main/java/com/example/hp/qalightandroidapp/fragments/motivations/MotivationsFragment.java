@@ -7,12 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.hp.qalightandroidapp.Constants;
 import com.example.hp.qalightandroidapp.R;
+import com.example.hp.qalightandroidapp.activities.MotivationsActivity;
 
 import java.util.List;
 
@@ -64,6 +64,8 @@ public class MotivationsFragment extends Fragment {
                     }
                 });
             }
+
+
 
             @Override
             public void onItemLongClick(View view, int position) {
