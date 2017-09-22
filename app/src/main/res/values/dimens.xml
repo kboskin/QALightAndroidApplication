@@ -41,7 +41,7 @@
     <dimen name="materials_fragment_card_view_docs_image_view_margin_start">7dp</dimen>
     <dimen name="materials_fragment_card_view_image_button_width">60dp</dimen>
     <dimen name="materials_fragment_card_view_image_button_height">60dp</dimen>
-    <dimen name="materials_fragment_card_view_image_button_margin_top">19dp</dimen>
+    <dimen name="materials_fragment_card_view_image_button_margin_top">60dp</dimen>
     <dimen name="materials_fragment_card_view_image_button_margin_left">22dp</dimen>
     <dimen name="margin_right">8dp</dimen>
     <dimen name="materials_fragment_card_view_image_button_margin_bottom">10dp</dimen>

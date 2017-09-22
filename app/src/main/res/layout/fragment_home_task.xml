@@ -6,7 +6,8 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/fragment_materials_fragment_home_task_recycler_view">
+        android:id="@+id/fragment_materials_fragment_home_task_recycler_view"
+        android:background="@color/colorHoloGray">
     </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

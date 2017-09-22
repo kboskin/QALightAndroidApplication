@@ -16,6 +16,8 @@ import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.rec
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.hp.qalightandroidapp.Constants.setItemDecoration;
+
 public class HomeTaskFragment extends Fragment {
 
 
@@ -47,7 +49,7 @@ public class HomeTaskFragment extends Fragment {
         recyclerView = (RecyclerView)view.findViewById(R.id.fragment_materials_fragment_home_task_recycler_view);
         mLayoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-
+        setItemDecoration(recyclerView, 1);
         mAdapter = new ModelHomeTaskAdapter(getData());
         recyclerView.setAdapter(mAdapter);
 

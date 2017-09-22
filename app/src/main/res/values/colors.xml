@@ -13,4 +13,5 @@
     <color name="colorGray">#898989</color>
     <color name="colorYellow">#ffee00</color>
     <color name="colorPink">#e91a85</color>
+    <color name="colorHoloGray">#efefef</color>
 </resources>

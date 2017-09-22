@@ -14,6 +14,7 @@ import com.example.hp.qalightandroidapp.R;
 
 import dmax.dialog.SpotsDialog;
 
+
 public class AboutUsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,13 +31,13 @@ public class AboutUsFragment extends Fragment {
         myWebView.setWebChromeClient(new WebChromeClient() {
 
             private SpotsDialog dialog;
+            //private AnimatedCircleLoadingView animatedCircleLoadingView;
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
 
                 if (dialog == null)
                 {
                     dialog = new SpotsDialog(getContext(), R.style.Custom);
-
                     dialog.show();
                 }
                 dialog.setMessage(getString(R.string.loading) + " " + String.valueOf(newProgress) + "%");

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hp.qalightandroidapp.Constants;
 import com.example.hp.qalightandroidapp.R;
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private Intent intent;
     private boolean isLoggedIn;
     private SharedPreferences prefs;
+    private String responseData = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setTextChangeListener() {
         loginCodeEditText.getEditText().addTextChangedListener(new TextWatcher() {
+            private boolean mToggle;
 
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -82,64 +85,16 @@ public class LoginActivity extends AppCompatActivity {
 
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged(final Editable editable) {
 
-                /*Thread thread = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        RequestBody formBody = new FormBody.Builder()
-                                .add("id", "123456789")
-                                .build();
-                        Request request = new Request.Builder()
-                                .url(QALight_URL_To_Connect + 12345)
-                                //.get//pasha is fucktar
-                                .get()
-                                .build();
-
-
-                        OkHttpClient client = new OkHttpClient();
-
-                        Response response = null;
-                        try {
-                            response = client.newCall(request).execute();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        if (response.code() == 200) {
-                            String responseData = null;
-                            try {
-                                responseData = response.body().string();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            //Process the response Data
-                            Log.d("SOMETAG", responseData);
-                        } else {
-                            //Server problem
-                            String responseData = null;
-                            try {
-                                responseData = response.body().string();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            Log.d("SOMETAG", responseData);
-                        }
-                    }
-                });
-                thread.start();*/
-
-
-
-                Log.d("Here ", "1");
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
                         Request request = new Request.Builder()
-                                .url(Constants.QALight_URL_To_Connect + "777")
+                                .url(Constants.QALight_URL_To_Connect + editable.toString())
                                 .get()
                                 .build();
-
-
+                        Log.d("TextCode", editable.toString());
                         OkHttpClient client = new OkHttpClient();
 
                         Response response = null;
@@ -149,7 +104,7 @@ public class LoginActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         if (response.code() == 200) {
-                            String responseData = null;
+
                             try {
                                 responseData = response.body().string();
 
@@ -182,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-                if (editable.toString().equals("correct")) {
+                if (loginCodeEditText.getText().toString().equals("correct")) {
                     // resetting error's color to make user friendly UI
                     loginCodeEditText.setErrorColor(getResources().getColor(R.color.colorGreen));
                     loginCodeEditText.setError(getResources().getString(R.string.correct_code));
@@ -205,6 +160,11 @@ public class LoginActivity extends AppCompatActivity {
                     loginCodeEditText.setError(getResources().getString(R.string.wrong_code));
                 }
 
+
+                if (mToggle) {
+                    Toast.makeText(getBaseContext(), "HIT KEY", Toast.LENGTH_LONG).show();
+                }
+                mToggle = !mToggle;
             }
         });
     }

@@ -2,6 +2,7 @@ package com.example.hp.qalightandroidapp.fragments.materialsandtests.tests;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import com.example.hp.qalightandroidapp.fragments.materialsandtests.tests.recycl
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.hp.qalightandroidapp.Constants.setItemDecoration;
 
 public class TestsFragment extends Fragment {
 
@@ -43,7 +46,8 @@ public class TestsFragment extends Fragment {
         modelTestsList = new ArrayList<ModelTests>();
 
         recyclerView = (RecyclerView)view.findViewById(R.id.fragment_tests_recycler_view);
-        mLayoutManager = new LinearLayoutManager(this.getActivity());
+        mLayoutManager = new GridLayoutManager(getActivity(), 2);
+        setItemDecoration(recyclerView, 2);
         recyclerView.setLayoutManager(mLayoutManager);
 
         mAdapter = new ModelTestsAdapter(getData());

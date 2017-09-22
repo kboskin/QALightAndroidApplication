@@ -15,6 +15,8 @@ import com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.re
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.hp.qalightandroidapp.Constants.setItemDecoration;
+
 public class MaterialsFragment extends Fragment {
 
     private List<ModelMaterials> modelMaterialsList;
@@ -47,7 +49,7 @@ public class MaterialsFragment extends Fragment {
         recyclerView = (RecyclerView)view.findViewById(R.id.fragment_materials_recycler_view);
         mLayoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-
+        setItemDecoration(recyclerView, 1);
         mAdapter = new ModelMaterialsAdapter(getData());
         recyclerView.setAdapter(mAdapter);
         return view;
