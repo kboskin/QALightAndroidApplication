@@ -39,10 +39,12 @@ public class LoginActivity extends AppCompatActivity {
     private Intent intent;
     private boolean isLoggedIn;
     private SharedPreferences prefs;
+    private TextView sloganTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // create intent firstly, because we pass it via constructor, task because call outside from activity
         intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -58,15 +60,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void findViewsByIdsAndSetListeners() {
+
+        // slogan typeface
+        sloganTextView = findViewById(R.id.slogan);
+        Constants.setTypefaceToTextView(sloganTextView, getApplicationContext());
         //button must be defined first, because it is a param in constructor of Listener
         personalCabButton = findViewById(R.id.submit_button);
-
         // edit text for code on login page
         loginCodeEditText = findViewById(R.id.loginCodeEditText);
         setTextChangeListener();
-
         //set link method for textView
         creditsTextView = (findViewById(R.id.txt_credits));
+        Constants.setTypefaceToTextView(creditsTextView, getApplicationContext());
+
         creditsTextView.setMovementMethod(LinkMovementMethod.getInstance());
         creditsTextView.setTextColor(getResources().getColor(R.color.colorGray));
 

@@ -1,6 +1,9 @@
 package com.example.hp.qalightandroidapp;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import com.example.hp.qalightandroidapp.fragments.motivations.ModalHistoryPersonal;
 
@@ -41,6 +44,12 @@ public class Constants {
         int spacing = 25; // 50px
         boolean includeEdge = true;
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
+    }
+    public static void setTypefaceToTextView(TextView view, Context context)
+    {
+        Typeface face= Typeface.createFromAsset(context.getAssets(),
+                "fonts/sf.ttf");
+        view.setTypeface(face);
     }
 
 }

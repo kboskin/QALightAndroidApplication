@@ -2,11 +2,11 @@ package com.example.hp.qalightandroidapp.activities;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.example.hp.qalightandroidapp.Constants;
 import com.example.hp.qalightandroidapp.R;
 import com.squareup.picasso.Picasso;
 
@@ -26,8 +26,13 @@ public class MotivationsActivity extends Activity {
 
         personFoto = findViewById(R.id.person_image);
         history = findViewById(R.id.history_text);
+        Constants.setTypefaceToTextView(history, getApplicationContext());
+
         name = findViewById(R.id.person_name);
+        Constants.setTypefaceToTextView(history, getApplicationContext());
+
         position = findViewById(R.id.person_position);
+        Constants.setTypefaceToTextView(position, getApplicationContext());
 
 
         Intent intent = getIntent();

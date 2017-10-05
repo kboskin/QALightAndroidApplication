@@ -1,8 +1,6 @@
 package com.example.hp.qalightandroidapp.fragments.motivations;
 
-import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,7 +68,11 @@ public class AdapterRecycleViewMotivation extends RecyclerView.Adapter<AdapterRe
             super(itemView);
             personPhoto = itemView.findViewById(R.id.person_image);
             history = itemView.findViewById(R.id.history_text);
+
+            Constants.setTypefaceToTextView(history, itemView.getContext());
             name = itemView.findViewById(R.id.person_name);
+
+            Constants.setTypefaceToTextView(name, itemView.getContext());
             position = itemView.findViewById(R.id.person_position);
             this.view = itemView;
         }

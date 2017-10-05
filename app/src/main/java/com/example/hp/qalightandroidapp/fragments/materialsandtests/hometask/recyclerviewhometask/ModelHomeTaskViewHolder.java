@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.hp.qalightandroidapp.Constants;
 import com.example.hp.qalightandroidapp.R;
 
 import static com.example.hp.qalightandroidapp.Constants.GOOGLE_STANDARD_WITH_NO_PARAMS_SEARCH_QUERY;
@@ -28,8 +29,10 @@ public class ModelHomeTaskViewHolder extends RecyclerView.ViewHolder {
 
 
         textViewDescription = (TextView) itemView.findViewById(R.id.card_view_home_task_description);
-        textViewTitle = (TextView) itemView.findViewById(R.id.card_view_home_task_title);
+        Constants.setTypefaceToTextView(textViewDescription, itemView.getContext());
 
+        textViewTitle = (TextView) itemView.findViewById(R.id.card_view_home_task_title);
+        Constants.setTypefaceToTextView(textViewTitle, itemView.getContext());
 
         // underline text
         textViewTitle.setPaintFlags(textViewTitle.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);

@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.hp.qalightandroidapp.Constants;
 import com.example.hp.qalightandroidapp.R;
 
 /**
@@ -21,9 +22,11 @@ public class ModelMaterialsViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         textViewDate = (TextView) itemView.findViewById(R.id.materials_fragment_card_view_text_view_date);
+        Constants.setTypefaceToTextView(textViewDate, itemView.getContext());
 
         downloadButton = (ImageButton) itemView.findViewById(R.id.materials_fragment_card_view_image_button);
 
         textViewTitle = (TextView) itemView.findViewById(R.id.materials_fragment_card_view_title);
+        Constants.setTypefaceToTextView(textViewTitle, itemView.getContext());
     }
 }
