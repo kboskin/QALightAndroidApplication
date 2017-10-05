@@ -13,6 +13,7 @@ import com.example.hp.qalightandroidapp.R;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask.ModelHomeTask;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask.ModelHomeTaskAdapter;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +27,17 @@ public class HomeTaskFragment extends Fragment {
     private ModelHomeTaskAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
 
+    private Date dateCalendar;
+
     //private MyCustomAdapter adapter;
 
     public HomeTaskFragment()
     {
 
+    }
+
+    public HomeTaskFragment(Date dateCalendar) {
+        this.dateCalendar = dateCalendar;
     }
 
     @Override
@@ -60,13 +67,13 @@ public class HomeTaskFragment extends Fragment {
     {
         // get here some data using OKHTTP3
 
-        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), "From 02/06/19"));
-        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), "From 02/06/19"));
-        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), "From 02/06/19"));
-        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), "From 02/06/19"));
-        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), "From 02/06/19"));
-        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), "From 02/06/19"));
-        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), "From 02/06/19"));
+        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), "From 02/06/17", 2017, 9, 24));
+        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), "From 02/06/17", 2017, 9, 24));
+        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), "From 02/06/17", 2017, 9, 24));
+        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), "From 02/06/17", 2017, 9, 24));
+        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), "From 02/06/17", 2017, 9, 24));
+        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), "From 02/06/17", 2017, 9, 24));
+        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), "From 02/06/17", 2017, 9, 24));
 
         return (ArrayList<ModelHomeTask>) modelHomeTaskList;
     }

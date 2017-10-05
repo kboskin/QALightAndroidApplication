@@ -5,19 +5,28 @@ import android.content.res.Resources;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.alamkanak.weekview.WeekViewLoader;
+import com.example.hp.qalightandroidapp.Constants;
 import com.example.hp.qalightandroidapp.R;
+import com.example.hp.qalightandroidapp.fragments.materialsandtests.FixturesTabsFragment;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by root on 05.09.17.
@@ -26,6 +35,9 @@ import java.util.List;
 public class CalendarFragment extends android.support.v4.app.Fragment implements WeekView.EventClickListener, MonthLoader.MonthChangeListener{
     private WeekView mWeekView;
     private Context context;
+    private String QALight_URL_To_Connect= "http://app.qalight.com.ua/?calendar=123";
+    private String responseData = "";
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,12 +50,60 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
         context = container.getContext();
         mWeekView = view.findViewById(R.id.weekView);
         mWeekView.setMonthChangeListener(mMonthChangeListener);
+        mWeekView.setOnEventClickListener(this);
         mWeekView.setScrollListener(new WeekView.ScrollListener() {
             @Override
             public void onFirstVisibleDayChanged(Calendar newFirstVisibleDay, Calendar oldFirstVisibleDay) {
                 //Toast.makeText(getActivity().getApplicationContext(), "not work", Toast.LENGTH_LONG).show();
             }
         });
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(QALight_URL_To_Connect)
+                        .get()
+                        .build();
+                OkHttpClient client = new OkHttpClient();
+
+                Response response = null;
+                try {
+                    response = client.newCall(request).execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (response.code() == 200) {
+
+                    try {
+                        responseData = response.body().string();
+
+/*                        Log.d("Response", String.valueOf(response.code()));
+
+                        Log.d("Response", response.toString());
+
+                        Log.d("Response", response.body().toString());*/
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    //Process the response Data
+                    Log.d("Tagone", responseData);
+                } else {
+                    //Server problem
+                    String responseData = null;
+                    try {
+                        responseData = response.body().string();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.d("Tagtwo", responseData);
+                }
+
+            }
+        });
+        thread.start();
+
         return view;
     }
 
@@ -72,7 +132,11 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
+        Log.e("onEventClick", event.getName());
+        Toast.makeText(getContext(), event.getName()+" "+event.getStartTime().getTime().getDate(), Toast.LENGTH_LONG).show();
+        FixturesTabsFragment fixturesTabsFragment = new FixturesTabsFragment();
 
+        getFragmentManager().beginTransaction().replace(R.id.frgmCont, fixturesTabsFragment).commit();
     }
 
     @Override
@@ -87,7 +151,12 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
         event.setColor(Resources.getSystem().getColor(R.color.colorOrange));
         events.add(event);
 
+        ArrayList<WeekViewEvent> eventsMonth = new ArrayList<WeekViewEvent>();
+        for (int i = 0; i < events.size(); i++) {
+            if (events.get(i).getStartTime().get(Calendar.MONTH) == newMonth) {
+                eventsMonth.add(events.get(i));
+            }
+        } return eventsMonth;
 
-        return events;
     }
 }
