@@ -16,13 +16,16 @@ public class Constants {
 
 
     // variable to check if user has logged in
-    public static String CHECK_IF_IS_AUTH_PASSED = "IsLoggedIn";
+    public final static String CHECK_IF_IS_AUTH_PASSED = "IsLoggedIn";
 
     // variable to configure google qury search
-    public static String GOOGLE_STANDARD_WITH_NO_PARAMS_SEARCH_QUERY = "https://www.google.com/search?q=";
+    public final static String GOOGLE_STANDARD_WITH_NO_PARAMS_SEARCH_QUERY = "https://www.google.com/search?q=";
 
     // QAUrl
-    public static String QALight_URL_To_Connect = "http://app.qalight.com.ua/?id=";
+    public final static String QALight_URL_To_Connect = "http://app.qalight.com.ua/?code=";
+
+    // Failure value for incorrect request id
+    public final static String CHAR_SEQUENCE_FAILURE_VALUE_FOR_RESPONSE = "null";
 
     //This List for testing recycleView in fragment motivations
     public static List<ModalHistoryPersonal> modalHistoryPersonal = Arrays.asList(
