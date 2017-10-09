@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.view.Window;
 import android.view.WindowManager;
 
+
 import com.example.hp.qalightandroidapp.LocalizationHelper;
 
 import static com.example.hp.qalightandroidapp.Constants.*;

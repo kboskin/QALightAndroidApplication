@@ -30,5 +30,6 @@
     <string name="about_us">About us</string>
     <string name="loading">Loading</string>
     <!--       From this point translate new strings!              -->
+    <string name="internet_connection_failed">It seems your internet connection is failed</string>
 
 </resources>

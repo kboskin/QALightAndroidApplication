@@ -1,6 +1,5 @@
 package com.example.hp.qalightandroidapp.fragments.motivations;
 
-import android.net.Uri;
 
 /**
  * Created by root on 08.09.17.

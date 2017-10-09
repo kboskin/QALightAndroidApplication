@@ -1,6 +1,7 @@
 package com.example.hp.qalightandroidapp.activities;
 
 import android.content.Intent;
+
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;

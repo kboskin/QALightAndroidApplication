@@ -3,6 +3,7 @@ package com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.re
 import android.content.Intent;
 import android.graphics.Paint;
 import android.net.Uri;
+
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;

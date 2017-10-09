@@ -4,6 +4,7 @@ package com.example.hp.qalightandroidapp.fragments.materialsandtests.tests.recyc
  * Created by hp on 012 12.09.2017.
  */
 
+
 public class ModelTests {
 
     private String title;

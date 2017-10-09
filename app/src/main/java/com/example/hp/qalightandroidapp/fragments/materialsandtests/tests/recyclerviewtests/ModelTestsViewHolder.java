@@ -12,6 +12,7 @@ import com.example.hp.qalightandroidapp.R;
  * Created by hp on 012 12.09.2017.
  */
 
+
 public class ModelTestsViewHolder extends RecyclerView.ViewHolder {
     public TextView textViewTitle;
     public Button startTestButton;

@@ -1,8 +1,11 @@
 package com.example.hp.qalightandroidapp.fragments.calendar;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.RectF;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -14,8 +17,6 @@ import android.widget.Toast;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
-import com.alamkanak.weekview.WeekViewLoader;
-import com.example.hp.qalightandroidapp.Constants;
 import com.example.hp.qalightandroidapp.R;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.FixturesTabsFragment;
 
@@ -28,14 +29,16 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by root on 05.09.17.
  */
 
-public class CalendarFragment extends android.support.v4.app.Fragment implements WeekView.EventClickListener, MonthLoader.MonthChangeListener{
+public class CalendarFragment extends android.support.v4.app.Fragment implements WeekView.EventClickListener, MonthLoader.MonthChangeListener {
     private WeekView mWeekView;
     private Context context;
-    private String QALight_URL_To_Connect= "http://app.qalight.com.ua/?calendar=123";
+    private String QALight_URL_To_Connect = "http://app.qalight.com.ua/?calendar=123";
     private String responseData = "";
 
     @Override
@@ -57,52 +60,7 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
                 //Toast.makeText(getActivity().getApplicationContext(), "not work", Toast.LENGTH_LONG).show();
             }
         });
-
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Request request = new Request.Builder()
-                        .url(QALight_URL_To_Connect)
-                        .get()
-                        .build();
-                OkHttpClient client = new OkHttpClient();
-
-                Response response = null;
-                try {
-                    response = client.newCall(request).execute();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (response.code() == 200) {
-
-                    try {
-                        responseData = response.body().string();
-
-/*                        Log.d("Response", String.valueOf(response.code()));
-
-                        Log.d("Response", response.toString());
-
-                        Log.d("Response", response.body().toString());*/
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    //Process the response Data
-                    Log.d("Tagone", responseData);
-                } else {
-                    //Server problem
-                    String responseData = null;
-                    try {
-                        responseData = response.body().string();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    Log.d("Tagtwo", responseData);
-                }
-
-            }
-        });
-        thread.start();
+        getCalendarDataFromServer();
 
         return view;
     }
@@ -133,7 +91,7 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         Log.e("onEventClick", event.getName());
-        Toast.makeText(getContext(), event.getName()+" "+event.getStartTime().getTime().getDate(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), event.getName() + " " + event.getStartTime().getTime().getDate(), Toast.LENGTH_LONG).show();
         FixturesTabsFragment fixturesTabsFragment = new FixturesTabsFragment();
 
         getFragmentManager().beginTransaction().replace(R.id.frgmCont, fixturesTabsFragment).commit();
@@ -156,7 +114,82 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
             if (events.get(i).getStartTime().get(Calendar.MONTH) == newMonth) {
                 eventsMonth.add(events.get(i));
             }
-        } return eventsMonth;
+        }
+        return eventsMonth;
 
     }
+
+    private boolean checkInternet(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
+        if (activeNetwork != null) {
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+                Log.d(TAG, "checkInternet: " + "Connected to WIFI");
+            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+                Log.d(TAG, "checkInternet: " + "Connected to Mobile data");
+            }
+            return true;
+        } else {
+            Log.d(TAG, "checkInternet: " + "Not connected");
+            return false;
+        }
+    }
+
+    private void getCalendarDataFromServer() {
+
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Request request = new Request.Builder()
+                        .url(QALight_URL_To_Connect)
+                        .get()
+                        .build();
+                OkHttpClient client = new OkHttpClient();
+
+                Response response = null;
+                try {
+                    response = client.newCall(request).execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                if (checkInternet(context)) {
+                    if (response.code() == 200) {
+
+                        try {
+                            responseData = response.body().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        //Process the response Data
+                        Log.d("Tagone", responseData);
+                    } else {
+                        //Server problem
+                        String responseData = null;
+                        try {
+                            responseData = response.body().string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("Tagtwo", responseData);
+                    }
+
+                } else {
+                    Activity getActivity = (Activity) context;
+                    getActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getContext(), getResources().getString(R.string.please_check_your_internet_connection), Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
+                }
+            }
+        });
+        thread.start();
+
+    }
+
 }

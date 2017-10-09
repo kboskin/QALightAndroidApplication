@@ -13,6 +13,7 @@ import java.util.List;
  * Created by hp on 012 12.09.2017.
  */
 
+
 public class ModelTestsAdapter extends RecyclerView.Adapter<ModelTestsViewHolder> {
     private List<ModelTests> modelTestsList;
 
