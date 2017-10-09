@@ -48,4 +48,6 @@
     <dimen name="material_fragment_card_view_image_view_separator_width">0dp</dimen>
     <dimen name="material_fragment_card_view_image_view_separator_height">18dp</dimen>
     <dimen name="material_fragment_card_view_image_view_separator_margin_top">34dp</dimen>
+    <dimen name="navigation_header_text_view_height">20dp</dimen>
+    <dimen name="navigation_header_text_view_text_size">16sp</dimen>
 </resources>

@@ -20,7 +20,6 @@ import com.spark.submitbutton.SubmitButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 import java.io.IOException;
 
 import okhttp3.OkHttpClient;
@@ -30,6 +29,7 @@ import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
 import static com.example.hp.qalightandroidapp.Constants.CHAR_SEQUENCE_FAILURE_VALUE_FOR_RESPONSE;
 import static com.example.hp.qalightandroidapp.Constants.CHECK_IF_IS_AUTH_PASSED;
+import static com.example.hp.qalightandroidapp.Constants.HELLO_MESSAGE_FOR_USER;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -41,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isLoggedIn;
     private SharedPreferences prefs;
     private TextView sloganTextView;
+    private String helloMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +137,8 @@ public class LoginActivity extends AppCompatActivity {
                     // parse response
                     String name = String.valueOf(jsonObject.get("name"));
                     String group = String.valueOf(jsonObject.get("group"));
-
+                    // forming a string here for hello message at top of header
+                    helloMessage = name + " " + getResources().getString(R.string.group)+  " " + group;
 
                     if (responseBody.contains(CHAR_SEQUENCE_FAILURE_VALUE_FOR_RESPONSE)) {
                         // exception
@@ -156,7 +158,8 @@ public class LoginActivity extends AppCompatActivity {
     private void setToPrefsLoggedInValue() {
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         isLoggedIn = true;
-        prefs.edit().putBoolean(CHECK_IF_IS_AUTH_PASSED, isLoggedIn).commit(); // islogin is a boolean value of your login status
+        prefs.edit().putBoolean(CHECK_IF_IS_AUTH_PASSED, isLoggedIn).apply(); // islogin is a boolean value of your login status
+        prefs.edit().putString(HELLO_MESSAGE_FOR_USER, helloMessage).apply(); // object in shared prefs
         startActivity(intent);
         finish();
     }

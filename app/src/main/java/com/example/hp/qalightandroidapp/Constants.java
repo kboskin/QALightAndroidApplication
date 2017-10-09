@@ -30,6 +30,9 @@ public class Constants {
     // Failure value for incorrect request id
     public final static String CHAR_SEQUENCE_FAILURE_VALUE_FOR_RESPONSE = "null";
 
+    // Failure value for incorrect request id
+    public final static String HELLO_MESSAGE_FOR_USER = "hello_message_for_user";
+
     //This List for testing recycleView in fragment motivations
     public static List<ModalHistoryPersonal> modalHistoryPersonal = Arrays.asList(
             new ModalHistoryPersonal("http://www.gamer.ru/system/attached_images/images/000/694/661/original/100461_ljofazyhoo_the_witcher_3_wild_hunt_getting.jpg","The Witcher", "QA Engineer","В течение игры под управлением игрока находится единственный, заранее заданный герой — ведьмак Геральт, который путешествует по игровому миру, общается с неигровыми персонажами и выполняет различные задания, в частности, связанные с поиском сокровищ и охотой на чудовищ. В нескольких особо важных с точки зрения сюжета эпизодах игры под управление игрока попадает героиня Цири; в это время игроку недоступны многие элементы геймплея, доступные при игре за Геральта, но у Цири есть уникальные способности, такие как телепортация."),

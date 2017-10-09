@@ -1,7 +1,6 @@
 package com.example.hp.qalightandroidapp.activities;
 
 import android.content.Intent;
-
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,8 +14,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.example.hp.qalightandroidapp.R;
 import com.example.hp.qalightandroidapp.fragments.aboutus.AboutUsFragment;
@@ -28,10 +29,13 @@ import com.judopay.Judo;
 import com.judopay.model.Currency;
 
 import static com.example.hp.qalightandroidapp.Constants.CHECK_IF_IS_AUTH_PASSED;
+import static com.example.hp.qalightandroidapp.Constants.HELLO_MESSAGE_FOR_USER;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private SharedPreferences prefs;
     private Intent backToLoginIntent;
+    private View headerLayout;
+    private TextView groupText;
 
     private FixturesTabsFragment fixturesTabsFragment;
     private CalendarFragment calendarFragment;
@@ -54,6 +58,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         // set color of status bar
         setStatusBarColor();
 
@@ -63,6 +70,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        // get header
+        headerLayout = navigationView.getHeaderView(0);
+
+        // set hello message
+        groupText = (TextView)headerLayout.findViewById(R.id.group_text);
+        groupText.setText(getResources().getString(R.string.hello) + " " + prefs.getString(HELLO_MESSAGE_FOR_USER, ""));
     }
 
     @Override
@@ -174,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void rewriteLogInValueAndBackToLogIn()
     {
         // change value of our variable
-        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(CHECK_IF_IS_AUTH_PASSED, false);
         editor.apply();
