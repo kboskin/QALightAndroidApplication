@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/QALightAndroidApp.iml" filepath="$PROJECT_DIR$/QALightAndroidApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/QALightAndroidApplication.iml" filepath="$PROJECT_DIR$/QALightAndroidApplication.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

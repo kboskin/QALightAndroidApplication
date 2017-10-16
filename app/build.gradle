@@ -66,7 +66,7 @@ dependencies {
 
 
     // sexy button to use in payments or whatever https://android-arsenal.com/details/1/4503
-    // another one for social elements (maybe we will use it) https://android-arsenal.com/details/1/3876
+    // another one for social elements (maybe we will us e it) https://android-arsenal.com/details/1/3876
 
     //paypall
     compile 'com.paypal.sdk:paypal-android-sdk:2.15.3'
@@ -77,9 +77,13 @@ dependencies {
     // custom progress dialog
     compile 'com.github.d-max:spots-dialog:0.7@aar'
 
+    compile 'com.google.firebase:firebase-core:11.4.2'
+    compile 'com.google.firebase:firebase-messaging:11.4.2'
+
 
 
     testCompile 'junit:junit:4.12'
 }
+apply plugin: 'com.google.gms.google-services'
 
 
