@@ -25,8 +25,6 @@ import com.example.hp.qalightandroidapp.fragments.calendar.CalendarFragment;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.FixturesTabsFragment;
 import com.example.hp.qalightandroidapp.fragments.motivations.MotivationsFragment;
 import com.example.hp.qalightandroidapp.fragments.payment.PaymentFragment;
-import com.judopay.Judo;
-import com.judopay.model.Currency;
 
 import static com.example.hp.qalightandroidapp.Constants.CHECK_IF_IS_AUTH_PASSED;
 import static com.example.hp.qalightandroidapp.Constants.HELLO_MESSAGE_FOR_USER;
@@ -48,11 +46,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -74,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         headerLayout = navigationView.getHeaderView(0);
 
         // set hello message
-        groupText = (TextView)headerLayout.findViewById(R.id.group_text);
+        groupText = headerLayout.findViewById(R.id.group_text);
         groupText.setText(getResources().getString(R.string.hello) + " " + prefs.getString(HELLO_MESSAGE_FOR_USER, ""));
     }
 
@@ -116,8 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_calendar)
-        {
+        if (id == R.id.nav_calendar) {
             calendarFragment = new CalendarFragment();
             replaceWithFragment(calendarFragment);
 
@@ -127,39 +124,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_notifications) {
 
         } else if (id == R.id.nav_payment) {
-            /*Intent i = new Intent(MainActivity.this, PaymentActivity.class);
-            startActivity(i);*/
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(Judo.JUDO_OPTIONS, new Judo.Builder()
-                    .setApiToken("miDYdMicrvRrdH3X")
-                    .setApiSecret("58035c366cb500fdd3a086abcec4a89e4ce9b4552f5616c25356f8ef59dee907")
-                    .setJudoId("100474-121")
-                    .setEnvironment(Judo.SANDBOX)
-                    .setAmount("2.00")
-                    .setCurrency(Currency.GBP)
-                    //.setConsumerReference("<CONSUMER_REFERENCE>")
-                    .build());
-
-            com.judopay.PaymentFragment fragment = new com.judopay.PaymentFragment();
-            fragment.setArguments(bundle);
-
-            getFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.frgmCont, fragment)
-                    .commit();
-
 
         } else if (id == R.id.nav_motivation) {
             motivationsFragment = new MotivationsFragment();
             replaceWithFragment(motivationsFragment);
-        }
-        else if(id == R.id.nav_aboutus)
-        {
+        } else if (id == R.id.nav_aboutus) {
             aboutUsFragment = new AboutUsFragment();
             replaceWithFragment(aboutUsFragment);
-        }
-        else if(id == R.id.nav_exit)
-        {
+        } else if (id == R.id.nav_exit) {
             rewriteLogInValueAndBackToLogIn();
         }
 
@@ -167,22 +139,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == Judo.JUDO_REQUEST) {
-            switch (resultCode) {
-                case Judo.RESULT_SUCCESS:
-                    // handle success
-                    break;
-
-                case Judo.RESULT_DECLINED:
-                    // handle declined
-                    break;
-            }
-        }
     }
     private void rewriteLogInValueAndBackToLogIn()
     {
@@ -209,13 +165,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // frgmcont has strong reference because we always replace it exactly
         getSupportFragmentManager().beginTransaction().replace(R.id.frgmCont, fragment).commit();
     }
-    private void setDefaultFragment(Bundle savedInstanceState)
-    {
-        if (savedInstanceState == null)
-        {
+    private void setDefaultFragment(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
             calendarFragment = new CalendarFragment();
             replaceWithFragment(calendarFragment);
         }
     }
+
+
 
 }
