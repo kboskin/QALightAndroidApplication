@@ -24,9 +24,11 @@ import com.example.hp.qalightandroidapp.fragments.aboutus.AboutUsFragment;
 import com.example.hp.qalightandroidapp.fragments.calendar.CalendarFragment;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.FixturesTabsFragment;
 import com.example.hp.qalightandroidapp.fragments.motivations.MotivationsFragment;
+import com.example.hp.qalightandroidapp.fragments.notifications.NotificationsFragment;
 import com.example.hp.qalightandroidapp.fragments.payment.PaymentFragment;
 
 import static com.example.hp.qalightandroidapp.Constants.CHECK_IF_IS_AUTH_PASSED;
+import static com.example.hp.qalightandroidapp.Constants.EXTRA_NOTIFICATION_FRAGMENT;
 import static com.example.hp.qalightandroidapp.Constants.HELLO_MESSAGE_FOR_USER;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private MotivationsFragment motivationsFragment;
     private AboutUsFragment aboutUsFragment;
     private PaymentFragment paymentFragment;
+    private NotificationsFragment notificationFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setDefaultFragment(savedInstanceState);
 
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         // get header
         headerLayout = navigationView.getHeaderView(0);
@@ -84,6 +87,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkForNotificationsExtra(getIntent().getStringExtra(EXTRA_NOTIFICATION_FRAGMENT));
+
     }
 
     @Override
@@ -122,6 +131,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             fixturesTabsFragment = new FixturesTabsFragment();
             replaceWithFragment(fixturesTabsFragment);
         } else if (id == R.id.nav_notifications) {
+            notificationFragment = new NotificationsFragment();
+            replaceWithFragment(notificationFragment);
 
         } else if (id == R.id.nav_payment) {
 
@@ -140,8 +151,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-    private void rewriteLogInValueAndBackToLogIn()
-    {
+
+    private void rewriteLogInValueAndBackToLogIn() {
         // change value of our variable
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(CHECK_IF_IS_AUTH_PASSED, false);
@@ -152,19 +163,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(backToLoginIntent);
         finish();
     }
-    private void setStatusBarColor()
-    {
+
+    private void setStatusBarColor() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
     }
-    private void replaceWithFragment(Fragment fragment)
-    {
+
+    private void replaceWithFragment(Fragment fragment) {
         // frgmcont has strong reference because we always replace it exactly
         getSupportFragmentManager().beginTransaction().replace(R.id.frgmCont, fragment).commit();
     }
+
     private void setDefaultFragment(Bundle savedInstanceState) {
         if (savedInstanceState == null) {
             calendarFragment = new CalendarFragment();
@@ -172,6 +184,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    // put the notifications fragment as main when opening notification
+    private void checkForNotificationsExtra(String notificationExtra) {
+        if (notificationExtra != null) {
+
+            // Here we can decide what do to -- perhaps load other parameters from the intent extras such as IDs, etc
+            if (notificationExtra.equals("openIt")) {
+                notificationFragment = new NotificationsFragment();
+                replaceWithFragment(notificationFragment);
+            }
+        } else {
+            // Activity was not launched with a menuFragment selected -- continue as if this activity was opened from a launcher (for example)
+            calendarFragment = new CalendarFragment();
+            replaceWithFragment(calendarFragment);
+        }
+    }
 
 
 }

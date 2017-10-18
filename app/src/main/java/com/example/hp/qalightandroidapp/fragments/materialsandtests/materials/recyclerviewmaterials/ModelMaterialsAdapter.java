@@ -20,7 +20,7 @@ public class ModelMaterialsAdapter extends RecyclerView.Adapter<ModelMaterialsVi
     @Override
     public ModelMaterialsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.materials_fragment_card_view, parent, false);
+                .inflate(R.layout.fragment_materials_card_view, parent, false);
 
 
         return new ModelMaterialsViewHolder(itemView);

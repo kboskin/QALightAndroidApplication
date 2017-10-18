@@ -26,7 +26,7 @@ public class ModelTestsAdapter extends RecyclerView.Adapter<ModelTestsViewHolder
     @Override
     public ModelTestsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.tests_fragment_card_view, parent, false);
+                .inflate(R.layout.fragment_tests_card_view, parent, false);
 
         return new ModelTestsViewHolder(itemView);
     }

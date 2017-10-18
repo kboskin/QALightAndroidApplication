@@ -33,7 +33,7 @@ public class AdapterRecycleViewMotivation extends RecyclerView.Adapter<AdapterRe
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_view_for_motivations_fragment, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_motivations_card_view, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }

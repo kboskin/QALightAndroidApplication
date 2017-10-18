@@ -36,6 +36,9 @@ public class Constants {
     // ResultCodeForCloudMessaging
     public static final int RESULT_CODE_FCM = 0;
 
+    // Extras for notification, to open specific fragment in activity
+    public static final String EXTRA_NOTIFICATION_FRAGMENT = "notifications_fragment";
+
     //This List for testing recycleView in fragment motivations
     public static List<ModalHistoryPersonal> modalHistoryPersonal = Arrays.asList(
             new ModalHistoryPersonal("http://www.gamer.ru/system/attached_images/images/000/694/661/original/100461_ljofazyhoo_the_witcher_3_wild_hunt_getting.jpg","The Witcher", "QA Engineer","В течение игры под управлением игрока находится единственный, заранее заданный герой — ведьмак Геральт, который путешествует по игровому миру, общается с неигровыми персонажами и выполняет различные задания, в частности, связанные с поиском сокровищ и охотой на чудовищ. В нескольких особо важных с точки зрения сюжета эпизодах игры под управление игрока попадает героиня Цири; в это время игроку недоступны многие элементы геймплея, доступные при игре за Геральта, но у Цири есть уникальные способности, такие как телепортация."),

@@ -24,7 +24,7 @@ public class ModelHomeTaskAdapter extends RecyclerView.Adapter<ModelHomeTaskView
     @Override
     public ModelHomeTaskViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.home_task_fragment_card_view, parent, false);
+                .inflate(R.layout.fragment_home_task_card_view, parent, false);
 
 
         return new ModelHomeTaskViewHolder(itemView);
