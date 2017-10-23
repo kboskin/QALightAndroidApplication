@@ -35,6 +35,13 @@ public class ModelNotificationsAdapter extends RecyclerView.Adapter<ModelNotific
 
         holder.model_notifications_text_view_title.setText(modelNotifications.getTitle());
         holder.model_notifications_text_view_description.setText(modelNotifications.getDescription());
+
+        // processing if status is read
+        if (modelNotifications.getStatus() == 1)
+        {
+            holder.notifications_image_view.setVisibility(View.GONE);
+        }
+
     }
 
     @Override

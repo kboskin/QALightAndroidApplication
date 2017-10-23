@@ -4,27 +4,39 @@
     android:layout_height="100dp"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <TextView
             android:id="@+id/fragment_notifications_card_view_text_view_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:textSize="24sp"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="5dp"
+            android:textSize="24sp" />
+
+        <ImageView
+            android:id="@+id/fragment_notifications_card_view_unread_image_view"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/unread"
+            android:layout_marginBottom="3dp"
+            android:layout_above="@+id/fragment_notifications_card_view_text_view_description"
+            android:layout_toEndOf="@+id/fragment_notifications_card_view_text_view_title" />
 
         <TextView
             android:id="@+id/fragment_notifications_card_view_text_view_description"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_below="@+id/fragment_notifications_card_view_text_view_title"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp"
+            android:layout_below="@+id/fragment_notifications_card_view_text_view_title"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:layout_alignParentBottom="true" />
+            android:layout_marginTop="10dp" />
 
     </RelativeLayout>
 

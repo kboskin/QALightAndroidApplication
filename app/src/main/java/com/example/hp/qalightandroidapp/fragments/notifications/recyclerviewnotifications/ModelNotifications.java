@@ -7,10 +7,20 @@ package com.example.hp.qalightandroidapp.fragments.notifications.recyclerviewnot
 public class ModelNotifications {
     private String title;
     private String description;
+    private int status;
 
-    public ModelNotifications(String title, String description) {
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public ModelNotifications(String title, String description, int status) {
         this.title = title;
         this.description = description;
+        this.status = status;
     }
 
     public void setDescription(String description) {

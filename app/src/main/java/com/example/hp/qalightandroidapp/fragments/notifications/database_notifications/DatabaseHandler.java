@@ -63,7 +63,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_TITLE, notification.get_title()); // Notification Name
         values.put(KEY_DESCRIPTION, notification.get_description()); // Notification Description
-        values.put(KEY_STATUS, notification.get_status()); // zero for unreaded
+        values.put(KEY_STATUS, notification.get_status()); // zero for unread
 
         // Inserting Row
         db.insert(TABLE_NOTIFICATIONS, null, values);

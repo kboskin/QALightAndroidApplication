@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +30,8 @@ public class NotificationsFragment extends Fragment {
     private Intent i;
     private DatabaseHandler db;
     private List<ModelDatabaseNotification> notificationsList;
+    public View newView;
+
 
     public NotificationsFragment() {
         // Required empty public constructor
@@ -46,34 +47,40 @@ public class NotificationsFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
 
-        processFromDataBase();
-
+        processFromDataBase(view);
 
         mAdapter = new ModelNotificationsAdapter(modelNotificationsList);
         setItemDecoration(recyclerView, 1);
 
         recyclerView.setAdapter(mAdapter);
-        addToRVITouchListener(recyclerView);
 
+
+
+        addToRVITouchListener(recyclerView, view);
 
         return view;
     }
 
-    private void addToRVITouchListener(RecyclerView recyclerView) // here we add touchListenerToRv
+    private void addToRVITouchListener(final RecyclerView recyclerView, View view) // here we add touchListenerToRv
     {
+
+        View newView;
         recyclerView.addOnItemTouchListener(new ModelNotificationsRecyclerViewClickListener(getContext(), new ModelNotificationsRecyclerViewClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 //TODO: handle clicks here
-                 // trigger to reset notification's status
+                // trigger to reset notification's status
                 notificationsList.get(position).set_status(1);
+                // update query in row
                 db.updateNotification(notificationsList.get(position));
+
+
 
             }
         }));
     }
 
-    private void processFromDataBase() // this method processes notifications and passes them to rv
+    private void processFromDataBase(View view) // this method processes notifications and passes them to rv
     {
         // get all notifications from db
         db = new DatabaseHandler(getContext());
@@ -84,12 +91,12 @@ public class NotificationsFragment extends Fragment {
         modelNotificationsList = new ArrayList<>();
         // parse data from one list to another
         for (int i = 0; i < notificationsList.size(); i++) {
+
             // process if name of message is empty
             if (notificationsList.get(i).get_title() == null) {
-                modelNotificationsList.add(new ModelNotifications(getString(R.string.app_name), notificationsList.get(i).get_description()));
+                modelNotificationsList.add(new ModelNotifications(getString(R.string.app_name), notificationsList.get(i).get_description(), notificationsList.get(i).get_status()));
             } else
-                modelNotificationsList.add(new ModelNotifications(notificationsList.get(i).get_title(), notificationsList.get(i).get_description()));
-           Log.d("Status", String.valueOf(notificationsList.get(i).get_status())); // here getting a notification
+                modelNotificationsList.add(new ModelNotifications(notificationsList.get(i).get_title(), notificationsList.get(i).get_description(), notificationsList.get(i).get_status()));
 
 
         }
