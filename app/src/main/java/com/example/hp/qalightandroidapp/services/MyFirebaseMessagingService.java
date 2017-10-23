@@ -43,7 +43,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             showNotification(remoteMessage.getNotification().getBody());
 
             // adding notification to db
-            db.addNotification(new ModelDatabaseNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody()));
+            db.addNotification(new ModelDatabaseNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), 0));
 
 
             Log.d("Reading: ", "Reading all contacts..");

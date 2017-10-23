@@ -156,25 +156,24 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
 
 
                 if (checkInternet(context)) {
-                    if (response.code() == 200) {
 
-                        try {
-                            responseData = response.body().string();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                    if (response != null) {
+                        if (response.code() == 200) {
+
+                            try {
+                                responseData = response.body().string();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            try {
+                                responseData = response.body().string();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
-                        //Process the response Data
-                        Log.d("Tagone", responseData);
-                    } else {
-                        //Server problem
-                        String responseData = null;
-                        try {
-                            responseData = response.body().string();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        Log.d("Tagtwo", responseData);
                     }
+
 
                 } else {
                     Activity getActivity = (Activity) context;

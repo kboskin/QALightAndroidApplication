@@ -28,6 +28,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_TITLE = "title";
     private static final String KEY_DESCRIPTION = "description";
+    private static final String KEY_STATUS = "status";
 
 
     public DatabaseHandler(Context context) {
@@ -39,7 +40,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_NOTIFICATIONS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_TITLE + " TEXT,"
-                + KEY_DESCRIPTION + " TEXT" + ")";
+                + KEY_DESCRIPTION + " TEXT," + KEY_STATUS + " INTEGER" + ")";
         sqLiteDatabase.execSQL(CREATE_CONTACTS_TABLE);
 
     }
@@ -62,6 +63,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_TITLE, notification.get_title()); // Notification Name
         values.put(KEY_DESCRIPTION, notification.get_description()); // Notification Description
+        values.put(KEY_STATUS, notification.get_status()); // zero for unreaded
 
         // Inserting Row
         db.insert(TABLE_NOTIFICATIONS, null, values);
@@ -73,13 +75,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_NOTIFICATIONS, new String[]{KEY_ID,
-                        KEY_TITLE, KEY_DESCRIPTION}, KEY_ID + "=?",
+                        KEY_TITLE, KEY_DESCRIPTION, KEY_STATUS}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
         ModelDatabaseNotification notification = new ModelDatabaseNotification(Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1), cursor.getString(2));
+                cursor.getString(1), cursor.getString(2), Integer.parseInt(cursor.getString(3)));
         // return contact
         return notification;
     }
@@ -90,8 +92,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // Select All Query
         String selectQuery = "SELECT  * FROM " + TABLE_NOTIFICATIONS;
 
+
+
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
+
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
@@ -100,6 +105,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 notification.set_id(Integer.parseInt(cursor.getString(0)));
                 notification.set_title(cursor.getString(1));
                 notification.set_description(cursor.getString(2));
+                notification.set_status(cursor.getInt(3));
                 // Adding contact to list
                 notificationsList.add(notification);
             } while (cursor.moveToNext());
@@ -119,4 +125,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // return count
         return cursor.getCount();
     }
+
+
+    public int updateNotification(ModelDatabaseNotification notification) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_STATUS, 1); // for true
+
+        // updating row
+        return db.update(TABLE_NOTIFICATIONS, values, KEY_ID + " = ?",
+                new String[] { String.valueOf(notification.get_id()) });
+    }
+
 }

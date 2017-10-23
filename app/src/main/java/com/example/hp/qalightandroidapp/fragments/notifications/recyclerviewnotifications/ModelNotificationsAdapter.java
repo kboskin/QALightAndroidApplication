@@ -15,6 +15,12 @@ import java.util.List;
 
 public class ModelNotificationsAdapter extends RecyclerView.Adapter<ModelNotificationsViewHolder> {
     private List<ModelNotifications> modelNotificationsList;
+
+
+    public ModelNotificationsAdapter(List<ModelNotifications> modelNotificationsList)
+    {
+        this.modelNotificationsList = modelNotificationsList;
+    }
     @Override
     public ModelNotificationsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())

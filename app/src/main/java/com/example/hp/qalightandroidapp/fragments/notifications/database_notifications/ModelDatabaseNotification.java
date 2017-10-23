@@ -8,21 +8,34 @@ public class ModelDatabaseNotification {
     private int _id;
     private String _title;
     private String _description;
+    private int _status;
 
     public ModelDatabaseNotification()
     {
 
     }
 
-    public ModelDatabaseNotification(int _id, String _title, String _description) {
+
+
+    public ModelDatabaseNotification(int _id, String _title, String _description, int _status) {
         this._id = _id;
         this._title = _title;
         this._description = _description;
+        this._status = _status;
+
     }
-    public ModelDatabaseNotification(String _title, String _description)
+    public ModelDatabaseNotification(String _title, String _description, int _status)
     {
         this._title = _title;
         this._description = _description;
+        this._status = _status;
+    }
+
+    public int get_status() {
+        return _status;
+    }
+    public void set_status(int _status) {
+        this._status = _status;
     }
 
     public int get_id() {
