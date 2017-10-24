@@ -16,6 +16,7 @@ import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.Hom
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.MaterialsFragment;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.tests.TestsFragment;
 
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +25,13 @@ public class FixturesTabsFragment extends Fragment {
     private HomeTaskFragment homeTaskFragment;
     private MaterialsFragment materialsFragment;
     private TestsFragment testsFragment;
+    private Date date;
+
+    public FixturesTabsFragment(){}
+
+    public FixturesTabsFragment(Date date) {
+        this.date = date;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,9 +58,16 @@ public class FixturesTabsFragment extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         // fragments creation, only once, so
         // we will not have to recreate
-        homeTaskFragment = new HomeTaskFragment();
-        materialsFragment = new MaterialsFragment();
-        testsFragment = new TestsFragment();
+        if(date!=null){
+            homeTaskFragment = new HomeTaskFragment(date);
+            materialsFragment = new MaterialsFragment();
+            testsFragment = new TestsFragment();
+        } else {
+            homeTaskFragment = new HomeTaskFragment();
+            materialsFragment = new MaterialsFragment();
+            testsFragment = new TestsFragment();
+        }
+
 
         //creating adapter and fragments to adapter
         Adapter adapter = new Adapter(getChildFragmentManager());

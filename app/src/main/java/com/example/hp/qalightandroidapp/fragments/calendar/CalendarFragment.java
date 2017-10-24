@@ -17,12 +17,19 @@ import android.widget.Toast;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.alamkanak.weekview.WeekViewLoader;
+import com.example.hp.qalightandroidapp.Constants;
 import com.example.hp.qalightandroidapp.R;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.FixturesTabsFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -54,6 +61,7 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
         mWeekView = view.findViewById(R.id.weekView);
         mWeekView.setMonthChangeListener(mMonthChangeListener);
         mWeekView.setOnEventClickListener(this);
+        //mWeekView.setWeekViewLoader();
         mWeekView.setScrollListener(new WeekView.ScrollListener() {
             @Override
             public void onFirstVisibleDayChanged(Calendar newFirstVisibleDay, Calendar oldFirstVisibleDay) {
@@ -84,40 +92,29 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
             event.setColor(getResources().getColor(R.color.colorOrange));
             events.add(event);
 
-            return events;
+            int newMoun = newMonth - 1;
+
+            ArrayList<WeekViewEvent> eventsMonth = new ArrayList<WeekViewEvent>();
+            for (int i = 0; i < events.size(); i++) {
+                if (((events.get(i).getStartTime().get(Calendar.MONTH)) == (newMonth-1))) {
+                    eventsMonth.add(events.get(i));
+                }
+            }
+            return eventsMonth;
         }
     };
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        Log.e("onEventClick", event.getName());
+        Log.i("onEventClick", event.getName());
         Toast.makeText(getContext(), event.getName() + " " + event.getStartTime().getTime().getDate(), Toast.LENGTH_LONG).show();
-        FixturesTabsFragment fixturesTabsFragment = new FixturesTabsFragment();
+        Date date = new Date(event.getStartTime().getTime().getYear(), event.getStartTime().getTime().getMonth(), event.getStartTime().getTime().getDay());
+        FixturesTabsFragment fixturesTabsFragment = new FixturesTabsFragment(date);
 
         getFragmentManager().beginTransaction().replace(R.id.frgmCont, fixturesTabsFragment).commit();
     }
 
-    @Override
-    public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-        List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
-        Calendar startTime = Calendar.getInstance();
-        startTime.set(2017, 9, 24, 0, 23);
-        Calendar endTime = (Calendar) startTime.clone();
-        endTime.set(2017, 9, 24, 2, 23);
-        WeekViewEvent event = new WeekViewEvent(1, "HelloWorld", startTime, endTime);
-        event.setColor(Resources.getSystem().getColor(R.color.colorOrange));
-        events.add(event);
-
-        ArrayList<WeekViewEvent> eventsMonth = new ArrayList<WeekViewEvent>();
-        for (int i = 0; i < events.size(); i++) {
-            if (events.get(i).getStartTime().get(Calendar.MONTH) == newMonth) {
-                eventsMonth.add(events.get(i));
-            }
-        }
-        return eventsMonth;
-
-    }
 
     private boolean checkInternet(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -162,32 +159,63 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
 
                             try {
                                 responseData = response.body().string();
+                                JSONObject jsonObject = new JSONObject(responseData);
+                                String id = (String) jsonObject.get("date_lection_start");
+                                Log.e("idJSON", "" + id);
                             } catch (IOException e) {
                                 e.printStackTrace();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
+                            //Process the response Data
+                            Log.d("Tagone", responseData);
                         } else {
+                            //Server problem
+                            String responseData = null;
                             try {
                                 responseData = response.body().string();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                         }
+
+
+                    } else {
+                        Activity getActivity = (Activity) context;
+                        getActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getContext(), getResources().getString(R.string.please_check_your_internet_connection), Toast.LENGTH_SHORT).show();
+
+                            }
+                        });
                     }
-
-
-                } else {
-                    Activity getActivity = (Activity) context;
-                    getActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getContext(), getResources().getString(R.string.please_check_your_internet_connection), Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
                 }
             }
         });
         thread.start();
+
+    }
+
+    @Override
+    public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+        List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+
+        Calendar startTime = Calendar.getInstance();
+        startTime.set(2017, 9, 24, 0, 23);
+        Calendar endTime = (Calendar) startTime.clone();
+        endTime.set(2017, 9, 24, 2, 23);
+        WeekViewEvent event = new WeekViewEvent(1, "HelloWorld", startTime, endTime);
+        event.setColor(Resources.getSystem().getColor(R.color.colorOrange));
+        events.add(event);
+
+        ArrayList<WeekViewEvent> eventsMonth = new ArrayList<WeekViewEvent>();
+        for (int i = 0; i < events.size(); i++) {
+            if (events.get(i).getStartTime().get(Calendar.MONTH) == newMonth) {
+                eventsMonth.add(events.get(i));
+            }
+        }
+        return eventsMonth;
 
     }
 
