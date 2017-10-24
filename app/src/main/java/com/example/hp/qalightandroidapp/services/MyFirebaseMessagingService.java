@@ -47,10 +47,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
             Log.d("Reading: ", "Reading all contacts..");
-            List<ModelDatabaseNotification> contacts = db.getAllNotifications();
+            List<ModelDatabaseNotification> notifications = db.getAllNotifications();
 
-            for (ModelDatabaseNotification cn : contacts) {
-                String log = "Id: "+cn.get_id()+" ,Name: " + cn.get_title() + " ,Body: " + cn.get_description();
+            for (ModelDatabaseNotification notification : notifications) {
+                String log = "Id: "+notification.get_id()+" ,Name: " + notification.get_title() + " ,Body: " + notification.get_description() + " ,Status: " + notification.get_status();
                 // Writing Contacts to log
                 Log.d("Name: ", log);
             }

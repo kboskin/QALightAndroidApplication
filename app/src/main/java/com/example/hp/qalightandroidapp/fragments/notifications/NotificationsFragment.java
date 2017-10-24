@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,22 +66,19 @@ public class NotificationsFragment extends Fragment {
 
     private void addToRVITouchListener(final RecyclerView recyclerView, View view) // here we add touchListenerToRv
     {
-
-        View newView;
         recyclerView.addOnItemTouchListener(new ModelNotificationsRecyclerViewClickListener(getContext(),
                 new ModelNotificationsRecyclerViewClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
+            @Override
+            public void onItemClick(View view, int position) {
 
-                        notificationsList.get(position).set_status(1);
-                        // update query in row
-                        db.updateNotification(notificationsList.get(position));
+                notificationsList.get(position).set_status(1);
+                // update query in row
+                db.updateNotification(notificationsList.get(position));
 
-                        setToExtras(view, position);
+                setToExtras(view, position);
 
-
-                    }
-                }));
+            }
+        }));
     }
 
     private void processFromDataBase(View view) // this method processes notifications and passes them to rv
@@ -111,28 +107,16 @@ public class NotificationsFragment extends Fragment {
     {
         intent = new Intent(view.getContext(), PushNotificationActivity.class);
 
-
-        if (notificationsList.get(position).get_title() == null)
-            Log.d("Tag", "isnull");
-
         // handle nullable title
         if (notificationsList.get(position).get_title() != null) {
-            Log.d("Tag", "isNOTnull");
             intent.putExtra(EXTRA_NOTIFICATION_TITLE, notificationsList.get(position).get_title());
-            intent.putExtra(EXTRA_NOTIFICATION_DESCRIPTION, notificationsList.get(position).get_description());
-            intent.putExtra(EXTRA_NOTIFICATION_STATUS, notificationsList.get(position).get_status());
-            startActivity(intent);
-        } else {
-            Log.d("Tag", "isnull");
-            String extra = getResources().getString(R.string.app_name);
-            Log.d("Tag", extra);
-            intent.putExtra(EXTRA_NOTIFICATION_TITLE, extra);
-            intent.putExtra(EXTRA_NOTIFICATION_DESCRIPTION, notificationsList.get(position).get_description());
-            intent.putExtra(EXTRA_NOTIFICATION_STATUS, notificationsList.get(position).get_status());
-            startActivity(intent);
+        } else if (notificationsList.get(position).get_title() == null || notificationsList.get(position).get_title().equals("")){
+            intent.putExtra(EXTRA_NOTIFICATION_TITLE, getString(R.string.app_name));
         }
 
-
+        intent.putExtra(EXTRA_NOTIFICATION_DESCRIPTION, notificationsList.get(position).get_description());
+        intent.putExtra(EXTRA_NOTIFICATION_STATUS, notificationsList.get(position).get_status());
+        startActivity(intent);
     }
 
 

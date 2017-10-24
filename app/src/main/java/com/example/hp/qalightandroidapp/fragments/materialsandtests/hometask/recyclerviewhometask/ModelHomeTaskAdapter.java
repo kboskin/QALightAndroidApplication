@@ -72,6 +72,8 @@ public class ModelHomeTaskAdapter extends RecyclerView.Adapter<ModelHomeTaskView
             }
             Log.d("CalendarLst", "" + modelHomeTaskList.size());
 
+
+            // I don't actually know what purpose to place it here, everything is fine without
             notifyDataSetChanged();
             return null;
         }

@@ -28,8 +28,7 @@ public class HomeTaskFragment extends Fragment {
     private RecyclerView recyclerView;
     private ModelHomeTaskAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
-
-    private Date dateCalendar;
+    private Date dateFilter;
 
     //private MyCustomAdapter adapter;
 
@@ -37,8 +36,8 @@ public class HomeTaskFragment extends Fragment {
 
     }
 
-    public HomeTaskFragment(Date dateCalendar) {
-        this.dateCalendar = dateCalendar;
+    public HomeTaskFragment(Date dateFilter) {
+        this.dateFilter = dateFilter;
     }
 
     @Override
@@ -65,15 +64,15 @@ public class HomeTaskFragment extends Fragment {
 
         recyclerView.setAdapter(mAdapter);
 
-        if (dateCalendar != null) {
-            dateCalendar.setYear(dateCalendar.getYear() + 1900);
-            dateCalendar.setMonth(dateCalendar.getMonth() + 1);
-            dateCalendar.setDate(dateCalendar.getDate() + 23);
-            Log.d("Calendar1", "" + dateCalendar.getTime());
-            Log.d("Calendar1", ""+dateCalendar.getYear()+" "+dateCalendar.getMonth()+" "+dateCalendar.getDate());
+        if (dateFilter != null) {
+            dateFilter.setYear(dateFilter.getYear() + 1900);
+            dateFilter.setMonth(dateFilter.getMonth() + 1);
+            dateFilter.setDate(dateFilter.getDate() + 23);
+            Log.d("Calendar1", "" + dateFilter.getTime());
+            Log.d("Calendar1", ""+ dateFilter.getYear()+" "+ dateFilter.getMonth()+" "+ dateFilter.getDate());
             Log.d("Calendar2", "" + getData().get(0).getDate().getTime());
             Log.d("Calendar2", "" + getData().get(0).getDate().getYear() + " " + getData().get(0).getDate().getMonth() + " " + getData().get(0).getDate().getDate());
-            mAdapter.getFilter().filter("" + dateCalendar.getTime());
+            mAdapter.getFilter().filter("" + dateFilter.getTime());
         }
 
         return view;

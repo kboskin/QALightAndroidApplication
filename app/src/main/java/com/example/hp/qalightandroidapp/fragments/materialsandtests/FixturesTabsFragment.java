@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,8 @@ import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.Hom
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.MaterialsFragment;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.tests.TestsFragment;
 
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class FixturesTabsFragment extends Fragment {
@@ -27,7 +26,8 @@ public class FixturesTabsFragment extends Fragment {
     private TestsFragment testsFragment;
     private Date date;
 
-    public FixturesTabsFragment(){}
+    public FixturesTabsFragment() {
+    }
 
     public FixturesTabsFragment(Date date) {
         this.date = date;
@@ -39,13 +39,17 @@ public class FixturesTabsFragment extends Fragment {
         setRetainInstance(true);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_fixtures_tabs, container, false);
         // Setting ViewPager for each Tabs
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        // Fucking string which fixes all shit with tabs, hate that bitch! It caches 3 pages
+        viewPager.setOffscreenPageLimit(3);
+
+                setupViewPager(viewPager);
         // Set Tabs inside Toolbar
         TabLayout tabs = (TabLayout) view.findViewById(R.id.result_tabs);
         tabs.setupWithViewPager(viewPager);
@@ -58,7 +62,8 @@ public class FixturesTabsFragment extends Fragment {
     private void setupViewPager(ViewPager viewPager) {
         // fragments creation, only once, so
         // we will not have to recreate
-        if(date!=null){
+        if (date != null) {
+
             homeTaskFragment = new HomeTaskFragment(date);
             materialsFragment = new MaterialsFragment();
             testsFragment = new TestsFragment();
