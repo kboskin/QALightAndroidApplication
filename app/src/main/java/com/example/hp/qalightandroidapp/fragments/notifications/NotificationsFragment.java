@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.hp.qalightandroidapp.R;
+import com.example.hp.qalightandroidapp.activities.PushNotificationActivity;
 import com.example.hp.qalightandroidapp.fragments.notifications.database_notifications.DatabaseHandler;
 import com.example.hp.qalightandroidapp.fragments.notifications.database_notifications.ModelDatabaseNotification;
 import com.example.hp.qalightandroidapp.fragments.notifications.recyclerviewnotifications.ModelNotifications;
@@ -19,6 +21,9 @@ import com.example.hp.qalightandroidapp.fragments.notifications.recyclerviewnoti
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.hp.qalightandroidapp.Constants.EXTRA_NOTIFICATION_DESCRIPTION;
+import static com.example.hp.qalightandroidapp.Constants.EXTRA_NOTIFICATION_STATUS;
+import static com.example.hp.qalightandroidapp.Constants.EXTRA_NOTIFICATION_TITLE;
 import static com.example.hp.qalightandroidapp.Constants.setItemDecoration;
 
 public class NotificationsFragment extends Fragment {
@@ -27,7 +32,7 @@ public class NotificationsFragment extends Fragment {
     private ModelNotificationsAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private List<ModelNotifications> modelNotificationsList;
-    private Intent i;
+    private Intent intent;
     private DatabaseHandler db;
     private List<ModelDatabaseNotification> notificationsList;
     public View newView;
@@ -55,7 +60,6 @@ public class NotificationsFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
 
 
-
         addToRVITouchListener(recyclerView, view);
 
         return view;
@@ -65,19 +69,20 @@ public class NotificationsFragment extends Fragment {
     {
 
         View newView;
-        recyclerView.addOnItemTouchListener(new ModelNotificationsRecyclerViewClickListener(getContext(), new ModelNotificationsRecyclerViewClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                //TODO: handle clicks here
-                // trigger to reset notification's status
-                notificationsList.get(position).set_status(1);
-                // update query in row
-                db.updateNotification(notificationsList.get(position));
+        recyclerView.addOnItemTouchListener(new ModelNotificationsRecyclerViewClickListener(getContext(),
+                new ModelNotificationsRecyclerViewClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+
+                        notificationsList.get(position).set_status(1);
+                        // update query in row
+                        db.updateNotification(notificationsList.get(position));
+
+                        setToExtras(view, position);
 
 
-
-            }
-        }));
+                    }
+                }));
     }
 
     private void processFromDataBase(View view) // this method processes notifications and passes them to rv
@@ -102,8 +107,33 @@ public class NotificationsFragment extends Fragment {
         }
     }
 
-    private void handleItemClick() {
-        i = new Intent();
+    private void setToExtras(View view, int position) // method to set into extras
+    {
+        intent = new Intent(view.getContext(), PushNotificationActivity.class);
+
+
+        if (notificationsList.get(position).get_title() == null)
+            Log.d("Tag", "isnull");
+
+        // handle nullable title
+        if (notificationsList.get(position).get_title() != null) {
+            Log.d("Tag", "isNOTnull");
+            intent.putExtra(EXTRA_NOTIFICATION_TITLE, notificationsList.get(position).get_title());
+            intent.putExtra(EXTRA_NOTIFICATION_DESCRIPTION, notificationsList.get(position).get_description());
+            intent.putExtra(EXTRA_NOTIFICATION_STATUS, notificationsList.get(position).get_status());
+            startActivity(intent);
+        } else {
+            Log.d("Tag", "isnull");
+            String extra = getResources().getString(R.string.app_name);
+            Log.d("Tag", extra);
+            intent.putExtra(EXTRA_NOTIFICATION_TITLE, extra);
+            intent.putExtra(EXTRA_NOTIFICATION_DESCRIPTION, notificationsList.get(position).get_description());
+            intent.putExtra(EXTRA_NOTIFICATION_STATUS, notificationsList.get(position).get_status());
+            startActivity(intent);
+        }
+
+
     }
+
 
 }

@@ -65,7 +65,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // intent to open specific fragment
         intent.putExtra(EXTRA_NOTIFICATION_FRAGMENT, "openIt");
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), RESULT_CODE_FCM, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), RESULT_CODE_FCM, intent, PendingIntent.FLAG_ONE_SHOT);
 
         // sound of notification
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
