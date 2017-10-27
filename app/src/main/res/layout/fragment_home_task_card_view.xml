@@ -26,7 +26,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/card_view_home_task_description"
+            android:id="@+id/card_view_home_task_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"

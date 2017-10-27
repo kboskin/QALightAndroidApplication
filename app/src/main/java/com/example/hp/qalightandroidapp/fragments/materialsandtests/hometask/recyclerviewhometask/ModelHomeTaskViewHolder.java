@@ -19,7 +19,7 @@ import static com.example.hp.qalightandroidapp.Constants.GOOGLE_STANDARD_WITH_NO
 
 public class ModelHomeTaskViewHolder extends RecyclerView.ViewHolder {
     public TextView textViewTitle;
-    public TextView textViewDescription;
+    public TextView textViewDate;
     private View itemView;
     private String query;
 
@@ -29,8 +29,8 @@ public class ModelHomeTaskViewHolder extends RecyclerView.ViewHolder {
         this.itemView = itemView;
 
 
-        textViewDescription = (TextView) itemView.findViewById(R.id.card_view_home_task_description);
-        Constants.setTypefaceToTextView(textViewDescription, itemView.getContext());
+        textViewDate = (TextView) itemView.findViewById(R.id.card_view_home_task_date);
+        Constants.setTypefaceToTextView(textViewDate, itemView.getContext());
 
         textViewTitle = (TextView) itemView.findViewById(R.id.card_view_home_task_title);
         Constants.setTypefaceToTextView(textViewTitle, itemView.getContext());
@@ -55,6 +55,6 @@ public class ModelHomeTaskViewHolder extends RecyclerView.ViewHolder {
             }
         });
         // set here link as param
-        //textViewDescription.setTextColor(getResources().getColor(R.color.colorGray));
+        //textViewDate.setTextColor(getResources().getColor(R.color.colorGray));
     }
 }

@@ -1,7 +1,6 @@
 package com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask;
 
 import android.text.Spanned;
-import android.util.Log;
 
 import java.util.Date;
 
@@ -22,6 +21,13 @@ public class ModelHomeTask {
     public ModelHomeTask(Spanned title, String description, int year, int month, int day) {
         this.title = title;
         this.description = description;
+        this.year = year;
+        this.day = day;
+        this.month = month;
+        date = new Date(getYear(), getMonth(), getDay());
+    }
+    public ModelHomeTask(Spanned title,  int year, int month, int day) {
+        this.title = title;
         this.year = year;
         this.day = day;
         this.month = month;

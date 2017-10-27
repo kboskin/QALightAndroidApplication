@@ -19,6 +19,8 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.example.hp.qalightandroidapp.Constants.setItemDecoration;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -48,6 +50,9 @@ public class MotivationsFragment extends Fragment {
 
         adapter = new AdapterRecycleViewMotivation(modalHistoryPersonals, this.getContext());
         recyclerView.setAdapter(adapter);
+
+        setItemDecoration(recyclerView, 1);
+
 
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemMotionEventListener() {
             @Override

@@ -17,8 +17,6 @@ import android.widget.Toast;
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
-import com.alamkanak.weekview.WeekViewLoader;
-import com.example.hp.qalightandroidapp.Constants;
 import com.example.hp.qalightandroidapp.R;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.FixturesTabsFragment;
 
@@ -26,7 +24,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -96,7 +93,7 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
 
             ArrayList<WeekViewEvent> eventsMonth = new ArrayList<WeekViewEvent>();
             for (int i = 0; i < events.size(); i++) {
-                if (((events.get(i).getStartTime().get(Calendar.MONTH)) == (newMonth-1))) {
+                if (((events.get(i).getStartTime().get(Calendar.MONTH)) == (newMonth - 1))) {
                     eventsMonth.add(events.get(i));
                 }
             }

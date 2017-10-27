@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -41,7 +40,8 @@ public class ModelHomeTaskAdapter extends RecyclerView.Adapter<ModelHomeTaskView
         ModelHomeTask modelHomeTask = filtered.get(position);
 
         holder.textViewTitle.setText(modelHomeTask.getTitle());
-        holder.textViewDescription.setText(modelHomeTask.getDescription());
+        // snippet for displaying data in text view
+        holder.textViewDate.setText(""+modelHomeTask.getDay() + "/" + modelHomeTask.getMonth() + "/"  + modelHomeTask.getYear());
     }
 
 
