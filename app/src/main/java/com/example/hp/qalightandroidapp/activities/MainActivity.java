@@ -2,8 +2,11 @@ package com.example.hp.qalightandroidapp.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private AboutUsFragment aboutUsFragment;
     private PaymentFragment paymentFragment;
     private NotificationsFragment notificationFragment;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // select default fragment
         setDefaultFragment(savedInstanceState);
+        // denied orientation changing
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -77,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // set hello message
         groupText = headerLayout.findViewById(R.id.group_text);
         groupText.setText(getResources().getString(R.string.hello) + " " + prefs.getString(HELLO_MESSAGE_FOR_USER, ""));
+
     }
 
     @Override
@@ -88,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -120,37 +128,111 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        // making our on item selected multithreaded to optimize animation in fragment
+
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_calendar) {
-            calendarFragment = new CalendarFragment();
-            replaceWithFragment(calendarFragment);
-
-        } else if (id == R.id.nav_materials_and_tests) {
-            fixturesTabsFragment = new FixturesTabsFragment();
-            replaceWithFragment(fixturesTabsFragment);
-        } else if (id == R.id.nav_notifications) {
-            notificationFragment = new NotificationsFragment();
-            replaceWithFragment(notificationFragment);
-
-        } else if (id == R.id.nav_payment) {
-
-        } else if (id == R.id.nav_motivation) {
-            motivationsFragment = new MotivationsFragment();
-            replaceWithFragment(motivationsFragment);
-        } else if (id == R.id.nav_aboutus) {
-            aboutUsFragment = new AboutUsFragment();
-            replaceWithFragment(aboutUsFragment);
-        } else if (id == R.id.nav_exit) {
-            rewriteLogInValueAndBackToLogIn();
-        }
+        final int id = item.getItemId();
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        // handler to handle android navigation lag
+        handler = new Handler();
+
+        handler.post(new Runnable() {
+
+            DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+            @Override
+            public void run() {
+                if (id == R.id.nav_calendar) {
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            drawer.closeDrawers();
+                        }
+                    });
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            calendarFragment = new CalendarFragment();
+                            replaceWithFragment(calendarFragment);
+                        }
+                    });
+                } else if (id == R.id.nav_materials_and_tests) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            drawer.closeDrawers();
+                        }
+                    });
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            fixturesTabsFragment = new FixturesTabsFragment();
+                            replaceWithFragment(fixturesTabsFragment);
+                        }
+                    });
+
+                } else if (id == R.id.nav_notifications) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            drawer.closeDrawers();
+                        }
+                    });
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            notificationFragment = new NotificationsFragment();
+                            replaceWithFragment(notificationFragment);
+                        }
+                    });
+
+                } else if (id == R.id.nav_payment) {
+
+                } else if (id == R.id.nav_motivation) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            drawer.closeDrawers();
+                        }
+                    });
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            motivationsFragment = new MotivationsFragment();
+                            replaceWithFragment(motivationsFragment);
+                        }
+                    });
+
+
+                } else if (id == R.id.nav_aboutus) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            drawer.closeDrawers();
+                        }
+                    });
+                    AsyncTask.execute(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            aboutUsFragment = new AboutUsFragment();
+                            replaceWithFragment(aboutUsFragment);
+                        }
+                    });
+
+                } else if (id == R.id.nav_exit) {
+                    rewriteLogInValueAndBackToLogIn();
+                    drawer.closeDrawers();
+                }
+            }
+        });
+
+
         return true;
     }
+
 
     private void rewriteLogInValueAndBackToLogIn() {
         // change value of our variable
@@ -174,7 +256,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void replaceWithFragment(Fragment fragment) {
         // frgmcont has strong reference because we always replace it exactly
-        getSupportFragmentManager().beginTransaction().replace(R.id.frgmCont, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frgmCont, fragment).addToBackStack(null).commit();
+
     }
 
     private void setDefaultFragment(Bundle savedInstanceState) {

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hp.qalightandroidapp.Constants;
 import com.example.hp.qalightandroidapp.R;
@@ -29,6 +30,7 @@ import studio.carbonylgroup.textfieldboxes.TextFieldBoxes;
 
 import static com.example.hp.qalightandroidapp.Constants.CHAR_SEQUENCE_FAILURE_VALUE_FOR_RESPONSE;
 import static com.example.hp.qalightandroidapp.Constants.CHECK_IF_IS_AUTH_PASSED;
+import static com.example.hp.qalightandroidapp.Constants.EXTRA_LOGIN_CODE;
 import static com.example.hp.qalightandroidapp.Constants.HELLO_MESSAGE_FOR_USER;
 
 
@@ -41,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isLoggedIn;
     private SharedPreferences prefs;
     private TextView sloganTextView;
-    private String helloMessage;
+    private final static String CODE = "code=";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                 // change value to make AutoLogin
 
                 if (loginCodeEditText.getText() != null || loginCodeEditText.getText().isEmpty()) {
-                    startConnection(loginCodeEditText.getText());
+                    startConnection(CODE + loginCodeEditText.getText());
                 } else {
                     loginCodeEditText.setErrorColor(getResources().getColor(R.color.colorYellow));
                     loginCodeEditText.setError(getResources().getString(R.string.wrong_code));
@@ -132,22 +134,31 @@ public class LoginActivity extends AppCompatActivity {
                     Response response = client.newCall(request).execute();
                     // get responseBody
                     String responseBody = response.body().string();
-                    // form response body
-                    JSONObject jsonObject = new JSONObject(responseBody);
-                    // parse response
-                    String name = String.valueOf(jsonObject.get("name"));
-                    String group = String.valueOf(jsonObject.get("group"));
-                    // forming a string here for hello message at top of header
-                    helloMessage = name + " " + getResources().getString(R.string.group)+  " " + group;
 
                     if (responseBody.contains(CHAR_SEQUENCE_FAILURE_VALUE_FOR_RESPONSE)) {
-                        // exception
+                        // exception, wrong code
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Toast.makeText(getApplicationContext(), getText(R.string.wrong_code), Toast.LENGTH_LONG).show();
+                            }
+                        });
+
                     } else {
-                        setToPrefsLoggedInValue();
+                        // form response body
+                        JSONObject jsonObject = new JSONObject(responseBody);
+
+                        // parse response
+                        // forming a string here for hello message at top of header
+                        String helloMessage = String.valueOf(jsonObject.get("name")) +
+                                " " + getResources().getString(R.string.group) +
+                                " " + String.valueOf(jsonObject.get("group"));
+
+                        setToPrefsLoggedInValue(String.valueOf(jsonObject.get("code")), helloMessage);
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
@@ -155,11 +166,12 @@ public class LoginActivity extends AppCompatActivity {
         thread.start();
     }
 
-    private void setToPrefsLoggedInValue() {
+    private void setToPrefsLoggedInValue(String code, String helloMessage) {
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         isLoggedIn = true;
         prefs.edit().putBoolean(CHECK_IF_IS_AUTH_PASSED, isLoggedIn).apply(); // islogin is a boolean value of your login status
         prefs.edit().putString(HELLO_MESSAGE_FOR_USER, helloMessage).apply(); // object in shared prefs
+        prefs.edit().putString(EXTRA_LOGIN_CODE, code).apply();
         startActivity(intent);
         finish();
     }

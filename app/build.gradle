@@ -72,8 +72,6 @@ dependencies {
     compile 'com.paypal.sdk:paypal-android-sdk:2.15.3'
     // sexy card form
     compile 'com.craftman.cardform:cardform:0.0.2'
-    // judopay
-    compile 'com.judopay:android-sdk:5.6.10'
     // custom progress dialog
     compile 'com.github.d-max:spots-dialog:0.7@aar'
 

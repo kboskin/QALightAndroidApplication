@@ -9,7 +9,7 @@
     <string name="action_settings">Settings</string>
     <string name="slogan">Light up your life!</string>
     <string name="hint">Your code</string>
-    <string name="wrong_code">It\'s wrong code</string>
+    <string name="wrong_code">It seems to be a wrong code!</string>
     <string name="correct_code">Congratulations!</string>
     <string name="navigate_to_main_activity">Confirm</string>
 
@@ -31,6 +31,7 @@
     <string name="loading">Loading</string>
     <!--       From this point translate new strings!              -->
     <string name="internet_connection_failed">It seems your internet connection is failed</string>
+    <string name="connection_problems">Connection problems. Make another try later</string>
     <string name="hello">Hello</string>
     <string name="group">from group</string>
 

@@ -126,6 +126,7 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
             return true;
         } else {
             Log.d(TAG, "checkInternet: " + "Not connected");
+            Toast.makeText(context, getString(R.string.internet_connection_failed), Toast.LENGTH_SHORT).show();
             return false;
         }
     }
@@ -165,7 +166,7 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
                                 e.printStackTrace();
                             }
                             //Process the response Data
-                            Log.d("Tagone", responseData);
+                            Log.d("Calendar_Response_Data", responseData);
                         } else {
                             //Server problem
                             String responseData = null;
@@ -182,7 +183,7 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
                         getActivity.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Toast.makeText(getContext(), getResources().getString(R.string.please_check_your_internet_connection), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), getResources().getString(R.string.connection_problems), Toast.LENGTH_SHORT).show();
 
                             }
                         });
