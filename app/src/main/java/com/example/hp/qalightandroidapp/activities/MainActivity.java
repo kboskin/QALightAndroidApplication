@@ -1,12 +1,13 @@
 package com.example.hp.qalightandroidapp.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private View headerLayout;
     private TextView groupText;
 
+    private Context myContext;
     private FixturesTabsFragment fixturesTabsFragment;
     private CalendarFragment calendarFragment;
     private MotivationsFragment motivationsFragment;
@@ -133,103 +136,61 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         final int id = item.getItemId();
 
+        final DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         // handler to handle android navigation lag
-        handler = new Handler();
-
-        handler.post(new Runnable() {
-
-            DrawerLayout drawer = findViewById(R.id.drawer_layout);
-
+        handler = new Handler(new Handler.Callback() {
             @Override
-            public void run() {
-                if (id == R.id.nav_calendar) {
+            public boolean handleMessage(Message message) {
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            drawer.closeDrawers();
-                        }
-                    });
-                    AsyncTask.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            calendarFragment = new CalendarFragment();
-                            replaceWithFragment(calendarFragment);
-                        }
-                    });
-                } else if (id == R.id.nav_materials_and_tests) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            drawer.closeDrawers();
-                        }
-                    });
-                    AsyncTask.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            fixturesTabsFragment = new FixturesTabsFragment();
-                            replaceWithFragment(fixturesTabsFragment);
-                        }
-                    });
-
-                } else if (id == R.id.nav_notifications) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            drawer.closeDrawers();
-                        }
-                    });
-                    AsyncTask.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            notificationFragment = new NotificationsFragment();
-                            replaceWithFragment(notificationFragment);
-                        }
-                    });
-
-                } else if (id == R.id.nav_payment) {
-
-                } else if (id == R.id.nav_motivation) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            drawer.closeDrawers();
-                        }
-                    });
-                    AsyncTask.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            motivationsFragment = new MotivationsFragment();
-                            replaceWithFragment(motivationsFragment);
-                        }
-                    });
-
-
-                } else if (id == R.id.nav_aboutus) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            drawer.closeDrawers();
-                        }
-                    });
-                    AsyncTask.execute(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            aboutUsFragment = new AboutUsFragment();
-                            replaceWithFragment(aboutUsFragment);
-                        }
-                    });
-
-                } else if (id == R.id.nav_exit) {
-                    rewriteLogInValueAndBackToLogIn();
-                    drawer.closeDrawers();
-                }
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawer.closeDrawer(Gravity.LEFT, true);
+                    }
+                }, 200);
+                return false;
             }
         });
+        if (id == R.id.nav_calendar) {
+
+            if (calendarFragment == null) {
+                calendarFragment = new CalendarFragment();
+            }
+            replaceWithFragment(calendarFragment, handler);
+
+        } else if (id == R.id.nav_materials_and_tests) {
+            if (fixturesTabsFragment == null) {
+                fixturesTabsFragment = new FixturesTabsFragment();
+            }
+            replaceWithFragment(fixturesTabsFragment, handler);
 
 
+        } else if (id == R.id.nav_notifications) {
+            if (notificationFragment == null) {
+
+                notificationFragment = new NotificationsFragment();
+            }
+            replaceWithFragment(notificationFragment, handler);
+
+        } else if (id == R.id.nav_payment) {
+
+        } else if (id == R.id.nav_motivation) {
+            if (motivationsFragment == null) {
+                motivationsFragment = new MotivationsFragment();
+
+            }
+            replaceWithFragment(motivationsFragment, handler);
+
+        } else if (id == R.id.nav_aboutus) {
+            if (aboutUsFragment == null) {
+                aboutUsFragment = new AboutUsFragment();
+            }
+            replaceWithFragment(aboutUsFragment, handler);
+
+        } else if (id == R.id.nav_exit) {
+            rewriteLogInValueAndBackToLogIn();
+        }
         return true;
     }
 
@@ -254,9 +215,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void replaceWithFragment(Fragment fragment) {
+    private void replaceWithFragment(Fragment fragment, Handler handler) {
         // frgmcont has strong reference because we always replace it exactly
-        getSupportFragmentManager().beginTransaction().replace(R.id.frgmCont, fragment).addToBackStack(null).commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frgmCont, fragment)
+                .addToBackStack(String.valueOf(fragment.getId()))
+                .commit();
+
+        handler.sendEmptyMessage(1);
+
+    }
+
+    private void replaceWithFragment(Fragment fragment) {
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frgmCont, fragment)
+                .addToBackStack(String.valueOf(fragment.getId()))
+                .commit();
 
     }
 
@@ -274,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // Here we can decide what do to -- perhaps load other parameters from the intent extras such as IDs, etc
             if (notificationExtra.equals("openIt")) {
                 notificationFragment = new NotificationsFragment();
-                replaceWithFragment(notificationFragment);
+                replaceWithFragment(notificationFragment, handler);
             }
         } else {
             // Activity was not launched with a menuFragment selected -- continue as if this activity was opened from a launcher (for example)
