@@ -1,6 +1,5 @@
 package com.example.hp.qalightandroidapp.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -37,12 +36,8 @@ import static com.example.hp.qalightandroidapp.Constants.EXTRA_NOTIFICATION_FRAG
 import static com.example.hp.qalightandroidapp.Constants.HELLO_MESSAGE_FOR_USER;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private SharedPreferences prefs;
-    private Intent backToLoginIntent;
-    private View headerLayout;
-    private TextView groupText;
 
-    private Context myContext;
+    private SharedPreferences prefs;
     private FixturesTabsFragment fixturesTabsFragment;
     private CalendarFragment calendarFragment;
     private MotivationsFragment motivationsFragment;
@@ -66,7 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         // set color of status bar
@@ -81,10 +75,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         // get header
-        headerLayout = navigationView.getHeaderView(0);
+        View headerLayout = navigationView.getHeaderView(0);
 
         // set hello message
-        groupText = headerLayout.findViewById(R.id.group_text);
+        TextView groupText = headerLayout.findViewById(R.id.group_text);
         groupText.setText(getResources().getString(R.string.hello) + " " + prefs.getString(HELLO_MESSAGE_FOR_USER, ""));
 
     }
@@ -131,11 +125,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // making our on item selected multithreaded to optimize animation in fragment
-
-        // Handle navigation view item clicks here.
-        final int id = item.getItemId();
-
         final DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         // handler to handle android navigation lag
@@ -152,45 +141,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return false;
             }
         });
-        if (id == R.id.nav_calendar) {
 
-            if (calendarFragment == null) {
-                calendarFragment = new CalendarFragment();
-            }
-            replaceWithFragment(calendarFragment, handler);
+        // Handle navigation view item clicks here.
+        initializeDrawerItemList(item);
 
-        } else if (id == R.id.nav_materials_and_tests) {
-            if (fixturesTabsFragment == null) {
-                fixturesTabsFragment = new FixturesTabsFragment();
-            }
-            replaceWithFragment(fixturesTabsFragment, handler);
-
-
-        } else if (id == R.id.nav_notifications) {
-            if (notificationFragment == null) {
-
-                notificationFragment = new NotificationsFragment();
-            }
-            replaceWithFragment(notificationFragment, handler);
-
-        } else if (id == R.id.nav_payment) {
-
-        } else if (id == R.id.nav_motivation) {
-            if (motivationsFragment == null) {
-                motivationsFragment = new MotivationsFragment();
-
-            }
-            replaceWithFragment(motivationsFragment, handler);
-
-        } else if (id == R.id.nav_aboutus) {
-            if (aboutUsFragment == null) {
-                aboutUsFragment = new AboutUsFragment();
-            }
-            replaceWithFragment(aboutUsFragment, handler);
-
-        } else if (id == R.id.nav_exit) {
-            rewriteLogInValueAndBackToLogIn();
-        }
         return true;
     }
 
@@ -202,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         editor.apply();
 
         // back to LoginActivity
-        backToLoginIntent = new Intent(MainActivity.this, LoginActivity.class);
+        Intent backToLoginIntent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(backToLoginIntent);
         finish();
     }
@@ -241,6 +195,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (savedInstanceState == null) {
             calendarFragment = new CalendarFragment();
             replaceWithFragment(calendarFragment);
+        }
+    }
+
+    private void initializeDrawerItemList(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_calendar:
+                if (calendarFragment == null) {
+                    calendarFragment = new CalendarFragment();
+                }
+                replaceWithFragment(calendarFragment, handler);
+                break;
+            case R.id.nav_materials_and_tests:
+                if (fixturesTabsFragment == null) {
+                    fixturesTabsFragment = new FixturesTabsFragment();
+                }
+                replaceWithFragment(fixturesTabsFragment, handler);
+                break;
+            case R.id.nav_notifications:
+                if (notificationFragment == null) {
+
+                    notificationFragment = new NotificationsFragment();
+                }
+                replaceWithFragment(notificationFragment, handler);
+                break;
+            case R.id.nav_payment:
+                break;
+            case R.id.nav_motivation:
+                if (motivationsFragment == null) {
+                    motivationsFragment = new MotivationsFragment();
+                }
+                replaceWithFragment(motivationsFragment, handler);
+                break;
+            case R.id.nav_aboutus:
+                if (aboutUsFragment == null) {
+                    aboutUsFragment = new AboutUsFragment();
+                }
+                replaceWithFragment(aboutUsFragment, handler);
+                break;
+            case R.id.nav_exit:
+                rewriteLogInValueAndBackToLogIn();
+                break;
         }
     }
 

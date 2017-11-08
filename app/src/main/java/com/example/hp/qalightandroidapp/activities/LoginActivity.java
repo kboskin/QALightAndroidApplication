@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.view.Window;
@@ -72,7 +70,6 @@ public class LoginActivity extends AppCompatActivity {
         personalCabButton = findViewById(R.id.submit_button);
         // edit text for code on login page
         loginCodeEditText = findViewById(R.id.loginCodeEditText);
-        setTextChangeListener();
         //set link method for textView
         creditsTextView = (findViewById(R.id.txt_credits));
         Constants.setTypefaceToTextView(creditsTextView, getApplicationContext());
@@ -92,27 +89,6 @@ public class LoginActivity extends AppCompatActivity {
                     loginCodeEditText.setErrorColor(getResources().getColor(R.color.colorYellow));
                     loginCodeEditText.setError(getResources().getString(R.string.wrong_code));
                 }
-
-
-            }
-        });
-    }
-
-
-    private void setTextChangeListener() {
-        loginCodeEditText.getEditText().addTextChangedListener(new TextWatcher() {
-
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-
-            @Override
-            public void afterTextChanged(final Editable editable) {
 
 
             }
