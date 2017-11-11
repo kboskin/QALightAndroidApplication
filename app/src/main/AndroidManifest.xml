@@ -30,10 +30,6 @@
             android:label=""
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:hardwareAccelerated="true"/>
-        <activity
-            android:name=".activities.PaymentActivity"
-            android:label="@string/title_activity_payment"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".activities.MotivationsActivity" />
         <activity android:name="ua.privatbank.payoneclicklib.BrowserActivity" />
 

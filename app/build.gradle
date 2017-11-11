@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.example.hp.qalightandroidapp"
         minSdkVersion 17
@@ -50,10 +50,6 @@ dependencies {
     // complete button
     compile 'me.spark:submitbutton:1.0.1'
 
-    //library for recyclerview
-    compile 'com.android.support:cardview-v7:+'
-    compile 'com.android.support:recyclerview-v7:+'
-
     //library for image in motivations fragment
     compile 'de.hdodenhof:circleimageview:2.1.0'
 
@@ -68,8 +64,6 @@ dependencies {
     // sexy button to use in payments or whatever https://android-arsenal.com/details/1/4503
     // another one for social elements (maybe we will us e it) https://android-arsenal.com/details/1/3876
 
-    //paypall
-    compile 'com.paypal.sdk:paypal-android-sdk:2.15.3'
     // sexy card form
     compile 'com.craftman.cardform:cardform:0.0.2'
     // custom progress dialog

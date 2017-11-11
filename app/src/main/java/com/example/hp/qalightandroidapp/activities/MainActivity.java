@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
         // get header
         View headerLayout = navigationView.getHeaderView(0);
@@ -178,6 +179,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .commit();
 
         handler.sendEmptyMessage(1);
+
+/*      String fragmentTag = fragment.getClass().getName();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction ftx = fragmentManager.beginTransaction();
+
+
+        if (fragment.isAdded())
+        {
+            ftx.show(fragment);
+        }else {
+
+            boolean fragmentPopped = fragmentManager
+                    .popBackStackImmediate(fragmentTag, 0);
+
+            if (!fragmentPopped && fragmentManager.findFragmentByTag(fragmentTag) == null) {
+
+                ftx.addToBackStack(fragment.getClass().getSimpleName());
+                ftx.add(R.id.frgmCont, fragment);
+                ftx.commit();
+            }
+
+        }*/
 
     }
 
