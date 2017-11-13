@@ -1,4 +1,4 @@
-package com.example.hp.qalightandroidapp.fragments;
+package com.example.hp.qalightandroidapp.fragments.getdatafromserver;
 
 import android.app.Activity;
 import android.content.Context;

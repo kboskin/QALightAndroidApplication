@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.hp.qalightandroidapp.R;
-import com.example.hp.qalightandroidapp.fragments.DataGetterFromServer;
-import com.example.hp.qalightandroidapp.fragments.DataParser;
+import com.example.hp.qalightandroidapp.fragments.getdatafromserver.DataGetterFromServer;
+import com.example.hp.qalightandroidapp.fragments.getdatafromserver.DataParser;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask.ModelHomeTask;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask.ModelHomeTaskAdapter;
 
@@ -100,8 +100,16 @@ public class HomeTaskFragment extends Fragment {
                             JSONArray jsonArray = new JSONArray(responseData);
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject home = jsonArray.getJSONObject(i);
-                                String name = home.getString("title");
-                                modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml(name), 2017, 9, 24));
+                                String title = home.getString("title");
+                                String date = home.getString("date");
+
+                                // fucking KASTYYYYL, fuck yeah eeeeeee
+                                int year = Integer.parseInt(date.substring(0, 4)); // getting a year here
+                                int month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-") + 3)); // getting a month here
+                                int day = Integer.parseInt(date.substring(date.lastIndexOf("-") + 1)); // getting a day here
+
+                                ModelHomeTask mht = new ModelHomeTask(Html.fromHtml(title), year, month, day);
+                                modelHomeTaskList.add(0, mht);
                             }
                             getActivity().runOnUiThread(new Runnable() {
                                 @Override
@@ -142,4 +150,5 @@ public class HomeTaskFragment extends Fragment {
 
         return (ArrayList<ModelHomeTask>) modelHomeTaskList;
     }
+
 }
