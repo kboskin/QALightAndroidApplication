@@ -12,9 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.hp.qalightandroidapp.R;
-import com.example.hp.qalightandroidapp.fragments.GetDataFromServer;
+import com.example.hp.qalightandroidapp.fragments.DataGetterFromServer;
+import com.example.hp.qalightandroidapp.fragments.DataParser;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask.ModelHomeTask;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask.ModelHomeTaskAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +38,7 @@ public class HomeTaskFragment extends Fragment {
     private LinearLayoutManager mLayoutManager;
     private Date dateFilter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private String responseData;
     private final String param = "home=123";
 
     //private MyCustomAdapter adapter;
@@ -81,27 +87,41 @@ public class HomeTaskFragment extends Fragment {
         }
         // swipe refresh is added here
         addSwipeRefresh(swipeRefreshLayout);
+
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // creating class to connect to server
-                GetDataFromServer getDataFromServer = new GetDataFromServer(QALight_URL_To_Connect,  param, getContext());
-                final Thread thread = new Thread(getDataFromServer);
-                thread.start();
-                if (getDataFromServer.getResponseData()!=null || getDataFromServer.getResponseData()!= "")
-                {
-                    // disable refreshing
-                    swipeRefreshLayout.setRefreshing(false);
-                    String response = getDataFromServer.getResponseData();
-                    Log.d("SomeResp", response);
-                }
-                else {
-                    //continue refreshing
-                    swipeRefreshLayout.setRefreshing(true);
-                }
-
+                DataGetterFromServer dataGetterFromServer = new DataGetterFromServer(QALight_URL_To_Connect, param, getContext(), new DataParser() {
+                    @Override
+                    public void parseResponse(String responseData) {
+                        try {
+                            //Process the response Data
+                            JSONArray jsonArray = new JSONArray(responseData);
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject home = jsonArray.getJSONObject(i);
+                                String name = home.getString("title");
+                                modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml(name), 2017, 9, 24));
+                            }
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    // adapter recreation, for some reason notifyDataSetChanged doesnt work
+                                    mAdapter = new ModelHomeTaskAdapter((ArrayList<ModelHomeTask>) modelHomeTaskList);
+                                    recyclerView.swapAdapter(mAdapter, true);
+                                    // duplication avoiding (just removing all from the list)
+                                    modelHomeTaskList.clear();
+                                    // stop refreshing
+                                    swipeRefreshLayout.setRefreshing(false);
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                dataGetterFromServer.start();
             }
-
         });
 
 
@@ -122,6 +142,4 @@ public class HomeTaskFragment extends Fragment {
 
         return (ArrayList<ModelHomeTask>) modelHomeTaskList;
     }
-
-
 }

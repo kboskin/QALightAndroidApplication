@@ -9,9 +9,6 @@ import android.widget.Toast;
 
 import com.example.hp.qalightandroidapp.R;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 
 import okhttp3.OkHttpClient;
@@ -24,20 +21,22 @@ import static android.content.ContentValues.TAG;
  * Created by hp on 003 03.11.2017.
  */
 
-public class GetDataFromServer extends Thread {
+public class DataGetterFromServer extends Thread {
     private String param;
     private String url;
     private Context context;
     private String responseData = "";
+    private DataParser dataParser;
 
     public String getResponseData() {
         return responseData;
     }
 
-    public GetDataFromServer(String url, String param, Context context) {
+    public DataGetterFromServer(String url, String param, Context context, DataParser dataParser) {
         this.param = param;
         this.url = url;
         this.context = context;
+        this.dataParser = dataParser;
     }
 
     @Override
@@ -62,12 +61,10 @@ public class GetDataFromServer extends Thread {
                 if (response.code() == 200) {
                     try {
                         responseData = response.body().string();
-                        JSONObject jsonObject = new JSONObject(responseData);
+                        dataParser.parseResponse(responseData);
 
 
                     } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     //Process the response Data
@@ -109,4 +106,5 @@ public class GetDataFromServer extends Thread {
             return false;
         }
     }
+
 }
