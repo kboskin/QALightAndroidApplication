@@ -27,6 +27,7 @@ import java.util.List;
 
 import static com.example.hp.qalightandroidapp.Constants.QALight_URL_To_Connect;
 import static com.example.hp.qalightandroidapp.Constants.addSwipeRefresh;
+import static com.example.hp.qalightandroidapp.Constants.parseDateToProperFormat;
 import static com.example.hp.qalightandroidapp.Constants.setItemDecoration;
 
 public class HomeTaskFragment extends Fragment {
@@ -40,6 +41,7 @@ public class HomeTaskFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private String responseData;
     private final String param = "home=123";
+    DataGetterFromServer dataGetterFromServer;
 
     //private MyCustomAdapter adapter;
 
@@ -92,43 +94,7 @@ public class HomeTaskFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                DataGetterFromServer dataGetterFromServer = new DataGetterFromServer(QALight_URL_To_Connect, param, getContext(), new DataParser() {
-                    @Override
-                    public void parseResponse(String responseData) {
-                        try {
-                            //Process the response Data
-                            JSONArray jsonArray = new JSONArray(responseData);
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject home = jsonArray.getJSONObject(i);
-                                String title = home.getString("title");
-                                String date = home.getString("date");
-
-                                // fucking KASTYYYYL, fuck yeah eeeeeee
-                                int year = Integer.parseInt(date.substring(0, 4)); // getting a year here
-                                int month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-") + 3)); // getting a month here
-                                int day = Integer.parseInt(date.substring(date.lastIndexOf("-") + 1)); // getting a day here
-
-                                ModelHomeTask mht = new ModelHomeTask(Html.fromHtml(title), year, month, day);
-                                modelHomeTaskList.add(0, mht);
-                            }
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    // adapter recreation, for some reason notifyDataSetChanged doesnt work
-                                    mAdapter = new ModelHomeTaskAdapter((ArrayList<ModelHomeTask>) modelHomeTaskList);
-                                    recyclerView.swapAdapter(mAdapter, true);
-                                    // duplication avoiding (just removing all from the list)
-                                    modelHomeTaskList.clear();
-                                    // stop refreshing
-                                    swipeRefreshLayout.setRefreshing(false);
-                                }
-                            });
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-                dataGetterFromServer.start();
+                getDataFromConnection();
             }
         });
 
@@ -139,16 +105,55 @@ public class HomeTaskFragment extends Fragment {
     private ArrayList<ModelHomeTask> getData() {
         // get here some data using OKHTTP3
 
-        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 24));
+        /*modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 24));
         modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 20));
         modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 11));
         modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 22));
         modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 23));
         modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 24));
-        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 24));
+        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 24));*/
         //startConnection(QALight_URL_To_Connect);
 
+
+        getDataFromConnection();
         return (ArrayList<ModelHomeTask>) modelHomeTaskList;
+    }
+    private void getDataFromConnection()
+    {
+        dataGetterFromServer = new DataGetterFromServer(QALight_URL_To_Connect, param, getContext(), new DataParser() {
+            @Override
+            public void parseResponse(String responseData) {
+                try {
+                    //Process the response Data
+                    JSONArray jsonArray = new JSONArray(responseData);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject home = jsonArray.getJSONObject(i);
+                        String date = home.getString("date");
+
+                        ModelHomeTask mht = new ModelHomeTask(Html.fromHtml(home.getString("title")),
+                                parseDateToProperFormat(date)[0],
+                                parseDateToProperFormat(date)[1],
+                                parseDateToProperFormat(date)[2]);
+                        modelHomeTaskList.add(0, mht);
+                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // adapter recreation, for some reason notifyDataSetChanged doesnt work
+                            mAdapter = new ModelHomeTaskAdapter((ArrayList<ModelHomeTask>) modelHomeTaskList);
+                            recyclerView.swapAdapter(mAdapter, true);
+                            // duplication avoiding (just removing all from the list)
+                            modelHomeTaskList.clear();
+                            // stop refreshing
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, swipeRefreshLayout);
+        dataGetterFromServer.start();
     }
 
 }

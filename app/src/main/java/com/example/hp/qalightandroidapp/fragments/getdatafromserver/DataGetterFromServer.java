@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -27,16 +28,21 @@ public class DataGetterFromServer extends Thread {
     private Context context;
     private String responseData = "";
     private DataParser dataParser;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    Activity getActivity;
 
     public String getResponseData() {
         return responseData;
     }
 
-    public DataGetterFromServer(String url, String param, Context context, DataParser dataParser) {
+    public DataGetterFromServer(String url, String param, Context context, DataParser dataParser, SwipeRefreshLayout swipeRefreshLayout) {
         this.param = param;
         this.url = url;
         this.context = context;
         this.dataParser = dataParser;
+        this.swipeRefreshLayout  = swipeRefreshLayout;
+        getActivity = (Activity) context;
+
     }
 
     @Override
@@ -77,7 +83,7 @@ public class DataGetterFromServer extends Thread {
 
 
             } else {
-                Activity getActivity = (Activity) context;
+
                 getActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -89,22 +95,33 @@ public class DataGetterFromServer extends Thread {
         }
     }
 
-    private boolean checkInternet(Context context) {
+    private boolean checkInternet(final Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-
-        if (activeNetwork != null) {
-            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
-                Log.d(TAG, "checkInternet: " + "Connected to WIFI");
-            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
-                Log.d(TAG, "checkInternet: " + "Connected to Mobile data");
+        NetworkInfo activeNetwork = null;
+        if (cm != null) {
+            activeNetwork = cm.getActiveNetworkInfo();
+            if (activeNetwork != null) {
+                if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+                    Log.d(TAG, "checkInternet: " + "Connected to WIFI");
+                } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+                    Log.d(TAG, "checkInternet: " + "Connected to Mobile data");
+                }
+                return true;
             }
-            return true;
-        } else {
-            Log.d(TAG, "checkInternet: " + "Not connected");
-            Toast.makeText(context, context.getString(R.string.internet_connection_failed), Toast.LENGTH_SHORT).show();
-            return false;
         }
+
+        Log.d(TAG, "checkInternet: " + "Not connected");
+        getActivity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(context, context.getString(R.string.internet_connection_failed), Toast.LENGTH_SHORT).show();
+                // disable swipe
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        return false;
+
     }
 
 }

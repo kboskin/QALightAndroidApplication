@@ -4,22 +4,12 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.hp.qalightandroidapp.fragments.motivations.ModalHistoryPersonal;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * Created by hp on 007 07.09.2017.
@@ -75,60 +65,20 @@ public class Constants {
         boolean includeEdge = true;
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
     }
+    // method to parse data to proper format, returns an array of ints
+    public static int[] parseDateToProperFormat(String date)
+    {
+        int year = Integer.parseInt(date.substring(0, 4)); // getting a year here
+        int month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-") + 3)); // getting a month here
+        int day = Integer.parseInt(date.substring(date.lastIndexOf("-") + 1)); // getting a day here
+
+        return new int[]{year, month, day};
+    }
 
     public static void setTypefaceToTextView(TextView view, Context context) {
         Typeface face = Typeface.createFromAsset(context.getAssets(),
                 "fonts/sf.ttf");
         view.setTypeface(face);
-    }
-
-    public static JSONObject fetchOrRefreshData(final String param, final Context context) {
-
-        final JSONObject[] answerJSON = new JSONObject[1];
-        final Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Request request = new Request.Builder()
-                        .url(Constants.QALight_URL_To_Connect + param)
-                        .get()
-                        .build();
-                OkHttpClient client = new OkHttpClient();
-
-                try {
-                    // get the response
-                    Response response = client.newCall(request).execute();
-
-                    // handle response codes
-                    if (response.isSuccessful()) {
-                        // is ok status
-                        if (response.code() == 200) {
-                            // get responseBody
-                            String responseBody = response.body().string();
-                            // form response body
-                            JSONObject jsonObject = new JSONObject(responseBody);
-
-                            answerJSON[0] = jsonObject;
-                            Log.d("AnswerJSON", answerJSON[0].toString());
-                            // forming a string here for hello message at top of header
-                        } else if (response.body().string().contains(Constants.CHAR_SEQUENCE_FAILURE_VALUE_FOR_RESPONSE)) {
-                            Toast.makeText(context, context.getString(R.string.connection_problems), Toast.LENGTH_LONG).show();
-                            answerJSON[0] = new JSONObject("");
-                        }
-                    } else {
-                        Toast.makeText(context, context.getString(R.string.connection_problems), Toast.LENGTH_LONG).show();
-                        answerJSON[0] = new JSONObject("");
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        thread.start();
-
-        return answerJSON[0];
-
     }
 
     public static void addSwipeRefresh(SwipeRefreshLayout swipeRefreshLayout) {

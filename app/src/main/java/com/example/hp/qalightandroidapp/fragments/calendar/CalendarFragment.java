@@ -115,20 +115,30 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
 
     private boolean checkInternet(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-
-        if (activeNetwork != null) {
+        NetworkInfo activeNetwork = null;
+        if (cm != null) {
+            activeNetwork = cm.getActiveNetworkInfo();
+            if (activeNetwork != null) {
             if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
                 Log.d(TAG, "checkInternet: " + "Connected to WIFI");
             } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
                 Log.d(TAG, "checkInternet: " + "Connected to Mobile data");
             }
-            return true;
-        } else {
-            Log.d(TAG, "checkInternet: " + "Not connected");
-            Toast.makeText(context, getString(R.string.internet_connection_failed), Toast.LENGTH_SHORT).show();
-            return false;
+                return true;
+            }
         }
+
+
+            Log.d(TAG, "checkInternet: " + "Not connected");
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(getContext(), getString(R.string.internet_connection_failed), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            return false;
+
     }
 
     private void getCalendarDataFromServer() {
