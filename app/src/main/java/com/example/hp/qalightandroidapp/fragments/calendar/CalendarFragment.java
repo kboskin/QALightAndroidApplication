@@ -66,6 +66,8 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
             }
         });
         getCalendarDataFromServer();
+        Log.d("InHomeTask", "calendar");
+
 
         return view;
     }

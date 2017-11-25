@@ -10,6 +10,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -66,8 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // set color of status bar
         setStatusBarColor();
 
-        // select default fragment
-        setDefaultFragment(savedInstanceState);
         // denied orientation changing
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -172,54 +171,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void replaceWithFragment(Fragment fragment, Handler handler) {
         // frgmcont has strong reference because we always replace it exactly
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frgmCont, fragment)
-                .addToBackStack(String.valueOf(fragment.getId()))
-                .commit();
+        if (fragment.isAdded()) {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            for (Fragment addedFragment : getSupportFragmentManager().getFragments()) {
 
-        handler.sendEmptyMessage(1);
-
-/*      String fragmentTag = fragment.getClass().getName();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction ftx = fragmentManager.beginTransaction();
-
-
-        if (fragment.isAdded())
-        {
-            ftx.show(fragment);
-        }else {
-
-            boolean fragmentPopped = fragmentManager
-                    .popBackStackImmediate(fragmentTag, 0);
-
-            if (!fragmentPopped && fragmentManager.findFragmentByTag(fragmentTag) == null) {
-
-                ftx.addToBackStack(fragment.getClass().getSimpleName());
-                ftx.add(R.id.frgmCont, fragment);
-                ftx.commit();
+                if (addedFragment != fragment) {
+                    ft.hide(addedFragment);
+                }
             }
-
-        }*/
-
-    }
-
-    private void replaceWithFragment(Fragment fragment) {
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frgmCont, fragment)
-                .addToBackStack(String.valueOf(fragment.getId()))
-                .commit();
-
-    }
-
-    private void setDefaultFragment(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            calendarFragment = new CalendarFragment();
-            replaceWithFragment(calendarFragment);
+            ft.show(fragment).commit();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.frgmCont, fragment)
+                    .addToBackStack(String.valueOf(fragment.getId()))
+                    .show(fragment)
+                    .commit();
         }
+
+
+        if (handler != null) handler.sendEmptyMessage(1);
+
     }
+
 
     private void initializeDrawerItemList(MenuItem item) {
         switch (item.getItemId()) {
@@ -259,6 +233,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_exit:
                 rewriteLogInValueAndBackToLogIn();
                 break;
+            default:
+                if (calendarFragment == null) {
+                    calendarFragment = new CalendarFragment();
+                }
+                replaceWithFragment(calendarFragment, handler);
+                break;
         }
     }
 
@@ -274,7 +254,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             // Activity was not launched with a menuFragment selected -- continue as if this activity was opened from a launcher (for example)
             calendarFragment = new CalendarFragment();
-            replaceWithFragment(calendarFragment);
+            replaceWithFragment(calendarFragment, null);
         }
     }
 

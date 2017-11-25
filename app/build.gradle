@@ -57,7 +57,10 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
 
     // http3
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
+
+    //special lib for QuickSharedPrefs
+    compile 'com.google.code.gson:gson:2.8.1'
 
 
 
@@ -69,8 +72,8 @@ dependencies {
     // custom progress dialog
     compile 'com.github.d-max:spots-dialog:0.7@aar'
 
-    compile 'com.google.firebase:firebase-core:11.4.2'
-    compile 'com.google.firebase:firebase-messaging:11.4.2'
+    compile 'com.google.firebase:firebase-core:11.6.0'
+    compile 'com.google.firebase:firebase-messaging:11.6.0'
 
 
 

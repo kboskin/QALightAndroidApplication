@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.example.hp.qalightandroidapp.fragments.motivations.ModalHistoryPersonal;
+import com.example.hp.qalightandroidapp.helpers.GridSpacingItemDecoration;
 
 import java.util.Arrays;
 import java.util.List;

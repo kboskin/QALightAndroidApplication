@@ -1,4 +1,4 @@
-package com.example.hp.qalightandroidapp.fragments.getdatafromserver;
+package com.example.hp.qalightandroidapp.helpers.serverdatagetter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -29,7 +29,8 @@ public class DataGetterFromServer extends Thread {
     private String responseData = "";
     private DataParser dataParser;
     private SwipeRefreshLayout swipeRefreshLayout;
-    Activity getActivity;
+    private Activity referenceActivity;
+    //private Loader loader;
 
     public String getResponseData() {
         return responseData;
@@ -41,12 +42,16 @@ public class DataGetterFromServer extends Thread {
         this.context = context;
         this.dataParser = dataParser;
         this.swipeRefreshLayout  = swipeRefreshLayout;
-        getActivity = (Activity) context;
+        referenceActivity = (Activity) context;
+        //loader = new Loader(context);
+
 
     }
 
     @Override
     public void run() {
+
+        //loader.turnOnLoader();
         Request request = new Request.Builder()
                 .url(url + param)
                 .get()
@@ -75,19 +80,22 @@ public class DataGetterFromServer extends Thread {
                     }
                     //Process the response Data
                     Log.d("ResponseData", responseData);
+                    //loader.turnOffLoader();
                 } else {
                     //Server problem
                     Toast.makeText(context, context.getResources().getString(R.string.connection_problems) + " " + response.code(), Toast.LENGTH_SHORT).show();
+                    //loader.turnOffLoader();
 
                 }
 
 
             } else {
 
-                getActivity.runOnUiThread(new Runnable() {
+                referenceActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(context, context.getResources().getString(R.string.connection_problems), Toast.LENGTH_SHORT).show();
+                        //loader.turnOffLoader();
 
                     }
                 });
@@ -111,12 +119,13 @@ public class DataGetterFromServer extends Thread {
         }
 
         Log.d(TAG, "checkInternet: " + "Not connected");
-        getActivity.runOnUiThread(new Runnable() {
+        referenceActivity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Toast.makeText(context, context.getString(R.string.internet_connection_failed), Toast.LENGTH_SHORT).show();
                 // disable swipe
                 swipeRefreshLayout.setRefreshing(false);
+                //loader.turnOffLoader();
             }
         });
 

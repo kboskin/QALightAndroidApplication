@@ -1,4 +1,4 @@
-package com.example.hp.qalightandroidapp;
+package com.example.hp.qalightandroidapp.helpers;
 
 import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;

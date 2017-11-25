@@ -1,4 +1,4 @@
-package com.example.hp.qalightandroidapp.fragments.getdatafromserver;
+package com.example.hp.qalightandroidapp.helpers.serverdatagetter;
 
 /**
  * Created by hp on 013 13.11.2017.
