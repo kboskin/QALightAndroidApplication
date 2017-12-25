@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.hp.qalightandroidapp.R;
@@ -17,6 +18,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static android.content.ContentValues.TAG;
+import static com.example.hp.qalightandroidapp.activities.MainActivity.getMainProgressBar;
 
 /**
  * Created by hp on 003 03.11.2017.
@@ -126,6 +128,7 @@ public class DataGetterFromServer extends Thread {
                 // disable swipe
                 swipeRefreshLayout.setRefreshing(false);
                 //loader.turnOffLoader();
+                getMainProgressBar().setVisibility(View.INVISIBLE);
             }
         });
 

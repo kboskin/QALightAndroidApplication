@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.hp.qalightandroidapp.R;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private PaymentFragment paymentFragment;
     private NotificationsFragment notificationFragment;
     private Handler handler;
+    public static ProgressBar mainProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // set hello message
         TextView groupText = headerLayout.findViewById(R.id.group_text);
         groupText.setText(getResources().getString(R.string.hello) + " " + prefs.getString(HELLO_MESSAGE_FOR_USER, ""));
+
+        mainProgressBar = findViewById(R.id.mainProgressBar);
 
     }
 
@@ -258,5 +262,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
+    public static ProgressBar getMainProgressBar() {
+        return mainProgressBar;
+    }
 }

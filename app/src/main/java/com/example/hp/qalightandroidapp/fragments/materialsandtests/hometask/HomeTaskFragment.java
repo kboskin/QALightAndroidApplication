@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import com.example.hp.qalightandroidapp.R;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask.ModelHomeTask;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask.ModelHomeTaskAdapter;
-import com.example.hp.qalightandroidapp.helpers.TinyDB;
 import com.example.hp.qalightandroidapp.helpers.serverdatagetter.DataGetterFromServer;
 import com.example.hp.qalightandroidapp.helpers.serverdatagetter.DataParser;
 
@@ -30,6 +29,7 @@ import static com.example.hp.qalightandroidapp.Constants.QALight_URL_To_Connect;
 import static com.example.hp.qalightandroidapp.Constants.addSwipeRefresh;
 import static com.example.hp.qalightandroidapp.Constants.parseDateToProperFormat;
 import static com.example.hp.qalightandroidapp.Constants.setItemDecoration;
+import static com.example.hp.qalightandroidapp.activities.MainActivity.getMainProgressBar;
 
 public class HomeTaskFragment extends Fragment {
 
@@ -42,7 +42,6 @@ public class HomeTaskFragment extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private final String param = "home=123";
     private DataGetterFromServer dataGetterFromServer;
-    private TinyDB tinyDB;
     //private MyCustomAdapter adapter;
 
     public HomeTaskFragment() {
@@ -71,6 +70,10 @@ public class HomeTaskFragment extends Fragment {
         recyclerView = view.findViewById(R.id.fragment_materials_fragment_home_task_recycler_view);
         mLayoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
+
+        // progress bar to load data when oncreate, and internet is slow enough
+        getMainProgressBar().setVisibility(View.VISIBLE);
+
         setItemDecoration(recyclerView, 1);
 
         mAdapter = new ModelHomeTaskAdapter(getData());
@@ -102,25 +105,13 @@ public class HomeTaskFragment extends Fragment {
 
         return view;
     }
+
     private ArrayList<ModelHomeTask> getData() {
-        // get here some data using OKHTTP3
-
-/*
-modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 24));
-        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 20));
-        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 11));
-        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 22));
-        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 23));
-        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 24));
-        modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query search"), 2017, 9, 24));
-*/
-
-
         getDataFromConnection();
         return (ArrayList<ModelHomeTask>) modelHomeTaskList;
     }
-    private void getDataFromConnection()
-    {
+
+    private void getDataFromConnection() {
         dataGetterFromServer = new DataGetterFromServer(QALight_URL_To_Connect, param, getContext(), new DataParser() {
             @Override
             public void parseResponse(String responseData) {
@@ -147,6 +138,8 @@ modelHomeTaskList.add(new ModelHomeTask(Html.fromHtml("Fuc*ng feature with query
                             modelHomeTaskList.clear();
                             // stop refreshing
                             swipeRefreshLayout.setRefreshing(false);
+                            // make big loader invisible
+                            getMainProgressBar().setVisibility(View.INVISIBLE);
                         }
                     });
                 } catch (JSONException e) {
