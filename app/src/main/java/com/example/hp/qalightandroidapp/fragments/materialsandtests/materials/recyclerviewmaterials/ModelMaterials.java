@@ -12,11 +12,18 @@ public class ModelMaterials {
     private String description;
     private Date date;
     private String stringDate;
+    private String url;
+    private int year;
+    private int month;
+    private int day;
 
-    public ModelMaterials(String title, String description, String stringDate) {
+    public ModelMaterials(String title, int year, int month, int day, String url) {
         this.title = title;
-        this.description = description;
-        this.stringDate = stringDate;
+        this.url = url;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.stringDate = "" + getDay() + "/" + getMonth() + "/" + getYear();
     }
 
     public ModelMaterials(String title, String description, Date date) {
@@ -24,6 +31,7 @@ public class ModelMaterials {
         this.description = description;
         this.date = date;
     }
+
     public ModelMaterials(String title, Date date) {
         this.title = title;
         this.date = date;
@@ -57,4 +65,22 @@ public class ModelMaterials {
     public Date getDate() {
         return date;
     }
+
+
+    public String getUrl() {
+        return url;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
 }

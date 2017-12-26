@@ -1,6 +1,8 @@
 package com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.hp.qalightandroidapp.Constants;
 import com.example.hp.qalightandroidapp.R;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask.ModelHomeTask;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask.ModelHomeTaskAdapter;
@@ -40,8 +43,7 @@ public class HomeTaskFragment extends Fragment {
     private LinearLayoutManager mLayoutManager;
     private Date dateFilter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private final String param = "home=123";
-    private DataGetterFromServer dataGetterFromServer;
+    private String param = "home=";
     //private MyCustomAdapter adapter;
 
     public HomeTaskFragment() {
@@ -62,6 +64,10 @@ public class HomeTaskFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home_task, container, false);
+
+        //get shared preferences
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        param += prefs.getString(Constants.EXTRA_LOGIN_CODE, "123");
 
         modelHomeTaskList = new ArrayList<>();
         // swipe refresh layout
@@ -93,9 +99,6 @@ public class HomeTaskFragment extends Fragment {
         // swipe refresh is added here
         addSwipeRefresh(swipeRefreshLayout);
 
-        Log.d("InHomeTask", "hometask");
-
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -112,7 +115,7 @@ public class HomeTaskFragment extends Fragment {
     }
 
     private void getDataFromConnection() {
-        dataGetterFromServer = new DataGetterFromServer(QALight_URL_To_Connect, param, getContext(), new DataParser() {
+        DataGetterFromServer dataGetterFromServer = new DataGetterFromServer(QALight_URL_To_Connect, param, getContext(), new DataParser() {
             @Override
             public void parseResponse(String responseData) {
                 try {

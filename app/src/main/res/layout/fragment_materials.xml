@@ -4,12 +4,16 @@
     android:layout_height="match_parent"
     tools:context=".fragments.materialsandtests.materials.MaterialsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_materials_recycler_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/fragment_materials_swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorHoloGray">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/fragment_materials_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorHoloGray" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </FrameLayout>

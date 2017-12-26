@@ -32,11 +32,6 @@ public class DataGetterFromServer extends Thread {
     private DataParser dataParser;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Activity referenceActivity;
-    //private Loader loader;
-
-    public String getResponseData() {
-        return responseData;
-    }
 
     public DataGetterFromServer(String url, String param, Context context, DataParser dataParser, SwipeRefreshLayout swipeRefreshLayout) {
         this.param = param;
@@ -45,15 +40,10 @@ public class DataGetterFromServer extends Thread {
         this.dataParser = dataParser;
         this.swipeRefreshLayout  = swipeRefreshLayout;
         referenceActivity = (Activity) context;
-        //loader = new Loader(context);
-
-
     }
 
     @Override
     public void run() {
-
-        //loader.turnOnLoader();
         Request request = new Request.Builder()
                 .url(url + param)
                 .get()
@@ -66,8 +56,6 @@ public class DataGetterFromServer extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         if (checkInternet(context)) {
 
             if (response != null) {
@@ -89,8 +77,6 @@ public class DataGetterFromServer extends Thread {
                     //loader.turnOffLoader();
 
                 }
-
-
             } else {
 
                 referenceActivity.runOnUiThread(new Runnable() {
@@ -107,7 +93,7 @@ public class DataGetterFromServer extends Thread {
 
     private boolean checkInternet(final Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = null;
+        NetworkInfo activeNetwork;
         if (cm != null) {
             activeNetwork = cm.getActiveNetworkInfo();
             if (activeNetwork != null) {
