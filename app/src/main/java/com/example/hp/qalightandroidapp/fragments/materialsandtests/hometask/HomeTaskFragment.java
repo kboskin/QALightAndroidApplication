@@ -86,22 +86,18 @@ public class HomeTaskFragment extends Fragment {
 
         recyclerView.setAdapter(mAdapter);
 
-        if (dateFilter != null) {
-            dateFilter.setYear(dateFilter.getYear() + 1900);
-            dateFilter.setMonth(dateFilter.getMonth() + 1);
-            dateFilter.setDate(dateFilter.getDate() + 23);
-            Log.d("Calendar1", "" + dateFilter.getTime());
-            Log.d("Calendar1", "" + dateFilter.getYear() + " " + dateFilter.getMonth() + " " + dateFilter.getDate());
-            Log.d("Calendar2", "" + getData().get(0).getDate().getTime());
-            Log.d("Calendar2", "" + getData().get(0).getDate().getYear() + " " + getData().get(0).getDate().getMonth() + " " + getData().get(0).getDate().getDate());
-            mAdapter.getFilter().filter("" + dateFilter.getTime());
-        }
+
+        Log.d("isHere", "isNotHere");
+
+
         // swipe refresh is added here
         addSwipeRefresh(swipeRefreshLayout);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                dateFilter = null;
+                modelHomeTaskList.clear();
                 getDataFromConnection();
             }
         });
@@ -137,12 +133,27 @@ public class HomeTaskFragment extends Fragment {
                             // adapter recreation, for some reason notifyDataSetChanged doesnt work
                             mAdapter = new ModelHomeTaskAdapter((ArrayList<ModelHomeTask>) modelHomeTaskList);
                             recyclerView.swapAdapter(mAdapter, true);
+
+                            if (dateFilter != null) {
+                                Log.d("isHere", "ishere");
+
+                                Log.d("MHT", String.valueOf(modelHomeTaskList.size()));
+                                for (ModelHomeTask mht : modelHomeTaskList)
+                                {
+                                    Log.d("MHT", String.valueOf(mht.getTitle()));
+                                }
+                                dateFilter.setYear(dateFilter.getYear() + 1900);
+                                dateFilter.setMonth(dateFilter.getMonth() + 1);
+                                dateFilter.setDate(dateFilter.getDate() + 23);
+                                mAdapter.getFilter().filter("" + dateFilter.getTime());
+                            }
+
                             // duplication avoiding (just removing all from the list)
-                            modelHomeTaskList.clear();
                             // stop refreshing
                             swipeRefreshLayout.setRefreshing(false);
                             // make big loader invisible
                             getMainProgressBar().setVisibility(View.INVISIBLE);
+                            Log.d("MHT152", String.valueOf(modelHomeTaskList.size()));
                         }
                     });
                 } catch (JSONException e) {
@@ -153,8 +164,8 @@ public class HomeTaskFragment extends Fragment {
         dataGetterFromServer.start();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
+        @Override
+        public void onStop () {
+            super.onStop();
+        }
     }
-}

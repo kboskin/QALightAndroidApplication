@@ -63,7 +63,6 @@ public class FixturesTabsFragment extends Fragment {
         // fragments creation, only once, so
         // we will not have to recreate
         if (date != null) {
-
             homeTaskFragment = new HomeTaskFragment(date);
             materialsFragment = new MaterialsFragment();
             testsFragment = new TestsFragment();
