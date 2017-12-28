@@ -40,13 +40,13 @@ import static com.example.hp.qalightandroidapp.Constants.HELLO_MESSAGE_FOR_USER;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private SharedPreferences prefs;
-    private FixturesTabsFragment fixturesTabsFragment;
+    public FixturesTabsFragment fixturesTabsFragment;
     private CalendarFragment calendarFragment;
     private MotivationsFragment motivationsFragment;
     private AboutUsFragment aboutUsFragment;
     private PaymentFragment paymentFragment;
     private NotificationsFragment notificationFragment;
-    private Handler handler;
+    public Handler handler;
     public static ProgressBar mainProgressBar;
 
     @Override
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void replaceWithFragment(Fragment fragment, Handler handler) {
+    public void replaceWithFragment(Fragment fragment, Handler handler) {
         // frgmcont has strong reference because we always replace it exactly
         if (fragment.isAdded()) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public static ProgressBar getMainProgressBar() {
+public static ProgressBar getMainProgressBar() {
         return mainProgressBar;
     }
 }

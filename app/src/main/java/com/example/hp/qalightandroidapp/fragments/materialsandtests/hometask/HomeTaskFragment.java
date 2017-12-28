@@ -1,6 +1,7 @@
 package com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask;
 
 import android.content.SharedPreferences;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -50,6 +51,7 @@ public class HomeTaskFragment extends Fragment {
 
     }
 
+    @SuppressLint("ValidFragment")
     public HomeTaskFragment(Date dateFilter) {
         this.dateFilter = dateFilter;
     }
@@ -144,11 +146,17 @@ public class HomeTaskFragment extends Fragment {
                                 }
                                 dateFilter.setYear(dateFilter.getYear() + 1900);
                                 dateFilter.setMonth(dateFilter.getMonth() + 1);
-                                dateFilter.setDate(dateFilter.getDate() + 23);
+                                dateFilter.setDate(dateFilter.getDate() + 22);
+                                Log.d("CalendarFilter", ""+dateFilter.getTime());
+                                Log.d("CalendarFilterMain", ""+dateFilter.getYear()+" "
+                                        +dateFilter.getMonth()+" "
+                                        +dateFilter.getDay());
                                 mAdapter.getFilter().filter("" + dateFilter.getTime());
+
                             }
 
                             // duplication avoiding (just removing all from the list)
+                            modelHomeTaskList.clear();
                             // stop refreshing
                             swipeRefreshLayout.setRefreshing(false);
                             // make big loader invisible
@@ -164,8 +172,8 @@ public class HomeTaskFragment extends Fragment {
         dataGetterFromServer.start();
     }
 
-        @Override
-        public void onStop () {
-            super.onStop();
-        }
+    @Override
+    public void onStop() {
+        super.onStop();
     }
+}

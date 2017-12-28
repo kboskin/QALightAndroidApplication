@@ -53,6 +53,7 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
             if (validate(view)) {
                 int position = findPosition(view);
                 mListener.onItemClick(view, position);
+                return false;
             }
             return true;
         }

@@ -18,6 +18,7 @@ import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.example.hp.qalightandroidapp.R;
+import com.example.hp.qalightandroidapp.activities.MainActivity;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.FixturesTabsFragment;
 
 import org.json.JSONException;
@@ -84,9 +85,9 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
             List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
             Calendar startTime = Calendar.getInstance();
-            startTime.set(2017, 8, 24, 0, 23);
+            startTime.set(2017, 9, 28, 0, 23);
             Calendar endTime = (Calendar) startTime.clone();
-            endTime.set(2017, 8, 24, 2, 23);
+            endTime.set(2017, 9, 28, 2, 23);
             WeekViewEvent event = new WeekViewEvent(1, "HelloWorld", startTime, endTime);
             event.setColor(getResources().getColor(R.color.colorOrange));
             events.add(event);
@@ -108,9 +109,22 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
         Log.i("onEventClick", event.getName());
         Toast.makeText(getContext(), event.getName() + " " + event.getStartTime().getTime().getDate(), Toast.LENGTH_LONG).show();
         Date date = new Date(event.getStartTime().getTime().getYear(), event.getStartTime().getTime().getMonth(), event.getStartTime().getTime().getDay());
+        //FixturesTabsFragment fixturesTabsFragment = new FixturesTabsFragment(date);
         FixturesTabsFragment fixturesTabsFragment = new FixturesTabsFragment(date);
 
         getFragmentManager().beginTransaction().replace(R.id.frgmCont, fixturesTabsFragment).commit();
+/*
+        Bundle bundle = new Bundle();
+        bundle.putLong("calendarDate", date.getTime());
+        if(((MainActivity)getActivity()).fixturesTabsFragment == null) {
+            ((MainActivity) getActivity()).fixturesTabsFragment = new FixturesTabsFragment();
+        }
+        //((MainActivity) getActivity()).fixturesTabsFragment.setArguments(bundle);
+        ((MainActivity) getActivity()).fixturesTabsFragment.setDate(date);
+        ((MainActivity)getActivity()).replaceWithFragment(((MainActivity) getActivity()).fixturesTabsFragment, ((MainActivity) getActivity()).handler);
+*/
+
+        //getFragmentManager().beginTransaction().replace(R.id.frgmCont, fixturesTabsFragment).commit();
     }
 
 

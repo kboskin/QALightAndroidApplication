@@ -1,5 +1,6 @@
 package com.example.hp.qalightandroidapp.fragments.materialsandtests;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.Hom
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.MaterialsFragment;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.tests.TestsFragment;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,10 +27,12 @@ public class FixturesTabsFragment extends Fragment {
     private MaterialsFragment materialsFragment;
     private TestsFragment testsFragment;
     private Date date;
+    ViewPager viewPager;
 
     public FixturesTabsFragment() {
     }
 
+    @SuppressLint("ValidFragment")
     public FixturesTabsFragment(Date date) {
         this.date = date;
     }
@@ -45,7 +49,7 @@ public class FixturesTabsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_fixtures_tabs, container, false);
         // Setting ViewPager for each Tabs
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager);
+        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
         // Fucking string which fixes all shit with tabs, hate that bitch! It caches 3 pages
         viewPager.setOffscreenPageLimit(3);
 
@@ -57,9 +61,19 @@ public class FixturesTabsFragment extends Fragment {
 
     }
 
+    public void setDate(Date date) {
+        this.date = date;
+        setupViewPager(viewPager);
+    }
 
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
+/*        try {
+            this.date = new Date(this.getArguments().getLong("calendarDate"));
+        } catch (NullPointerException e){
+            this.date = null;
+        }*/
+
         // fragments creation, only once, so
         // we will not have to recreate
         if (date != null) {

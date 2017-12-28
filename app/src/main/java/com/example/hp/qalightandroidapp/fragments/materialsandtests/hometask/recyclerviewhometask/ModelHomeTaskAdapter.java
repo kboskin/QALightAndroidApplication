@@ -65,6 +65,9 @@ public class ModelHomeTaskAdapter extends RecyclerView.Adapter<ModelHomeTaskView
 
             for(ModelHomeTask item : modelHomeTaskList){
                 Log.d("CalendarFilter", ""+item.getDate().getTime());
+                Log.d("CalendarFilterDate", ""+item.getDate().getYear()+" "
+                        +item.getDate().getMonth()+" "
+                        +item.getDate().getDay());
 
                 if((""+item.getDate().getTime()).equals(charSequence)){
                     filtered.add(item);
