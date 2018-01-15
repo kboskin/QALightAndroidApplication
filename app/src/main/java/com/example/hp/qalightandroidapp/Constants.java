@@ -76,6 +76,17 @@ public class Constants {
         return new int[]{year, month, day};
     }
 
+    public static int[] parseDateAndHoursToProperFormat(String date)
+    {
+        int year = Integer.parseInt(date.substring(0, 4)); // getting a year here
+        int month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-") + 3)); // getting a month here
+        int day = Integer.parseInt(date.substring(date.lastIndexOf("-")+1, date.indexOf(" "))); // getting a day here
+        int hours = Integer.parseInt(date.substring(date.indexOf(" ")+1, date.indexOf(":")));
+        int minut = Integer.parseInt(date.substring(date.indexOf(":")+1, date.lastIndexOf(":")));
+
+        return new int[]{year, month, day, hours, minut};
+    }
+
     public static void setTypefaceToTextView(TextView view, Context context) {
         Typeface face = Typeface.createFromAsset(context.getAssets(),
                 "fonts/sf.ttf");

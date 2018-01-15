@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,12 @@ import com.alamkanak.weekview.WeekViewEvent;
 import com.example.hp.qalightandroidapp.R;
 import com.example.hp.qalightandroidapp.activities.MainActivity;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.FixturesTabsFragment;
+import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask.ModelHomeTask;
+import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask.ModelHomeTaskAdapter;
+import com.example.hp.qalightandroidapp.helpers.serverdatagetter.DataGetterFromServer;
+import com.example.hp.qalightandroidapp.helpers.serverdatagetter.DataParser;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,20 +41,27 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static android.content.ContentValues.TAG;
+import static com.example.hp.qalightandroidapp.Constants.QALight_URL_To_Connect;
+import static com.example.hp.qalightandroidapp.Constants.parseDateToProperFormat;
+import static com.example.hp.qalightandroidapp.Constants.parseDateAndHoursToProperFormat;
+import static com.example.hp.qalightandroidapp.activities.MainActivity.getMainProgressBar;
 
 /**
  * Created by root on 05.09.17.
  */
 
-public class CalendarFragment extends android.support.v4.app.Fragment implements WeekView.EventClickListener, MonthLoader.MonthChangeListener {
+public class CalendarFragment extends android.support.v4.app.Fragment implements WeekView.EventClickListener {
     private WeekView mWeekView;
     private Context context;
     private String QALight_URL_To_Connect = "http://app.qalight.com.ua/?calendar=123";
-    private String responseData = "";
+    DataGetterFromServer dataGetterFromServer;
+    ModelCalendar mht;
+    List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getDataFromConnection();
     }
 
     @Nullable
@@ -60,13 +73,14 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
         mWeekView.setMonthChangeListener(mMonthChangeListener);
         mWeekView.setOnEventClickListener(this);
         //mWeekView.setWeekViewLoader();
+
         mWeekView.setScrollListener(new WeekView.ScrollListener() {
             @Override
             public void onFirstVisibleDayChanged(Calendar newFirstVisibleDay, Calendar oldFirstVisibleDay) {
                 //Toast.makeText(getActivity().getApplicationContext(), "not work", Toast.LENGTH_LONG).show();
             }
         });
-        getCalendarDataFromServer();
+
         Log.d("InHomeTask", "calendar");
 
 
@@ -82,21 +96,19 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
         @Override
         public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
             // Populate the week view with some events.
-            List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+            //events = new ArrayList<WeekViewEvent>();
 
-            Calendar startTime = Calendar.getInstance();
-            startTime.set(2017, 9, 28, 0, 23);
-            Calendar endTime = (Calendar) startTime.clone();
-            endTime.set(2017, 9, 28, 2, 23);
-            WeekViewEvent event = new WeekViewEvent(1, "HelloWorld", startTime, endTime);
-            event.setColor(getResources().getColor(R.color.colorOrange));
-            events.add(event);
+            try {
+                dataGetterFromServer.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             int newMoun = newMonth - 1;
 
             ArrayList<WeekViewEvent> eventsMonth = new ArrayList<WeekViewEvent>();
             for (int i = 0; i < events.size(); i++) {
-                if (((events.get(i).getStartTime().get(Calendar.MONTH)) == (newMonth - 1))) {
+                if (((events.get(i).getStartTime().get(Calendar.MONTH)) == (newMonth-1))) {
                     eventsMonth.add(events.get(i));
                 }
             }
@@ -127,120 +139,77 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
         //getFragmentManager().beginTransaction().replace(R.id.frgmCont, fixturesTabsFragment).commit();
     }
 
-
-
-    private boolean checkInternet(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = null;
-        if (cm != null) {
-            activeNetwork = cm.getActiveNetworkInfo();
-            if (activeNetwork != null) {
-            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
-                Log.d(TAG, "checkInternet: " + "Connected to WIFI");
-            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
-                Log.d(TAG, "checkInternet: " + "Connected to Mobile data");
-            }
-                return true;
-            }
-        }
-
-
-            Log.d(TAG, "checkInternet: " + "Not connected");
-            getActivity().runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(getContext(), getString(R.string.internet_connection_failed), Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            return false;
-
+    private void getData() {
+        getDataFromConnection();
     }
 
-    private void getCalendarDataFromServer() {
-
-        Thread thread = new Thread(new Runnable() {
+    private void getDataFromConnection() {
+        dataGetterFromServer = new DataGetterFromServer(QALight_URL_To_Connect, "", getContext(), new DataParser() {
             @Override
-            public void run() {
-                Request request = new Request.Builder()
-                        .url(QALight_URL_To_Connect)
-                        .get()
-                        .build();
-                OkHttpClient client = new OkHttpClient();
-
-                Response response = null;
+            public void parseResponse(String responseData) {
                 try {
-                    response = client.newCall(request).execute();
-                } catch (IOException e) {
+                    //Process the response Data
+                    JSONArray jsonArray = new JSONArray(responseData);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject calendar = jsonArray.getJSONObject(i);
+                        String datestart = calendar.getString("date_lection_start");
+                        String datefinish = calendar.getString("date_lection_finish");
+
+                        mht = new ModelCalendar(Integer.parseInt(calendar.getString("id")),
+                                calendar.getString("name"),
+                                parseDateAndHoursToProperFormat(datestart)[0],
+                                parseDateAndHoursToProperFormat(datestart)[1],
+                                parseDateAndHoursToProperFormat(datestart)[2],
+                                parseDateAndHoursToProperFormat(datestart)[3],
+                                parseDateAndHoursToProperFormat(datestart)[4],
+                                parseDateAndHoursToProperFormat(datefinish)[0],
+                                parseDateAndHoursToProperFormat(datefinish)[1],
+                                parseDateAndHoursToProperFormat(datefinish)[2],
+                                parseDateAndHoursToProperFormat(datefinish)[3],
+                                parseDateAndHoursToProperFormat(datefinish)[4],
+                                calendar.getString("type"));
+
+                        Calendar startTime = Calendar.getInstance();
+                        startTime.set(mht.getYear_end(), mht.getMonth_end()-1, mht.getDay_end(), mht.getHours_end(), mht.getMinut_end());
+                        Calendar endTime = (Calendar) startTime.clone();
+                        endTime.set(mht.getYear_start(), mht.getMonth_start()-1, mht.getDay_start(), mht.getHours_start(), mht.getMinut_start());
+                        WeekViewEvent event = new WeekViewEvent(mht.getId(), mht.getName(), startTime, endTime);
+                        Log.d("Event", ""+event.getName());
+                        Log.d("Event", ""+event.getStartTime().getTimeInMillis());
+                        Log.d("Event", ""+event.getEndTime().getTimeInMillis());
+                        event.setColor(getResources().getColor(R.color.colorOrange));
+                        events.add(event);
+                        /*modelHomeTaskList.add(0, mht);*/
+                        Log.d("ResponseCalendar", calendar.getString("name"));
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datestart)[0]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datestart)[1]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datestart)[2]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datestart)[3]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datestart)[4]);
+                        Log.d("ResponseCalendar", calendar.getString("name"));
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datefinish)[0]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datefinish)[1]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datefinish)[2]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datefinish)[3]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datefinish)[4]);
+
+
+                    }
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // adapter recreation, for some reason notifyDataSetChanged doesnt work
+
+                            // duplication avoiding (just removing all from the list)
+
+                        }
+                    });
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
-                if (checkInternet(context)) {
-
-                    if (response != null) {
-                        if (response.code() == 200) {
-
-                            try {
-                                responseData = response.body().string();
-                                JSONObject jsonObject = new JSONObject(responseData);
-                                String id = (String) jsonObject.get("date_lection_start");
-                                Log.e("idJSON", "" + id);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                            //Process the response Data
-                            Log.d("Calendar_Response_Data", responseData);
-                        } else {
-                            //Server problem
-                            String responseData = null;
-                            try {
-                                responseData = response.body().string();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-
-                    } else {
-                        Activity getActivity = (Activity) context;
-                        getActivity.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Toast.makeText(getContext(), getResources().getString(R.string.connection_problems), Toast.LENGTH_SHORT).show();
-
-                            }
-                        });
-                    }
-                }
             }
-        });
-        thread.start();
-
-    }
-
-    @Override
-    public List<? extends WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-        List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
-
-        Calendar startTime = Calendar.getInstance();
-        startTime.set(2017, 9, 24, 0, 23);
-        Calendar endTime = (Calendar) startTime.clone();
-        endTime.set(2017, 9, 24, 2, 23);
-        WeekViewEvent event = new WeekViewEvent(1, "HelloWorld", startTime, endTime);
-        event.setColor(Resources.getSystem().getColor(R.color.colorOrange));
-        events.add(event);
-
-        ArrayList<WeekViewEvent> eventsMonth = new ArrayList<WeekViewEvent>();
-        for (int i = 0; i < events.size(); i++) {
-            if (events.get(i).getStartTime().get(Calendar.MONTH) == newMonth) {
-                eventsMonth.add(events.get(i));
-            }
-        }
-        return eventsMonth;
-
+        }, null);
+        dataGetterFromServer.start();
     }
 
 }

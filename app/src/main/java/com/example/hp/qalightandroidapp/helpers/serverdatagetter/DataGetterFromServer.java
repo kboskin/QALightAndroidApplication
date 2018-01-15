@@ -112,7 +112,9 @@ public class DataGetterFromServer extends Thread {
             public void run() {
                 Toast.makeText(context, context.getString(R.string.internet_connection_failed), Toast.LENGTH_SHORT).show();
                 // disable swipe
-                swipeRefreshLayout.setRefreshing(false);
+                if(swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
                 //loader.turnOffLoader();
                 getMainProgressBar().setVisibility(View.INVISIBLE);
             }
