@@ -64,16 +64,16 @@ public class ModelHomeTaskAdapter extends RecyclerView.Adapter<ModelHomeTaskView
             Log.d("Calendar", "Filter work");
 
             for(ModelHomeTask item : modelHomeTaskList){
-                Log.d("CalendarFilter", ""+item.getDate().getTime());
-                Log.d("CalendarFilterDate", ""+item.getDate().getYear()+" "
+                //Log.d("CalendarFilter", ""+item.getDate().getTime());
+                /*Log.d("CalendarFilterDate", ""+item.getDate().getYear()+" "
                         +item.getDate().getMonth()+" "
                         +item.getDate().getDay());
-
+*/
                 if((""+item.getDate().getTime()).equals(charSequence)){
                     filtered.add(item);
                 }
             }
-            Log.d("CalendarLst", "" + modelHomeTaskList.size());
+//            Log.d("CalendarLst", "" + modelHomeTaskList.size());
 
 
             // I don't actually know what purpose to place it here, everything is fine without

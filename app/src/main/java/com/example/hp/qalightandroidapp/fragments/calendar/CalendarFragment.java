@@ -1,14 +1,9 @@
 package com.example.hp.qalightandroidapp.fragments.calendar;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.RectF;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +14,7 @@ import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.example.hp.qalightandroidapp.R;
-import com.example.hp.qalightandroidapp.activities.MainActivity;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.FixturesTabsFragment;
-import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask.ModelHomeTask;
-import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask.ModelHomeTaskAdapter;
 import com.example.hp.qalightandroidapp.helpers.serverdatagetter.DataGetterFromServer;
 import com.example.hp.qalightandroidapp.helpers.serverdatagetter.DataParser;
 
@@ -30,21 +22,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
-import static android.content.ContentValues.TAG;
-import static com.example.hp.qalightandroidapp.Constants.QALight_URL_To_Connect;
-import static com.example.hp.qalightandroidapp.Constants.parseDateToProperFormat;
 import static com.example.hp.qalightandroidapp.Constants.parseDateAndHoursToProperFormat;
-import static com.example.hp.qalightandroidapp.activities.MainActivity.getMainProgressBar;
 
 /**
  * Created by root on 05.09.17.
@@ -120,7 +103,16 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         Log.i("onEventClick", event.getName());
         Toast.makeText(getContext(), event.getName() + " " + event.getStartTime().getTime().getDate(), Toast.LENGTH_LONG).show();
-        Date date = new Date(event.getStartTime().getTime().getYear(), event.getStartTime().getTime().getMonth(), event.getStartTime().getTime().getDay());
+        Date date = new Date(event.getStartTime().getTime().getYear() + 1900, event.getStartTime().getTime().getMonth() + 1                                                                  , event.getStartTime().getTime().getDay() + 3 + 14);
+
+        Log.d("DateTagY", String.valueOf(event.getStartTime().getTime().getYear()));
+        Log.d("DateTagM", String.valueOf(event.getStartTime().getTime().getMonth()));
+        Log.d("DateTagD", String.valueOf(event.getStartTime().getTime().getDay()));
+
+
+        Log.d("DateObjTagY", String.valueOf(date.getYear()));
+        Log.d("DateObjTagM", String.valueOf(date.getMonth()));
+        Log.d("DateObjTagD", String.valueOf(date.getDay()));
         //FixturesTabsFragment fixturesTabsFragment = new FixturesTabsFragment(date);
         FixturesTabsFragment fixturesTabsFragment = new FixturesTabsFragment(date);
 

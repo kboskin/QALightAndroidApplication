@@ -85,6 +85,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mainProgressBar = findViewById(R.id.mainProgressBar);
 
+        if (savedInstanceState == null)
+        {
+            calendarFragment = new CalendarFragment();
+            replaceWithFragment(calendarFragment, null);
+        }
+
     }
 
     @Override
@@ -175,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void replaceWithFragment(Fragment fragment, Handler handler) {
         // frgmcont has strong reference because we always replace it exactly
-        if (fragment.isAdded()) {
+        /*if (fragment.isAdded()) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             for (Fragment addedFragment : getSupportFragmentManager().getFragments()) {
 
@@ -191,9 +197,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addToBackStack(String.valueOf(fragment.getId()))
                     .show(fragment)
                     .commit();
-        }
+        }*/
 
-
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.frgmCont, fragment);
+        ft.commit();
         if (handler != null) handler.sendEmptyMessage(1);
 
     }
@@ -255,10 +263,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 notificationFragment = new NotificationsFragment();
                 replaceWithFragment(notificationFragment, handler);
             }
-        } else {
-            // Activity was not launched with a menuFragment selected -- continue as if this activity was opened from a launcher (for example)
-            calendarFragment = new CalendarFragment();
-            replaceWithFragment(calendarFragment, null);
         }
     }
 

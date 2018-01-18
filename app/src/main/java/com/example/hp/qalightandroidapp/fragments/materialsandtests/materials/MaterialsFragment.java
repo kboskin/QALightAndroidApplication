@@ -47,7 +47,9 @@ public class MaterialsFragment extends Fragment {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {super.onCreate(savedInstanceState);}
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,7 +73,8 @@ public class MaterialsFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         setItemDecoration(recyclerView, 1);
 
-        mAdapter = new ModelMaterialsAdapter(getData());
+        ArrayList<ModelMaterials> modelMaterials = getData();
+        mAdapter = new ModelMaterialsAdapter(modelMaterials);
         recyclerView.setAdapter(mAdapter);
 
         // swipe refresh is added here
@@ -84,8 +87,13 @@ public class MaterialsFragment extends Fragment {
                 getDataFromConnection();
             }
         });
+/*
 
+        TinyDB tinyDB = new TinyDB(getContext());
+        tinyDB.putListObject("HeyBro", tinyDB.castModelMaterialsList(modelMaterialsList));
 
+        ArrayList<Object> objects = tinyDB.getListObject("HeyBro", ModelMaterials.class);
+        Log.d("SomeTagMHT", objects.toString());*/
         return view;
     }
 
@@ -124,6 +132,8 @@ public class MaterialsFragment extends Fragment {
 
                         modelMaterialsList.add(modelMaterial);
                     }
+
+                    Log.d("modelMaterials", modelMaterialsList.toString());
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -146,5 +156,4 @@ public class MaterialsFragment extends Fragment {
         }, swipeRefreshLayout);
         dataGetterFromServer.start();
     }
-
 }

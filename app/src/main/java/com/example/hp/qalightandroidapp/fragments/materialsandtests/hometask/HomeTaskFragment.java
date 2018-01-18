@@ -1,7 +1,6 @@
 package com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask;
 
 import android.content.SharedPreferences;
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -51,7 +50,6 @@ public class HomeTaskFragment extends Fragment {
 
     }
 
-    @SuppressLint("ValidFragment")
     public HomeTaskFragment(Date dateFilter) {
         this.dateFilter = dateFilter;
     }
@@ -140,13 +138,12 @@ public class HomeTaskFragment extends Fragment {
                                 Log.d("isHere", "ishere");
 
                                 Log.d("MHT", String.valueOf(modelHomeTaskList.size()));
-                                for (ModelHomeTask mht : modelHomeTaskList)
-                                {
+                                for (ModelHomeTask mht : modelHomeTaskList) {
                                     Log.d("MHT", String.valueOf(mht.getTitle()));
                                 }
-                                dateFilter.setYear(dateFilter.getYear() + 1900);
-                                dateFilter.setMonth(dateFilter.getMonth() + 1);
-                                dateFilter.setDate(dateFilter.getDate() + 22);
+                                dateFilter.setYear(dateFilter.getYear());
+                                dateFilter.setMonth(dateFilter.getMonth());
+                                dateFilter.setDate(dateFilter.getDate());
                                 Log.d("CalendarFilter", ""+dateFilter.getTime());
                                 Log.d("CalendarFilterMain", ""+dateFilter.getYear()+" "
                                         +dateFilter.getMonth()+" "

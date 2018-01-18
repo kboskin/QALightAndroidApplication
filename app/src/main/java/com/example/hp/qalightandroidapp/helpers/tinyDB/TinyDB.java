@@ -1,4 +1,4 @@
-package com.example.hp.qalightandroidapp.helpers;
+package com.example.hp.qalightandroidapp.helpers.tinyDB;
 
 /**
  * Created by hp on 020 20.11.2017.
@@ -44,7 +44,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 
-public class TinyDB {
+public class TinyDB implements CastToObjectsAnyList {
 
     private SharedPreferences preferences;
     private String DEFAULT_APP_IMAGEDATA_DIRECTORY;
@@ -626,5 +626,14 @@ public class TinyDB {
         if (value == null) {
             throw new NullPointerException();
         }
+    }
+
+
+    @Override
+    public ArrayList<Object> castModelMaterialsList(ArrayList<?> notCastedList) {
+
+        ArrayList<Object> castedArrayList = new ArrayList<>();
+        castedArrayList.addAll(notCastedList);
+        return castedArrayList;
     }
 }
