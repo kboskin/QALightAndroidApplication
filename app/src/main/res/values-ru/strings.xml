@@ -13,6 +13,7 @@
         <string name = "wrong_code"> Неправильный код </string>
         <string name = "correct_code"> Поздравляем! </string>
         <string name = "navigate_to_main_activity"> Подтвердить </string>
+        <string name = "navigate_to_motivations"> больше </string>
 
         <string name = "txt_credits"> <a href="http://qalight.com.ua/#two"> Я не студент </a> </string>
 

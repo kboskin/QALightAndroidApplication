@@ -1,4 +1,4 @@
-package com.example.hp.qalightandroidapp.fragments.motivations;
+package com.example.hp.qalightandroidapp.fragments.motivations.RecycleViewMotivations;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

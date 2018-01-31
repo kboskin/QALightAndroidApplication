@@ -1,5 +1,6 @@
 package com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -25,7 +26,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static com.example.hp.qalightandroidapp.Constants.QALight_URL_To_Connect;
@@ -41,17 +41,24 @@ public class HomeTaskFragment extends Fragment {
     private RecyclerView recyclerView;
     private ModelHomeTaskAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
-    private Date dateFilter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private String param = "home=";
     //private MyCustomAdapter adapter;
+
+    int filterYear;
+    int filterMonth;
+    int filterDay;
 
     public HomeTaskFragment() {
 
     }
 
-    public HomeTaskFragment(Date dateFilter) {
-        this.dateFilter = dateFilter;
+
+    @SuppressLint("ValidFragment")
+    public HomeTaskFragment(int filterYear, int filterMonth, int filterDay) {
+        this.filterYear = filterYear;
+        this.filterMonth = filterMonth;
+        this.filterDay = filterDay;
     }
 
     @Override
@@ -96,7 +103,8 @@ public class HomeTaskFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                dateFilter = null;
+                filterYear = 0;
+                //mAdapter.getFilter().filter("");
                 modelHomeTaskList.clear();
                 getDataFromConnection();
             }
@@ -134,22 +142,8 @@ public class HomeTaskFragment extends Fragment {
                             mAdapter = new ModelHomeTaskAdapter((ArrayList<ModelHomeTask>) modelHomeTaskList);
                             recyclerView.swapAdapter(mAdapter, true);
 
-                            if (dateFilter != null) {
-                                Log.d("isHere", "ishere");
-
-                                Log.d("MHT", String.valueOf(modelHomeTaskList.size()));
-                                for (ModelHomeTask mht : modelHomeTaskList) {
-                                    Log.d("MHT", String.valueOf(mht.getTitle()));
-                                }
-                                dateFilter.setYear(dateFilter.getYear());
-                                dateFilter.setMonth(dateFilter.getMonth());
-                                dateFilter.setDate(dateFilter.getDate());
-                                Log.d("CalendarFilter", ""+dateFilter.getTime());
-                                Log.d("CalendarFilterMain", ""+dateFilter.getYear()+" "
-                                        +dateFilter.getMonth()+" "
-                                        +dateFilter.getDay());
-                                mAdapter.getFilter().filter("" + dateFilter.getTime());
-
+                            if (filterYear != 0) {
+                                mAdapter.getFilter().filter("" + filterYear + filterMonth + filterDay);
                             }
 
                             // duplication avoiding (just removing all from the list)

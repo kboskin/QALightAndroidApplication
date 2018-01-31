@@ -12,6 +12,7 @@
     <string name="wrong_code">It seems to be a wrong code!</string>
     <string name="correct_code">Congratulations!</string>
     <string name="navigate_to_main_activity">Confirm</string>
+    <string name = "navigate_to_motivations"> more </string>
 
     <string name="txt_credits"><a href="http://qalight.com.ua/#two">I\'m not a student</a></string>
 

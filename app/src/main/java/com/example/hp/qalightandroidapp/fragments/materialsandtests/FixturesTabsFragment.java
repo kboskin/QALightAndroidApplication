@@ -16,7 +16,6 @@ import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.Hom
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.MaterialsFragment;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.tests.TestsFragment;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,15 +25,21 @@ public class FixturesTabsFragment extends Fragment {
     private HomeTaskFragment homeTaskFragment;
     private MaterialsFragment materialsFragment;
     private TestsFragment testsFragment;
-    private Date date;
     ViewPager viewPager;
+
+    int year;
+    int month;
+    int day;
 
     public FixturesTabsFragment() {
     }
 
+
     @SuppressLint("ValidFragment")
-    public FixturesTabsFragment(Date date) {
-        this.date = date;
+    public FixturesTabsFragment(int year, int month, int day){
+        this.year = year;
+        this.month = month;
+        this.day = day;
     }
 
     @Override
@@ -62,7 +67,6 @@ public class FixturesTabsFragment extends Fragment {
     }
 
     public void setDate(Date date) {
-        this.date = date;
         setupViewPager(viewPager);
     }
 
@@ -76,9 +80,9 @@ public class FixturesTabsFragment extends Fragment {
 
         // fragments creation, only once, so
         // we will not have to recreate
-        if (date != null) {
-            homeTaskFragment = new HomeTaskFragment(date);
-            materialsFragment = new MaterialsFragment();
+        if (year != 0) {
+            homeTaskFragment = new HomeTaskFragment(year, month, day);
+            materialsFragment = new MaterialsFragment(year, month, day);
             testsFragment = new TestsFragment();
         } else {
             homeTaskFragment = new HomeTaskFragment();

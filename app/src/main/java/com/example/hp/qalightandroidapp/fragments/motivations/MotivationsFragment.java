@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 import com.example.hp.qalightandroidapp.Constants;
 import com.example.hp.qalightandroidapp.R;
 import com.example.hp.qalightandroidapp.activities.MotivationsActivity;
+import com.example.hp.qalightandroidapp.fragments.motivations.RecycleViewMotivations.AdapterRecycleViewMotivation;
+import com.example.hp.qalightandroidapp.fragments.motivations.RecycleViewMotivations.ModalHistoryPersonal;
+import com.example.hp.qalightandroidapp.fragments.motivations.RecycleViewMotivations.RecyclerItemClickListener;
 
 import java.util.List;
 

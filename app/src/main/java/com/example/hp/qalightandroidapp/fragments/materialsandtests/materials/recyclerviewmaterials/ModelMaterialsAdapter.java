@@ -24,7 +24,7 @@ public class ModelMaterialsAdapter extends RecyclerView.Adapter<ModelMaterialsVi
 
 
     public ModelMaterialsAdapter(ArrayList<ModelMaterials> modelMaterialsList) {
-        this.modelMaterialsList = new ArrayList<ModelMaterials>(modelMaterialsList);
+        this.modelMaterialsList = new ArrayList<>(modelMaterialsList);
         this.filtered = new ArrayList<>(modelMaterialsList);
     }
 
@@ -63,12 +63,11 @@ public class ModelMaterialsAdapter extends RecyclerView.Adapter<ModelMaterialsVi
         protected FilterResults performFiltering(CharSequence charSequence) {
             filtered.clear();
             for (ModelMaterials item : modelMaterialsList) {
-                Log.d("CalendarFilter", ""+item.getDate().getTime());
-                Log.d("CalendarFilterDate", ""+item.getDate().getYear()+" "
-                        +item.getDate().getMonth()+" "
-                        +item.getDate().getDay());
+                Log.d("CalendarFilterDate", ""+item.getYear()+" "
+                        +item.getMonth()+" "
+                        +item.getDay());
 
-                if((""+item.getDate().getTime()).equals(charSequence)){
+                if((""+item.getYear()+item.getMonth()+item.getDay()).equals(charSequence)){
                     filtered.add(item);
                 }
             }

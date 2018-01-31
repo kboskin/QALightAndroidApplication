@@ -1,4 +1,4 @@
-package com.example.hp.qalightandroidapp.fragments.motivations;
+package com.example.hp.qalightandroidapp.fragments.motivations.RecycleViewMotivations;
 
 
 /**

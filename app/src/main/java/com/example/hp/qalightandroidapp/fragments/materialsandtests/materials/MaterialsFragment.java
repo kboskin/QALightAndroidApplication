@@ -1,5 +1,6 @@
 package com.example.hp.qalightandroidapp.fragments.materialsandtests.materials;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -24,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.example.hp.qalightandroidapp.Constants.QALight_URL_To_Connect;
 import static com.example.hp.qalightandroidapp.Constants.addSwipeRefresh;
@@ -40,11 +42,21 @@ public class MaterialsFragment extends Fragment {
     private String param = "files=";
     SwipeRefreshLayout swipeRefreshLayout;
 
+    int fitlerYear;
+    int filterMonth;
+    int filterDay;
+
 
     public MaterialsFragment() {
 
     }
 
+    @SuppressLint("ValidFragment")
+    public MaterialsFragment(int year, int mounth, int day) {
+        this.fitlerYear = year;
+        this.filterMonth = mounth;
+        this.filterDay = day;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,12 +95,13 @@ public class MaterialsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                fitlerYear = 0;
                 modelMaterialsList.clear();
                 getDataFromConnection();
             }
         });
-/*
 
+/*
         TinyDB tinyDB = new TinyDB(getContext());
         tinyDB.putListObject("HeyBro", tinyDB.castModelMaterialsList(modelMaterialsList));
 
@@ -122,13 +135,6 @@ public class MaterialsFragment extends Fragment {
                                 parseDateToProperFormat(date)[2],
                                 material.getString("url_file"));
 
-                        Log.d("inResp", "----");
-
-
-                        Log.d("ModelTitle", modelMaterial.getTitle());
-                        Log.d("ModelY", String.valueOf(modelMaterial.getYear()));
-                        Log.d("Date", String.valueOf(date));
-
 
                         modelMaterialsList.add(modelMaterial);
                     }
@@ -141,6 +147,13 @@ public class MaterialsFragment extends Fragment {
                             // adapter recreation, for some reason notifyDataSetChanged doesnt work
                             mAdapter = new ModelMaterialsAdapter(modelMaterialsList);
                             recyclerView.swapAdapter(mAdapter, true);
+
+                            if (fitlerYear != 0) {
+                                mAdapter.getFilter().filter("" + fitlerYear+filterMonth+filterDay);
+                            }
+
+                            Log.d("inResp", "----");
+
                             // duplication avoiding (just removing all from the list)
                             //modelMaterialsList.clear();
                             // stop refreshing
