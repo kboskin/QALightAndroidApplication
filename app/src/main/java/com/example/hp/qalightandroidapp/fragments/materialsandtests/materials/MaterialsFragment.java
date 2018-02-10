@@ -25,7 +25,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import static com.example.hp.qalightandroidapp.Constants.QALight_URL_To_Connect;
 import static com.example.hp.qalightandroidapp.Constants.addSwipeRefresh;
@@ -42,7 +41,7 @@ public class MaterialsFragment extends Fragment {
     private String param = "files=";
     SwipeRefreshLayout swipeRefreshLayout;
 
-    int fitlerYear;
+    int filterYear;
     int filterMonth;
     int filterDay;
 
@@ -53,7 +52,7 @@ public class MaterialsFragment extends Fragment {
 
     @SuppressLint("ValidFragment")
     public MaterialsFragment(int year, int mounth, int day) {
-        this.fitlerYear = year;
+        this.filterYear = year;
         this.filterMonth = mounth;
         this.filterDay = day;
     }
@@ -85,8 +84,8 @@ public class MaterialsFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         setItemDecoration(recyclerView, 1);
 
-        ArrayList<ModelMaterials> modelMaterials = getData();
-        mAdapter = new ModelMaterialsAdapter(modelMaterials);
+        modelMaterialsList = getData();
+        mAdapter = new ModelMaterialsAdapter(modelMaterialsList, getContext());
         recyclerView.setAdapter(mAdapter);
 
         // swipe refresh is added here
@@ -95,7 +94,7 @@ public class MaterialsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fitlerYear = 0;
+                filterYear = 0;
                 modelMaterialsList.clear();
                 getDataFromConnection();
             }
@@ -145,14 +144,12 @@ public class MaterialsFragment extends Fragment {
                         public void run() {
 
                             // adapter recreation, for some reason notifyDataSetChanged doesnt work
-                            mAdapter = new ModelMaterialsAdapter(modelMaterialsList);
+                            mAdapter = new ModelMaterialsAdapter(modelMaterialsList, getContext());
                             recyclerView.swapAdapter(mAdapter, true);
 
-                            if (fitlerYear != 0) {
-                                mAdapter.getFilter().filter("" + fitlerYear+filterMonth+filterDay);
+                            if (filterYear != 0) {
+                                mAdapter.getFilter().filter("" + filterYear +filterMonth+filterDay);
                             }
-
-                            Log.d("inResp", "----");
 
                             // duplication avoiding (just removing all from the list)
                             //modelMaterialsList.clear();

@@ -16,6 +16,8 @@ public class ModelMaterials {
     private int year;
     private int month;
     private int day;
+    public String fileName;
+
 
     public ModelMaterials(String title, int year, int month, int day, String url) {
         this.title = title;
@@ -24,22 +26,8 @@ public class ModelMaterials {
         this.month = month;
         this.day = day;
         this.stringDate = "" + getDay() + "/" + getMonth() + "/" + getYear();
-    }
+        fileName = getFileNameFromUrl();
 
-    public ModelMaterials(String title, String description, Date date) {
-        this.title = title;
-        this.description = description;
-        this.date = date;
-    }
-
-    public ModelMaterials(String title, Date date) {
-        this.title = title;
-        this.date = date;
-    }
-
-    public ModelMaterials(String title, String stringDate) {
-        this.title = title;
-        this.stringDate = stringDate;
     }
 
     public String getTitle() {
@@ -83,4 +71,19 @@ public class ModelMaterials {
         return day;
     }
 
+    public String getFileNameFromUrl()
+    {
+        int i = 1;
+        while (true)
+        {
+            fileName = url.substring(url.length() - i); // getting last char position
+            if (fileName.contains("/")) // when fileName wil start to contain a / symbol it means file name is read
+            {
+                fileName = fileName.substring(1, fileName.length()); // ignore / symbol
+                break; // out of cycle
+            }
+            i++; // counter to pass chars by
+        }
+        return fileName;
+    }
 }

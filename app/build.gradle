@@ -71,6 +71,8 @@ dependencies {
     compile 'com.craftman.cardform:cardform:0.0.2'
     // custom progress dialog
     compile 'com.github.d-max:spots-dialog:0.7@aar'
+    // ion lib for fast file downloading
+    compile 'com.koushikdutta.ion:ion:2.+'
 
     compile 'com.google.firebase:firebase-core:11.6.0'
     compile 'com.google.firebase:firebase-messaging:11.6.0'

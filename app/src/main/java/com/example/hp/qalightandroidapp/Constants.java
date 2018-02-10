@@ -2,6 +2,7 @@ package com.example.hp.qalightandroidapp;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Environment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
@@ -23,7 +24,7 @@ public class Constants {
     // variable to check if user has logged in
     public final static String CHECK_IF_IS_AUTH_PASSED = "IsLoggedIn";
 
-    // variable to configure google qury search
+    // variable to configure google query search
     public final static String GOOGLE_STANDARD_WITH_NO_PARAMS_SEARCH_QUERY = "https://www.google.com/search?q=";
 
     // QAUrl
@@ -50,6 +51,9 @@ public class Constants {
     public static final String EXTRA_NOTIFICATION_STATUS = "status";
     // status
     public static final String EXTRA_LOGIN_CODE = "code";
+    // Download directory absolute path
+    public static final String DOWNLOAD_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
+
 
     //This List for testing recycleView in fragment motivations
     public static List<ModalHistoryPersonal> modalHistoryPersonal = Arrays.asList(
@@ -63,12 +67,11 @@ public class Constants {
     public static void setItemDecoration(RecyclerView recyclerView, int spanColumns) {
         int spanCount = spanColumns; // 3 columns
         int spacing = 25; // 50px
-        boolean includeEdge = true;
-        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, includeEdge));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, spacing, true));
     }
+
     // method to parse data to proper format, returns an array of ints
-    public static int[] parseDateToProperFormat(String date)
-    {
+    public static int[] parseDateToProperFormat(String date) {
         int year = Integer.parseInt(date.substring(0, 4)); // getting a year here
         int month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-") + 3)); // getting a month here
         int day = Integer.parseInt(date.substring(date.lastIndexOf("-") + 1)); // getting a day here
@@ -76,15 +79,14 @@ public class Constants {
         return new int[]{year, month, day};
     }
 
-    public static int[] parseDateAndHoursToProperFormat(String date)
-    {
+    public static int[] parseDateAndHoursToProperFormat(String date) {
         int year = Integer.parseInt(date.substring(0, 4)); // getting a year here
         int month = Integer.parseInt(date.substring(date.indexOf("-") + 1, date.indexOf("-") + 3)); // getting a month here
-        int day = Integer.parseInt(date.substring(date.lastIndexOf("-")+1, date.indexOf(" "))); // getting a day here
-        int hours = Integer.parseInt(date.substring(date.indexOf(" ")+1, date.indexOf(":")));
-        int minut = Integer.parseInt(date.substring(date.indexOf(":")+1, date.lastIndexOf(":")));
+        int day = Integer.parseInt(date.substring(date.lastIndexOf("-") + 1, date.indexOf(" "))); // getting a day here
+        int hours = Integer.parseInt(date.substring(date.indexOf(" ") + 1, date.indexOf(":")));
+        int minutes = Integer.parseInt(date.substring(date.indexOf(":") + 1, date.lastIndexOf(":")));
 
-        return new int[]{year, month, day, hours, minut};
+        return new int[]{year, month, day, hours, minutes};
     }
 
     public static void setTypefaceToTextView(TextView view, Context context) {

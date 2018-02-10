@@ -133,21 +133,21 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
                     JSONArray jsonArray = new JSONArray(responseData);
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject calendar = jsonArray.getJSONObject(i);
-                        String datestart = calendar.getString("date_lection_start");
-                        String datefinish = calendar.getString("date_lection_finish");
+                        String dateStart = calendar.getString("date_lection_start");
+                        String dateFinish = calendar.getString("date_lection_finish");
 
                         modelCalendar = new ModelCalendar(Integer.parseInt(calendar.getString("id")),
                                 calendar.getString("name"),
-                                parseDateAndHoursToProperFormat(datestart)[0],
-                                parseDateAndHoursToProperFormat(datestart)[1],
-                                parseDateAndHoursToProperFormat(datestart)[2],
-                                parseDateAndHoursToProperFormat(datestart)[3],
-                                parseDateAndHoursToProperFormat(datestart)[4],
-                                parseDateAndHoursToProperFormat(datefinish)[0],
-                                parseDateAndHoursToProperFormat(datefinish)[1],
-                                parseDateAndHoursToProperFormat(datefinish)[2],
-                                parseDateAndHoursToProperFormat(datefinish)[3],
-                                parseDateAndHoursToProperFormat(datefinish)[4],
+                                parseDateAndHoursToProperFormat(dateStart)[0],
+                                parseDateAndHoursToProperFormat(dateStart)[1],
+                                parseDateAndHoursToProperFormat(dateStart)[2],
+                                parseDateAndHoursToProperFormat(dateStart)[3],
+                                parseDateAndHoursToProperFormat(dateStart)[4],
+                                parseDateAndHoursToProperFormat(dateFinish)[0],
+                                parseDateAndHoursToProperFormat(dateFinish)[1],
+                                parseDateAndHoursToProperFormat(dateFinish)[2],
+                                parseDateAndHoursToProperFormat(dateFinish)[3],
+                                parseDateAndHoursToProperFormat(dateFinish)[4],
                                 calendar.getString("type"));
 
                         Calendar startTime = Calendar.getInstance();
@@ -159,17 +159,17 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
                         events.add(event);
                         /*modelHomeTaskList.add(0, modelCalendar);*/
                         Log.d("ResponseCalendar", calendar.getString("name"));
-                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datestart)[0]);
-                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datestart)[1]);
-                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datestart)[2]);
-                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datestart)[3]);
-                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datestart)[4]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(dateStart)[0]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(dateStart)[1]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(dateStart)[2]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(dateStart)[3]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(dateStart)[4]);
                         Log.d("ResponseCalendar", calendar.getString("name"));
-                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datefinish)[0]);
-                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datefinish)[1]);
-                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datefinish)[2]);
-                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datefinish)[3]);
-                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(datefinish)[4]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(dateFinish)[0]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(dateFinish)[1]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(dateFinish)[2]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(dateFinish)[3]);
+                        Log.d("ResponseCalendar", ""+parseDateAndHoursToProperFormat(dateFinish)[4]);
 
 
                     }
