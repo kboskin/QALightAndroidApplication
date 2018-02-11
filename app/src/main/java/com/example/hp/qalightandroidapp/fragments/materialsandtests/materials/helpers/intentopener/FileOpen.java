@@ -1,4 +1,4 @@
-package com.example.hp.qalightandroidapp.helpers;
+package com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.helpers.intentopener;
 
 import android.content.Context;
 import android.content.Intent;

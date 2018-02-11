@@ -5,11 +5,13 @@ import android.graphics.Typeface;
 import android.os.Environment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.example.hp.qalightandroidapp.fragments.motivations.RecycleViewMotivations.ModalHistoryPersonal;
 import com.example.hp.qalightandroidapp.helpers.GridSpacingItemDecoration;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -102,6 +104,17 @@ public class Constants {
                 R.color.colorOrange,
                 R.color.colorGreen);
 
+    }
+
+    public static String performSearch(String fileName) {
+        File directory = new File(DOWNLOAD_PATH);
+        File[] files = directory.listFiles();
+        Log.d("Files", "Size: " + files.length);
+        for (int i = 0; i < files.length; i++) {
+            if (fileName.equals(files[i].getName()))
+                return files[i].getAbsolutePath();
+        }
+        return null;
     }
 
 }

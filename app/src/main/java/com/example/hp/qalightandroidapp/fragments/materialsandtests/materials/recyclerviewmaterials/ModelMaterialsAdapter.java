@@ -2,6 +2,7 @@ package com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.r
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.widget.RecyclerView;
@@ -13,14 +14,15 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import com.example.hp.qalightandroidapp.R;
-import com.example.hp.qalightandroidapp.helpers.FileOpen;
+import com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.helpers.intentopener.FileOpen;
+import com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.helpers.listenerchangertoopenfile.MyBroadcastReceiver;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.hp.qalightandroidapp.Constants.DOWNLOAD_PATH;
+import static com.example.hp.qalightandroidapp.Constants.performSearch;
 
 /**
  * Created by hp on 008 08.09.2017.
@@ -31,6 +33,7 @@ public class ModelMaterialsAdapter extends RecyclerView.Adapter<ModelMaterialsVi
     private List<ModelMaterials> filtered;
     private DownloadManager downloadManager;
     private Context context;
+    private MyBroadcastReceiver onReceive;
 
     public ModelMaterialsAdapter(ArrayList<ModelMaterials> modelMaterialsList, Context context) {
         this.modelMaterialsList = new ArrayList<>(modelMaterialsList);
@@ -51,6 +54,8 @@ public class ModelMaterialsAdapter extends RecyclerView.Adapter<ModelMaterialsVi
     public void onBindViewHolder(final ModelMaterialsViewHolder holder, int position) {
         final ModelMaterials modelMaterials = filtered.get(position);
 
+        // registering receiver
+
         holder.textViewTitle.setText(modelMaterials.getTitle());
         holder.textViewDate.setText(modelMaterials.getDateInString());
 
@@ -68,19 +73,6 @@ public class ModelMaterialsAdapter extends RecyclerView.Adapter<ModelMaterialsVi
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    /*String format = s.substring(s.length() - 3, s.length());
-                    Log.d("Format", format);
-                    Uri path = Uri.fromFile(file);
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.setDataAndType(path, String.format("application/%s", format));
-
-                    try {
-                        context.startActivity(intent);
-                    }
-                    catch (ActivityNotFoundException e) {
-                        e.printStackTrace();
-                    }*/
                 }
             });
         } else { // file is not found, download
@@ -96,8 +88,10 @@ public class ModelMaterialsAdapter extends RecyclerView.Adapter<ModelMaterialsVi
                     request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, modelMaterials.fileName); // stores file in download dir of android
                     Long reference = downloadManager.enqueue(request);
 
-                    // setting image to button
-                    holder.downloadButton.setImageDrawable(context.getDrawable(R.drawable.open_file));
+                    onReceive = new MyBroadcastReceiver(holder, modelMaterials);
+
+                    context.registerReceiver(onReceive, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+
 
                 }
             });
@@ -137,18 +131,6 @@ public class ModelMaterialsAdapter extends RecyclerView.Adapter<ModelMaterialsVi
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-
         }
     };
-
-    private String performSearch(String fileName) {
-        File directory = new File(DOWNLOAD_PATH);
-        File[] files = directory.listFiles();
-        Log.d("Files", "Size: " + files.length);
-        for (int i = 0; i < files.length; i++) {
-            if (fileName.equals(files[i].getName()))
-                return files[i].getAbsolutePath();
-        }
-        return null;
-    }
 }
