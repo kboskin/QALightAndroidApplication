@@ -19,6 +19,7 @@ import com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.re
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.recyclerviewmaterials.ModelMaterialsAdapter;
 import com.example.hp.qalightandroidapp.helpers.serverdatagetter.DataGetterFromServer;
 import com.example.hp.qalightandroidapp.helpers.serverdatagetter.DataParser;
+import com.example.hp.qalightandroidapp.helpers.tinyDB.TinyStorage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +41,7 @@ public class MaterialsFragment extends Fragment {
     private LinearLayoutManager mLayoutManager;
     private String param = "files=";
     SwipeRefreshLayout swipeRefreshLayout;
+    private String KEY = "Materials";
 
     int filterYear;
     int filterMonth;
@@ -84,7 +86,13 @@ public class MaterialsFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         setItemDecoration(recyclerView, 1);
 
-        modelMaterialsList = getData();
+        if (TinyStorage.retrieveList(getContext(), KEY, ModelMaterials.class).isEmpty()) {
+            modelMaterialsList = getData();
+        } else {
+            modelMaterialsList = (ArrayList<ModelMaterials>) TinyStorage.retrieveList(getContext(), KEY, ModelMaterials.class);/*getData();*/
+            getMainProgressBar().setVisibility(View.INVISIBLE);
+
+        }
         mAdapter = new ModelMaterialsAdapter(modelMaterialsList, getContext());
         recyclerView.setAdapter(mAdapter);
 
@@ -103,7 +111,6 @@ public class MaterialsFragment extends Fragment {
 /*
         TinyDB tinyDB = new TinyDB(getContext());
         tinyDB.putListObject("HeyBro", tinyDB.castModelMaterialsList(modelMaterialsList));
-
         ArrayList<Object> objects = tinyDB.getListObject("HeyBro", ModelMaterials.class);
         Log.d("SomeTagMHT", objects.toString());*/
         return view;
@@ -137,7 +144,8 @@ public class MaterialsFragment extends Fragment {
 
                         modelMaterialsList.add(modelMaterial);
                     }
-
+                    // this will save list
+                    TinyStorage.storeList(getContext(), KEY, modelMaterialsList);
                     Log.d("modelMaterials", modelMaterialsList.toString());
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -148,7 +156,7 @@ public class MaterialsFragment extends Fragment {
                             recyclerView.swapAdapter(mAdapter, true);
 
                             if (filterYear != 0) {
-                                mAdapter.getFilter().filter("" + filterYear +filterMonth+filterDay);
+                                mAdapter.getFilter().filter("" + filterYear + filterMonth + filterDay);
                             }
 
                             // duplication avoiding (just removing all from the list)

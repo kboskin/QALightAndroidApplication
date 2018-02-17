@@ -4,16 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.example.hp.qalightandroidapp.R;
-
-import dmax.dialog.SpotsDialog;
 
 
 public class AboutUsFragment extends Fragment {
@@ -28,8 +25,8 @@ public class AboutUsFragment extends Fragment {
         WebView myWebView = (WebView) view.findViewById(R.id.webview);
         WebSettings webSettings = myWebView.getSettings();
         myWebView.loadUrl("http://qalight.com.ua/o-nas/qalight-eto/");
-        //myWebView.setWebViewClient(new MyWebClient(getContext()));
-        myWebView.setWebChromeClient(new WebChromeClient() {
+        myWebView.setWebViewClient(new WebViewClient());
+       /* myWebView.setWebChromeClient(new WebChromeClient() {
 
             private SpotsDialog dialog;
             //private AnimatedCircleLoadingView animatedCircleLoadingView;
@@ -48,7 +45,7 @@ public class AboutUsFragment extends Fragment {
                 }
 
             }
-        });
+        });*/
 
 
 
@@ -56,6 +53,10 @@ public class AboutUsFragment extends Fragment {
 
         webSettings.setJavaScriptEnabled(true);
         return view;
+    }
+
+    private class MyWebViewClient extends WebViewClient{
+
     }
 
 }

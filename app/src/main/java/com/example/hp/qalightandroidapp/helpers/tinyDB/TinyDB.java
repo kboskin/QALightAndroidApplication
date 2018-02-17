@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.example.hp.qalightandroidapp.fragments.materialsandtests.materials.recyclerviewmaterials.ModelMaterials;
 import com.google.gson.Gson;
 
 import android.content.Context;
@@ -44,7 +45,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 
-public class TinyDB implements CastToObjectsAnyList {
+public class TinyDB {
 
     private SharedPreferences preferences;
     private String DEFAULT_APP_IMAGEDATA_DIRECTORY;
@@ -350,7 +351,9 @@ public class TinyDB implements CastToObjectsAnyList {
     public ArrayList<Object> getListObject(String key, Class<?> mClass) {
         Gson gson = new Gson();
         ArrayList<String> objStrings = getListString(key);
+        Log.d("OBJ", objStrings.toString());
         ArrayList<Object> objects = new ArrayList<Object>();
+        Log.d("OBJ", objects.toString());
         for (String jObjString : objStrings) {
             Object value = gson.fromJson(jObjString, mClass);
             objects.add(value);
@@ -515,13 +518,15 @@ public class TinyDB implements CastToObjectsAnyList {
         putString(key, gson.toJson(obj));
     }
 
-    public void putListObject(String key, ArrayList<Object> objArray) {
+    public void putListObject(String key, ArrayList<?> objArray) {
         checkForNullKey(key);
         Gson gson = new Gson();
         ArrayList<String> objStrings = new ArrayList<String>();
         for (Object obj : objArray) {
             objStrings.add(gson.toJson(obj));
         }
+        Log.d("OurList", objStrings.toString());
+
         putListString(key, objStrings);
     }
 
@@ -626,14 +631,5 @@ public class TinyDB implements CastToObjectsAnyList {
         if (value == null) {
             throw new NullPointerException();
         }
-    }
-
-
-    @Override
-    public ArrayList<Object> castModelMaterialsList(ArrayList<?> notCastedList) {
-
-        ArrayList<Object> castedArrayList = new ArrayList<>();
-        castedArrayList.addAll(notCastedList);
-        return castedArrayList;
     }
 }

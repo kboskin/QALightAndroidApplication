@@ -29,7 +29,7 @@ import static com.example.hp.qalightandroidapp.Constants.performSearch;
  */
 
 public class ModelMaterialsAdapter extends RecyclerView.Adapter<ModelMaterialsViewHolder> implements Filterable {
-    private List<ModelMaterials> modelMaterialsList;
+    private ArrayList<ModelMaterials> modelMaterialsList;
     private List<ModelMaterials> filtered;
     private DownloadManager downloadManager;
     private Context context;

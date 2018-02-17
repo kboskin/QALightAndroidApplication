@@ -20,13 +20,13 @@ import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.rec
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask.ModelHomeTaskAdapter;
 import com.example.hp.qalightandroidapp.helpers.serverdatagetter.DataGetterFromServer;
 import com.example.hp.qalightandroidapp.helpers.serverdatagetter.DataParser;
+import com.example.hp.qalightandroidapp.helpers.tinyDB.TinyStorage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static com.example.hp.qalightandroidapp.Constants.QALight_URL_To_Connect;
 import static com.example.hp.qalightandroidapp.Constants.addSwipeRefresh;
@@ -37,12 +37,13 @@ import static com.example.hp.qalightandroidapp.activities.MainActivity.getMainPr
 public class HomeTaskFragment extends Fragment {
 
 
-    private List<ModelHomeTask> modelHomeTaskList;
+    private ArrayList<ModelHomeTask> modelHomeTaskList;
     private RecyclerView recyclerView;
     private ModelHomeTaskAdapter mAdapter;
     private LinearLayoutManager mLayoutManager;
     private SwipeRefreshLayout swipeRefreshLayout;
     private String param = "home=";
+    private final String KEY = "HomeTask";
     //private MyCustomAdapter adapter;
 
     int filterYear;
@@ -89,7 +90,18 @@ public class HomeTaskFragment extends Fragment {
 
         setItemDecoration(recyclerView, 1);
 
-        mAdapter = new ModelHomeTaskAdapter(getData());
+        // if storage is empty get data from server
+        if (TinyStorage.retrieveList(getContext(), KEY, ModelHomeTask.class).isEmpty()) {
+            modelHomeTaskList = getData();
+        } else {
+
+            getMainProgressBar().setVisibility(View.INVISIBLE);
+
+            modelHomeTaskList = (ArrayList<ModelHomeTask>) TinyStorage.retrieveList(getContext(), KEY, ModelHomeTask.class);
+        }
+
+
+        mAdapter = new ModelHomeTaskAdapter(modelHomeTaskList);
 
         recyclerView.setAdapter(mAdapter);
 
@@ -115,7 +127,7 @@ public class HomeTaskFragment extends Fragment {
 
     private ArrayList<ModelHomeTask> getData() {
         getDataFromConnection();
-        return (ArrayList<ModelHomeTask>) modelHomeTaskList;
+        return modelHomeTaskList;
     }
 
     private void getDataFromConnection() {
@@ -129,12 +141,16 @@ public class HomeTaskFragment extends Fragment {
                         JSONObject home = jsonArray.getJSONObject(i);
                         String date = home.getString("date");
 
-                        ModelHomeTask mht = new ModelHomeTask(Html.fromHtml(home.getString("title")),
+                        ModelHomeTask mht = new ModelHomeTask(Html.fromHtml(home.getString("title")).toString(),
                                 parseDateToProperFormat(date)[0],
                                 parseDateToProperFormat(date)[1],
                                 parseDateToProperFormat(date)[2]);
                         modelHomeTaskList.add(0, mht);
                     }
+                    // this line saves data after refresh into prefs
+
+                    Log.d("OurListInHomeTask", modelHomeTaskList.toString());
+                    TinyStorage.storeList(getContext(), KEY, modelHomeTaskList);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

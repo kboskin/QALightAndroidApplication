@@ -1,7 +1,6 @@
 package com.example.hp.qalightandroidapp.fragments.materialsandtests.hometask.recyclerviewhometask;
 
-import android.text.Spanned;
-
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -9,8 +8,8 @@ import java.util.Date;
  * Created by hp on 014 14.09.2017.
  */
 
-public class ModelHomeTask {
-    private Spanned title;
+public class ModelHomeTask implements Serializable {
+    private String title;
     private String description;
     private String link;
     private int year;
@@ -18,7 +17,7 @@ public class ModelHomeTask {
     private int month;
     private Date date;
 
-    public ModelHomeTask(Spanned title, String description, int year, int month, int day) {
+    public ModelHomeTask(String title, String description, int year, int month, int day) {
         this.title = title;
         this.description = description;
         this.year = year;
@@ -26,7 +25,7 @@ public class ModelHomeTask {
         this.month = month;
         date = new Date(getYear(), getMonth(), getDay());
     }
-    public ModelHomeTask(Spanned title,  int year, int month, int day) {
+    public ModelHomeTask(String title,  int year, int month, int day) {
         this.title = title;
         this.year = year;
         this.day = day;
@@ -54,11 +53,11 @@ public class ModelHomeTask {
         return description;
     }
 
-    public Spanned getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(Spanned title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
