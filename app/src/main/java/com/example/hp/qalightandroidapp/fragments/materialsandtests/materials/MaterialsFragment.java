@@ -96,6 +96,10 @@ public class MaterialsFragment extends Fragment {
         mAdapter = new ModelMaterialsAdapter(modelMaterialsList, getContext());
         recyclerView.setAdapter(mAdapter);
 
+        if (filterYear != 0) {
+            mAdapter.getFilter().filter("" + filterYear + filterMonth + filterDay);
+        }
+
         // swipe refresh is added here
         addSwipeRefresh(swipeRefreshLayout);
 
@@ -154,10 +158,6 @@ public class MaterialsFragment extends Fragment {
                             // adapter recreation, for some reason notifyDataSetChanged doesnt work
                             mAdapter = new ModelMaterialsAdapter(modelMaterialsList, getContext());
                             recyclerView.swapAdapter(mAdapter, true);
-
-                            if (filterYear != 0) {
-                                mAdapter.getFilter().filter("" + filterYear + filterMonth + filterDay);
-                            }
 
                             // duplication avoiding (just removing all from the list)
                             //modelMaterialsList.clear();

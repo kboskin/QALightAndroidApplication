@@ -7,6 +7,7 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +32,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.example.hp.qalightandroidapp.Constants.addSwipeRefresh;
 import static com.example.hp.qalightandroidapp.Constants.parseDateAndHoursToProperFormat;
 
 /**
@@ -43,6 +45,7 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
     private String param = "calendar=";
     DataGetterFromServer dataGetterFromServer;
     ModelCalendar modelCalendar;
+    SwipeRefreshLayout swipeRefreshLayout;
     List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
     @Override
@@ -57,13 +60,26 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        swipeRefreshLayout = view.findViewById(R.id.fragment_celendar_swipe_refresh_layout);
         context = container.getContext();
         mWeekView = view.findViewById(R.id.weekView);
         mWeekView.setMonthChangeListener(mMonthChangeListener);
         mWeekView.setOnEventClickListener(this);
+        addSwipeRefresh(swipeRefreshLayout);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                events.clear();
+                getDataFromConnection();
+
+            }
+        });
 
         return view;
     }
+
+
 
     @Override
     public void onStart() {
@@ -177,7 +193,8 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
                         @Override
                         public void run() {
                             // adapter recreation, for some reason notifyDataSetChanged doesnt work
-
+                            mWeekView.notifyDatasetChanged();
+                            swipeRefreshLayout.setRefreshing(false);
                             // duplication avoiding (just removing all from the list)
 
                         }
@@ -186,7 +203,7 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
                     e.printStackTrace();
                 }
             }
-        }, null);
+        }, swipeRefreshLayout);
         dataGetterFromServer.start();
     }
 

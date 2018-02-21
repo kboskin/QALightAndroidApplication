@@ -100,11 +100,13 @@ public class HomeTaskFragment extends Fragment {
             modelHomeTaskList = (ArrayList<ModelHomeTask>) TinyStorage.retrieveList(getContext(), KEY, ModelHomeTask.class);
         }
 
-
         mAdapter = new ModelHomeTaskAdapter(modelHomeTaskList);
 
         recyclerView.setAdapter(mAdapter);
 
+        if (filterYear != 0) {
+            mAdapter.getFilter().filter("" + filterYear + filterMonth + filterDay);
+        }
 
         Log.d("isHere", "isNotHere");
 

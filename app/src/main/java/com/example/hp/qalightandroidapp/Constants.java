@@ -102,7 +102,6 @@ public class Constants {
                 R.color.colorPrimary,
                 R.color.colorOrange,
                 R.color.colorGreen);
-
     }
 
     public static String performSearch(String fileName) {
