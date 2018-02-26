@@ -22,6 +22,7 @@ import com.example.hp.qalightandroidapp.R;
 import com.example.hp.qalightandroidapp.fragments.materialsandtests.FixturesTabsFragment;
 import com.example.hp.qalightandroidapp.helpers.serverdatagetter.DataGetterFromServer;
 import com.example.hp.qalightandroidapp.helpers.serverdatagetter.DataParser;
+import com.example.hp.qalightandroidapp.helpers.tinyDB.TinyStorage;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +35,7 @@ import java.util.List;
 
 import static com.example.hp.qalightandroidapp.Constants.addSwipeRefresh;
 import static com.example.hp.qalightandroidapp.Constants.parseDateAndHoursToProperFormat;
+import static com.example.hp.qalightandroidapp.activities.MainActivity.getMainProgressBar;
 
 /**
  * Created by root on 05.09.17.
@@ -43,10 +45,11 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
     private WeekView mWeekView;
     private Context context;
     private String param = "calendar=";
+    private String KEY = "Calendar";
     DataGetterFromServer dataGetterFromServer;
     ModelCalendar modelCalendar;
     SwipeRefreshLayout swipeRefreshLayout;
-    List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+    ArrayList<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +66,14 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
         swipeRefreshLayout = view.findViewById(R.id.fragment_celendar_swipe_refresh_layout);
         context = container.getContext();
         mWeekView = view.findViewById(R.id.weekView);
+
+        if (TinyStorage.retrieveList(getContext(), KEY, WeekViewEvent.class).isEmpty()) {
+            events = getData();
+        } else {
+            events = (ArrayList<WeekViewEvent>) TinyStorage.retrieveList(getContext(), KEY, WeekViewEvent.class);/*getData();*/
+            getMainProgressBar().setVisibility(View.INVISIBLE);
+        }
+
         mWeekView.setMonthChangeListener(mMonthChangeListener);
         mWeekView.setOnEventClickListener(this);
         addSwipeRefresh(swipeRefreshLayout);
@@ -98,10 +109,10 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
                 e.printStackTrace();
             }
 
-            int newMoun = newMonth - 1;
 
             ArrayList<WeekViewEvent> eventsMonth = new ArrayList<WeekViewEvent>();
             for (int i = 0; i < events.size(); i++) {
+                Log.e("EventsCalendar", ""+(newMonth-1));
                 if (((events.get(i).getStartTime().get(Calendar.MONTH)) == (newMonth-1))) {
                     eventsMonth.add(events.get(i));
                 }
@@ -136,8 +147,9 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
         //getFragmentManager().beginTransaction().replace(R.id.frgmCont, fixturesTabsFragment).commit();
     }
 
-    private void getData() {
+    private ArrayList<WeekViewEvent> getData() {
         getDataFromConnection();
+        return events;
     }
 
     private void getDataFromConnection() {
@@ -189,6 +201,7 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
 
 
                     }
+                    TinyStorage.storeList(getContext(), KEY, events);
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

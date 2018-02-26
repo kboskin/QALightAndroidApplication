@@ -91,7 +91,6 @@ public class MaterialsFragment extends Fragment {
         } else {
             modelMaterialsList = (ArrayList<ModelMaterials>) TinyStorage.retrieveList(getContext(), KEY, ModelMaterials.class);/*getData();*/
             getMainProgressBar().setVisibility(View.INVISIBLE);
-
         }
         mAdapter = new ModelMaterialsAdapter(modelMaterialsList, getContext());
         recyclerView.setAdapter(mAdapter);
