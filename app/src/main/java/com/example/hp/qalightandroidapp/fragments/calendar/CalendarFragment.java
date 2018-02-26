@@ -48,7 +48,7 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
     private String KEY = "Calendar";
     DataGetterFromServer dataGetterFromServer;
     ModelCalendar modelCalendar;
-    SwipeRefreshLayout swipeRefreshLayout;
+    CustomSwipeToRefresh swipeRefreshLayout;
     ArrayList<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
 
     @Override
@@ -56,7 +56,6 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
         super.onCreate(savedInstanceState);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         param += prefs.getString(Constants.EXTRA_LOGIN_CODE, "123");
-        getDataFromConnection();
     }
 
     @Nullable
@@ -66,6 +65,7 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
         swipeRefreshLayout = view.findViewById(R.id.fragment_celendar_swipe_refresh_layout);
         context = container.getContext();
         mWeekView = view.findViewById(R.id.weekView);
+
 
         if (TinyStorage.retrieveList(getContext(), KEY, WeekViewEvent.class).isEmpty()) {
             events = getData();
@@ -78,12 +78,11 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
         mWeekView.setOnEventClickListener(this);
         addSwipeRefresh(swipeRefreshLayout);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        swipeRefreshLayout.setOnRefreshListener(new CustomSwipeToRefresh.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 events.clear();
                 getDataFromConnection();
-
             }
         });
 
@@ -97,17 +96,12 @@ public class CalendarFragment extends android.support.v4.app.Fragment implements
         super.onStart();
     }
 
+
     MonthLoader.MonthChangeListener mMonthChangeListener = new MonthLoader.MonthChangeListener() {
         @Override
         public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
             // Populate the week view with some events.
             //events = new ArrayList<WeekViewEvent>();
-
-            try {
-                dataGetterFromServer.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
 
 
             ArrayList<WeekViewEvent> eventsMonth = new ArrayList<WeekViewEvent>();
