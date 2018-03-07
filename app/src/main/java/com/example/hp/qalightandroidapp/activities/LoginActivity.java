@@ -1,9 +1,17 @@
 package com.example.hp.qalightandroidapp.activities;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
@@ -42,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences prefs;
     private TextView sloganTextView;
     private final static String CODE = "code=";
+    private static final int PERMISSION_REQUEST_CODE = 888;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,9 @@ public class LoginActivity extends AppCompatActivity {
         // create intent firstly, because we pass it via constructor, task because call outside from activity
         intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        // request permissions for users
+        selfCheckPermissions();
 
         // lines makes activity to become full screen
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -150,6 +162,44 @@ public class LoginActivity extends AppCompatActivity {
         prefs.edit().putString(EXTRA_LOGIN_CODE, code).apply();
         startActivity(intent);
         finish();
+    }
+
+    private void selfCheckPermissions() {
+        // request permissions for users
+        if (ContextCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                showPermissionAlertDialog(LoginActivity.this);
+            }
+        }
+    }
+
+    private void showPermissionAlertDialog(Context context) {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(context);
+        }
+        builder.setTitle("Permission granting!")
+                .setMessage("QALight needs some additional permissions to be granted, so that it will work in proper way. " +
+                        "Please grant access storage of your mobile phone!")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        requestMultiplePermissions();
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setCancelable(false)
+                .show();
+    }
+
+    public void requestMultiplePermissions() {
+        ActivityCompat.requestPermissions(LoginActivity.this,
+                new String[]{
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                },
+                PERMISSION_REQUEST_CODE);
     }
 
 }
