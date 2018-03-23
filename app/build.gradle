@@ -33,12 +33,12 @@ dependencies {
     compile 'com.eqot:font-awesome-android:0.1.0'*/
 
 
-    compile 'com.android.support:appcompat-v7:+'
+    compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.android.support:design:+'
-    compile 'com.android.support:support-v4:+'
-    compile 'com.android.support:recyclerview-v7:+'
-    compile 'com.android.support:cardview-v7:+'
+    compile 'com.android.support:design:26.+'
+    compile 'com.android.support:support-v4:26.+'
+    compile 'com.android.support:recyclerview-v7:26.+'
+    compile 'com.android.support:cardview-v7:26.+'
 
 
     // library for calendar
